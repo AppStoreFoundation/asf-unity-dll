@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
+﻿using UnityEngine;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using UnityEngine;
 
 namespace Aptoide.AppcoinsUnity
 {
-
 
     public abstract class Terminal
     {
