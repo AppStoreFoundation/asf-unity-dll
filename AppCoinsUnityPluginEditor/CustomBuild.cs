@@ -648,6 +648,10 @@ public class CustomBuildWindow : EditorWindow
         {
             EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
         }
+        if(GUI.Button(new Rect(75, 470, 100, 20), "Add Open Scenes"))
+        {
+            scenes = (new ExportScenes()).getAllOpenScenes();
+        }
         if (GUI.Button(new Rect(460, 470, 60, 20), "Cancel"))
         {
             this.Close();
@@ -688,17 +692,14 @@ public class ExportScenes
         this.SelectScenesToExport();
     }
 
-    public void getAllOpenScenes()
+    public SceneToExport[] getAllOpenScenes()
     {
-        var allScenes = EditorBuildSettings.scenes;
-        int sceneCount = allScenes.Length;
-        //        int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCount;
+        int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCount;
         scenes = new SceneToExport[sceneCount];
 
         for(int i = 0; i < sceneCount; i++)
         {
-            //UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
-            EditorBuildSettingsScene scene = allScenes[i];
+            UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
 
             if(scenes[i] == null)
             {
@@ -706,8 +707,10 @@ public class ExportScenes
             }
 
             scenes[i].scene = scene;
-            scenes[i].exportScene = scene.enabled ? true : false;
+            scenes[i].exportScene = scene.buildIndex >= 0 ? true : false;
         }
+
+        return scenes;
     }
 
     // Opens ExportScenesWindow window.
@@ -727,8 +730,8 @@ public class SceneToExport
         set { _exportScene = value; }
     }
 
-    private EditorBuildSettingsScene _scene;
-    public EditorBuildSettingsScene scene
+    private UnityEngine.SceneManagement.Scene _scene;
+    public UnityEngine.SceneManagement.Scene scene
     {
         get { return _scene; }
         set { _scene = value; }
