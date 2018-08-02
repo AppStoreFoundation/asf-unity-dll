@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AppCoinsUnityPluginEditor</RootNamespace>
     <AssemblyName>AppCoinsUnityPluginEditor</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,7 +43,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\AppCoinsUnityPlugin\dependencies\UnityEngine.dll</HintPath>
     </Reference>
@@ -53,6 +52,7 @@
     <Reference Include="AppCoinsUnityPlugin">
       <HintPath>..\AppCoinsUnityPlugin\bin\Debug\AppCoinsUnityPlugin.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
