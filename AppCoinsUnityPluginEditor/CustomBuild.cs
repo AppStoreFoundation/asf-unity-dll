@@ -557,6 +557,8 @@ public class CustomBuildWindow : EditorWindow
     //Create the custom Editor Window
     public static void CreateExportScenesWindow()
     {
+        ExportScenes.buildScenesEnabled = ExportScenes.GetScenesEnabled();
+
         CustomBuildWindow.instance = (CustomBuildWindow)EditorWindow.GetWindowWithRect(
             typeof(CustomBuildWindow),
             new Rect(0, 0, 600, 500),
@@ -638,20 +640,22 @@ public class CustomBuildWindow : EditorWindow
         scrollViewVector = GUI.BeginScrollView(new Rect(5, scenesPartHeight, 590, 215), scrollViewVector, new Rect(0, 0, 500, scrollViewLength));
         for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
         {
-            EditorBuildSettings.scenes[i].enabled = GUI.Toggle(new Rect(10, 10 + i * 20, 500, 20), 
-                                                                EditorBuildSettings.scenes[i].enabled, 
-                                                                EditorBuildSettings.scenes[i].path
-                                                              );
+            ExportScenes.buildScenesEnabled[i] = GUI.Toggle(new Rect(10, 10 + i * 20, 500, 20), 
+                                     ExportScenes.buildScenesEnabled[i], 
+                                     EditorBuildSettings.scenes[i].path
+                                    );
         }
+        ExportScenes.UpdatedBuildScenes(ExportScenes.buildScenesEnabled);
         GUI.EndScrollView();
 
         if (GUI.Button(new Rect(5, 470, 100, 20), "Player Settings"))
         {
             EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
         }
-        if(GUI.Button(new Rect(75, 470, 100, 20), "Add Open Scenes"))
+        if(GUI.Button(new Rect(115, 470, 120, 20), "Add Open Scenes"))
         {
-            (new ExportScenes()).AddAllOpenScenesToBuildSettings();
+            ExportScenes.AddAllOpenScenesToBuildSettings();
+            ExportScenes.buildScenesEnabled = ExportScenes.GetScenesEnabled();
         }
         if (GUI.Button(new Rect(460, 470, 60, 20), "Cancel"))
         {
@@ -670,7 +674,7 @@ public class CustomBuildWindow : EditorWindow
 // Get all the loaded scenes and asks the user what scenes he wants to export by 'ExportScenesWindow' class.
 public class ExportScenes
 {
-    private SceneToExport[] scenes = null;
+    public static bool[] buildScenesEnabled;
 
     public string[] ScenesToString()
     {
@@ -681,6 +685,7 @@ public class ExportScenes
             if(EditorBuildSettings.scenes[i].enabled)
             {
                 pathScenes.Add(EditorBuildSettings.scenes[i].path);
+                UnityEngine.Debug.Log(EditorBuildSettings.scenes[i].path);
             }
         }
 
@@ -692,10 +697,10 @@ public class ExportScenes
         this.SelectScenesToExport();
     }
 
-    public SceneToExport[] GetAllOpenScenes()
+    public static SceneToExport[] GetAllOpenScenes()
     {
         int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCount;
-        scenes = new SceneToExport[sceneCount];
+        SceneToExport[] scenes = new SceneToExport[sceneCount];
 
         for(int i = 0; i < sceneCount; i++)
         {
@@ -713,9 +718,9 @@ public class ExportScenes
         return scenes;
     }
 
-    public void AddAllOpenScenesToBuildSettings()
+    public static void AddAllOpenScenesToBuildSettings()
     {
-        scenes = GetAllOpenScenes();
+        SceneToExport[] scenes = GetAllOpenScenes();
 
         EditorBuildSettingsScene[] buildScenes = new EditorBuildSettingsScene[scenes.Length];
 
@@ -725,6 +730,34 @@ public class ExportScenes
         }
 
         EditorBuildSettings.scenes = buildScenes;
+    }
+
+    public static bool[] GetScenesEnabled()
+    {
+        bool[] scenesEnabled = new bool[EditorBuildSettings.scenes.Length];
+        EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+
+        for(int i = 0; i < scenes.Length; i++)
+        {
+            scenesEnabled[i] = scenes[i].enabled;
+        }
+
+        return scenesEnabled;
+    }
+
+    public static void UpdatedBuildScenes(bool[] enabledScenes)
+    {
+        EditorBuildSettingsScene[] newBuildScenes = new EditorBuildSettingsScene[enabledScenes.Length];
+
+        for(int i = 0; i < enabledScenes.Length; i++)
+        {
+            newBuildScenes[i] = new EditorBuildSettingsScene(
+                                                            EditorBuildSettings.scenes[i].path,
+                                                            enabledScenes[i]
+                                                            );
+        }
+
+        EditorBuildSettings.scenes = newBuildScenes;
     }
 
     // Opens ExportScenesWindow window.
