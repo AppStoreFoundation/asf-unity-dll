@@ -552,11 +552,10 @@ public class CustomBuild
 public class CustomBuildWindow : EditorWindow
 {
     public static CustomBuildWindow instance;
-    private SceneToExport[] scenes;
     public Vector2 scrollViewVector = Vector2.zero;
 
     //Create the custom Editor Window
-    public static void CreateExportScenesWindow(ref SceneToExport[] openScenes)
+    public static void CreateExportScenesWindow()
     {
         CustomBuildWindow.instance = (CustomBuildWindow)EditorWindow.GetWindowWithRect(
             typeof(CustomBuildWindow),
@@ -565,7 +564,6 @@ public class CustomBuildWindow : EditorWindow
             "Custom Build Settings"
         );
 
-        instance.scenes = openScenes;
         instance.minSize = new Vector2(600, 500);
         instance.autoRepaintOnSceneChange = true;
         instance.Show();
@@ -634,13 +632,16 @@ public class CustomBuildWindow : EditorWindow
 
         float scenesPartHeight = debugModeHeight + 20;
         GUI.Label(new Rect(5, scenesPartHeight, 590, 40), "Select what scenes you want to export:\n(Only scenes that are in build settings are true by default)");
-        int scenesLength = scenes != null ? scenes.Length : 0;
+        int scenesLength = EditorBuildSettings.scenes.Length;
         float scrollViewLength = scenesLength * 25f;
         scenesPartHeight += 30;
         scrollViewVector = GUI.BeginScrollView(new Rect(5, scenesPartHeight, 590, 215), scrollViewVector, new Rect(0, 0, 500, scrollViewLength));
-        for (int i = 0; i < scenes.Length; i++)
+        for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
         {
-            scenes[i].exportScene = GUI.Toggle(new Rect(10, 10 + i * 20, 500, 20), scenes[i].exportScene, scenes[i].scene.path);
+            EditorBuildSettings.scenes[i].enabled = GUI.Toggle(new Rect(10, 10 + i * 20, 500, 20), 
+                                                                EditorBuildSettings.scenes[i].enabled, 
+                                                                EditorBuildSettings.scenes[i].path
+                                                              );
         }
         GUI.EndScrollView();
 
@@ -650,7 +651,7 @@ public class CustomBuildWindow : EditorWindow
         }
         if(GUI.Button(new Rect(75, 470, 100, 20), "Add Open Scenes"))
         {
-            scenes = (new ExportScenes()).getAllOpenScenes();
+            (new ExportScenes()).AddAllOpenScenesToBuildSettings();
         }
         if (GUI.Button(new Rect(460, 470, 60, 20), "Cancel"))
         {
@@ -675,11 +676,11 @@ public class ExportScenes
     {
         ArrayList pathScenes = new ArrayList();
 
-        for(int i = 0; i < scenes.Length; i++)
+        for(int i = 0; i < EditorBuildSettings.scenes.Length; i++)
         {
-            if(scenes[i].exportScene)
+            if(EditorBuildSettings.scenes[i].enabled)
             {
-                pathScenes.Add(scenes[i].scene.path);
+                pathScenes.Add(EditorBuildSettings.scenes[i].path);
             }
         }
 
@@ -688,11 +689,10 @@ public class ExportScenes
 
     public void AllScenesToExport()
     {
-        this.getAllOpenScenes();
         this.SelectScenesToExport();
     }
 
-    public SceneToExport[] getAllOpenScenes()
+    public SceneToExport[] GetAllOpenScenes()
     {
         int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCount;
         scenes = new SceneToExport[sceneCount];
@@ -713,10 +713,24 @@ public class ExportScenes
         return scenes;
     }
 
+    public void AddAllOpenScenesToBuildSettings()
+    {
+        scenes = GetAllOpenScenes();
+
+        EditorBuildSettingsScene[] buildScenes = new EditorBuildSettingsScene[scenes.Length];
+
+        for(int i = 0; i < scenes.Length; i++)
+        {
+            buildScenes[i] = new EditorBuildSettingsScene(scenes[i].scene.path, true);
+        }
+
+        EditorBuildSettings.scenes = buildScenes;
+    }
+
     // Opens ExportScenesWindow window.
     public void SelectScenesToExport()
     {
-        CustomBuildWindow.CreateExportScenesWindow(ref scenes);
+        CustomBuildWindow.CreateExportScenesWindow();
     }
 }
 
