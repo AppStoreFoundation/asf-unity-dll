@@ -5,9 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin", "AppC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor", "AppCoinsUnityPluginEditor\AppCoinsUnityPluginEditor.csproj", "{C7753DEF-FD6A-475E-B787-0271719AAF94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin5.6", "AppCoinsUnityPlugin5.6\AppCoinsUnityPlugin5.6.csproj", "{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin5_6", "AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj", "{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor5.6", "AppCoinsUnityPluginEditor5.6\AppCoinsUnityPluginEditor5.6.csproj", "{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor2017", "AppCoinsUnityPluginEditor2017\AppCoinsUnityPluginEditor2017.csproj", "{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

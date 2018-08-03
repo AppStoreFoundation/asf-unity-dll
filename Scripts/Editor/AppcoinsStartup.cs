@@ -17,7 +17,7 @@ public class Startup
         CheckMainTemplateGradle();
         Debug.Log("Successfully integrated Appcoins Unity plugin!");
     }
-
+    
     private static void CheckMainTemplateGradle()
     {
         if(File.Exists(currentMainTemplate))

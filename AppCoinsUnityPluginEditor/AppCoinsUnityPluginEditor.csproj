@@ -43,10 +43,13 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppCoinsUnityPlugin">
-      <HintPath>..\AppCoinsUnityPlugin\bin\Debug\AppCoinsUnityPlugin.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\dependencies\2018\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\dependencies\2018\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +65,12 @@
     <Compile Include="..\Scripts\Editor\AppCoinsProductEditor.cs">
       <Link>AppCoinsProductEditor.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppCoinsUnityPlugin\AppCoinsUnityPlugin.csproj">
+      <Project>{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}</Project>
+      <Name>AppCoinsUnityPlugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
