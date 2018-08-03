@@ -18,6 +18,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>chmod +x ./Scripts/Bash/Unity5_6.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>./Scripts/Bash/Unity5_6.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+          <externalConsole>True</externalConsole>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -34,6 +50,9 @@
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\5.6\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="AppCoinsUnityPlugin5_6">
+      <HintPath>..\AppCoinsUnityPlugin5_6\bin\Debug\AppCoinsUnityPlugin5_6.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,12 +68,6 @@
     <Compile Include="..\Scripts\Editor\AppCoinsProductEditor.cs">
       <Link>AppCoinsProductEditor.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AppCoinsUnityPlugin5.6\AppCoinsUnityPlugin5.6.csproj">
-      <Project>{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}</Project>
-      <Name>AppCoinsUnityPlugin5_6</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

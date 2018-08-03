@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}</ProjectGuid>
+    <ProjectGuid>{C7753DEF-FD6A-475E-B787-0271719AAF94}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AppCoinsUnityPlugin</RootNamespace>
-    <AssemblyName>AppCoinsUnityPlugin</AssemblyName>
+    <RootNamespace>AppCoinsUnityPluginEditor</RootNamespace>
+    <AssemblyName>AppCoinsUnityPluginEditor2018</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -22,7 +22,7 @@
       <CustomCommands>
         <Command>
           <type>AfterBuild</type>
-          <command>chmod +x ./Scripts/Bash/Unity2018sh</command>
+          <command>chmod +x ./Scripts/Bash/Unity2018.sh</command>
           <workingdir>${SolutionDir}</workingdir>
           <externalConsole>True</externalConsole>
         </Command>
@@ -43,32 +43,30 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <HintPath>..\..\..\..\..\..\Library\Frameworks\Mono.framework\Versions\5.10.1\lib\mono\2.0-api\System.dll</HintPath>
-    </Reference>
+    <Reference Include="System" />
     <Reference Include="UnityEditor">
       <HintPath>..\dependencies\2018\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\2018\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="AppCoinsUnityPlugin2018">
+      <HintPath>..\AppCoinsUnityPlugin2018\bin\Debug\AppCoinsUnityPlugin2018.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Scripts\AppcoinsPurchaser.cs">
-      <Link>AppcoinsPurchaser.cs</Link>
+    <Compile Include="..\Scripts\Editor\CustomBuild.cs">
+      <Link>CustomBuild.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AppcoinsUnity.cs">
-      <Link>AppcoinsUnity.cs</Link>
+    <Compile Include="..\Scripts\Editor\AppcoinsStartup.cs">
+      <Link>AppcoinsStartup.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AppcoinsSku.cs">
-      <Link>AppcoinsSku.cs</Link>
+    <Compile Include="..\Scripts\Editor\ProductMaker.cs">
+      <Link>ProductMaker.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\BashUtils.cs">
-      <Link>BashUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\CustomTree.cs">
-      <Link>CustomTree.cs</Link>
+    <Compile Include="..\Scripts\Editor\AppCoinsProductEditor.cs">
+      <Link>AppCoinsProductEditor.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
