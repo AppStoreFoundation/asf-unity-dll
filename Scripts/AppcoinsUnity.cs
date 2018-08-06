@@ -35,8 +35,10 @@ namespace Aptoide.AppcoinsUnity
         [Header("Add your purchaser object here")]
         public AppcoinsPurchaser purchaserObject;
 
-        AndroidJavaClass _class;
-        AndroidJavaObject instance { get { return _class.GetStatic<AndroidJavaObject>("instance"); } }
+        #if UNITY_ANDROID
+            AndroidJavaClass _class;
+            AndroidJavaObject instance { get { return _class.GetStatic<AndroidJavaObject>("instance"); } }
+        #endif
 
         private void Awake()
         {
@@ -47,20 +49,22 @@ namespace Aptoide.AppcoinsUnity
         // Use this for initialization
         void Start()
         {
-            //get refference to java class
-            _class = new AndroidJavaClass("com.aptoide.appcoinsunity.UnityAppcoins");
+            #if UNITY_ANDROID
+                //get refference to java class
+                _class = new AndroidJavaClass("com.aptoide.appcoinsunity.UnityAppcoins");
 
-            //setup wallet address
-            _class.CallStatic("setAddress", receivingAddress);
+                //setup wallet address
+                _class.CallStatic("setAddress", receivingAddress);
 
-            //Enable or disable In App Billing
-            _class.CallStatic("enableIAB", enableIAB);
+                //Enable or disable In App Billing
+                _class.CallStatic("enableIAB", enableIAB);
 
-            //add all your skus here
-            addAllSKUs();
+                //add all your skus here
+                addAllSKUs();
 
-            //start sdk
-            _class.CallStatic("start");
+                //start sdk
+                _class.CallStatic("start");
+            #endif
         }
 
         // This function is called when this script is loaded or some variable changes its value.
@@ -74,12 +78,14 @@ namespace Aptoide.AppcoinsUnity
         //called to add all skus specified in the inpector window.
         private void addAllSKUs()
         {
-            for (int i = 0; i < products.Length; i++)
-            {
-                AppcoinsSku product = products[i];
-                if (product != null)
-                    _class.CallStatic("addNewSku", product.Name, product.SKUID, product.Price);
-            }
+            #if UNITY_ANDROID
+                for (int i = 0; i < products.Length; i++)
+                {
+                    AppcoinsSku product = products[i];
+                    if (product != null)
+                        _class.CallStatic("addNewSku", product.Name, product.SKUID, product.Price);
+                }
+            #endif
         }
 
 
@@ -92,8 +98,12 @@ namespace Aptoide.AppcoinsUnity
                 return;
             }
 
+
+#if UNITY_ANDROID
+                _class.CallStatic("makePurchase", skuid); 
+#else
             onStartPurchase.Invoke(skuid);
-            _class.CallStatic("makePurchase", skuid);    
+#endif
         }
 
         //callback on successful purchases
