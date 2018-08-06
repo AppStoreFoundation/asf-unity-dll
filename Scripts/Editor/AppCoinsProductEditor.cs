@@ -29,7 +29,7 @@ public class AppCoinsProductEditor : Editor
 
             //Get the path to the selected Scriptable object
             string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string newName = product.Name + ".asset";
+            string newName = product.Name;
 
             AssetDatabase.RenameAsset(path, newName);
             AssetDatabase.SaveAssets();
