@@ -1,9 +1,17 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin", "AppCoinsUnityPlugin\AppCoinsUnityPlugin.csproj", "{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin5_6", "AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj", "{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor", "AppCoinsUnityPluginEditor\AppCoinsUnityPluginEditor.csproj", "{C7753DEF-FD6A-475E-B787-0271719AAF94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor5_6", "AppCoinsUnityPluginEditor5_6\AppCoinsUnityPluginEditor5_6.csproj", "{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin2018", "AppCoinsUnityPlugin2018\AppCoinsUnityPlugin2018.csproj", "{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor2018", "AppCoinsUnityPluginEditor2018\AppCoinsUnityPluginEditor2018.csproj", "{C7753DEF-FD6A-475E-B787-0271719AAF94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin2017", "AppCoinsUnityPlugin2017\AppCoinsUnityPlugin2017.csproj", "{7654CBA9-614B-4143-BD04-79928CC9AE23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor2017", "AppCoinsUnityPluginEditor2017\AppCoinsUnityPluginEditor2017.csproj", "{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,6 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37B2BFEA-4C99-45F8-AB0F-83B562DC7DB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EA98215-19F4-4AB6-90CE-EE1E2E79D83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -19,6 +35,14 @@ Global
 		{C7753DEF-FD6A-475E-B787-0271719AAF94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7753DEF-FD6A-475E-B787-0271719AAF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7753DEF-FD6A-475E-B787-0271719AAF94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7654CBA9-614B-4143-BD04-79928CC9AE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7654CBA9-614B-4143-BD04-79928CC9AE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7654CBA9-614B-4143-BD04-79928CC9AE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7654CBA9-614B-4143-BD04-79928CC9AE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		outputpath = ../../AppcoinsUnityPlugin/Appcoins Unity/Assets/AppcoinsUnity/Scripts

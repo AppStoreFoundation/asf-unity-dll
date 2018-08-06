@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7753DEF-FD6A-475E-B787-0271719AAF94}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AppCoinsUnityPluginEditor</RootNamespace>
+    <AssemblyName>AppCoinsUnityPluginEditor2018</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>chmod +x ./Scripts/Bash/Unity2018.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>./Scripts/Bash/Unity2018.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+          <externalConsole>True</externalConsole>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\dependencies\2018\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\dependencies\2018\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="AppCoinsUnityPlugin2018">
+      <HintPath>..\AppCoinsUnityPlugin2018\bin\Debug\AppCoinsUnityPlugin2018.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Scripts\Editor\CustomBuild.cs">
+      <Link>CustomBuild.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\AppcoinsStartup.cs">
+      <Link>AppcoinsStartup.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\ProductMaker.cs">
+      <Link>ProductMaker.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\AppCoinsProductEditor.cs">
+      <Link>AppCoinsProductEditor.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
