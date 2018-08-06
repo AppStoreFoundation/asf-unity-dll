@@ -35,7 +35,8 @@ namespace Aptoide.AppcoinsUnity
         [Header("Add your purchaser object here")]
         public AppcoinsPurchaser purchaserObject;
 
-        #if UNITY_ANDROID
+        #if UNITY_EDITOR
+        #else
             AndroidJavaClass _class;
             AndroidJavaObject instance { get { return _class.GetStatic<AndroidJavaObject>("instance"); } }
         #endif
@@ -49,7 +50,8 @@ namespace Aptoide.AppcoinsUnity
         // Use this for initialization
         void Start()
         {
-            #if UNITY_ANDROID
+            #if UNITY_EDITOR
+            #else
                 //get refference to java class
                 _class = new AndroidJavaClass("com.aptoide.appcoinsunity.UnityAppcoins");
 
@@ -78,7 +80,8 @@ namespace Aptoide.AppcoinsUnity
         //called to add all skus specified in the inpector window.
         private void addAllSKUs()
         {
-            #if UNITY_ANDROID
+            #if UNITY_EDITOR
+            #else
                 for (int i = 0; i < products.Length; i++)
                 {
                     AppcoinsSku product = products[i];
@@ -99,10 +102,10 @@ namespace Aptoide.AppcoinsUnity
             }
 
 
-#if UNITY_ANDROID
-                _class.CallStatic("makePurchase", skuid); 
-#else
+#if UNITY_EDITOR
             onStartPurchase.Invoke(skuid);
+#else
+            _class.CallStatic("makePurchase", skuid); 
 #endif
         }
 
