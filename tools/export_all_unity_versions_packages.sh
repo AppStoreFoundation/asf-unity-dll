@@ -1,5 +1,5 @@
 #bash
-source setup_env_vars.sh
+source .setup_env_vars.sh
 
 echo "export package for Unity 5.6"
 cd $PROJ_5_6_PATH
