@@ -342,4 +342,4 @@ ASALocalRun/
 
 
 # End of https://www.gitignore.io/api/visualstudio,visualstudiocode
-tools/setup_env_vars.sh
+/tools/.setup_env_vars.sh
