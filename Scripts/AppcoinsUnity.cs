@@ -50,8 +50,6 @@ namespace Aptoide.AppcoinsUnity
         // Use this for initialization
         void Start()
         {
-            #if UNITY_EDITOR
-            #else
                 //get refference to java class
                 _class = new AndroidJavaClass("com.aptoide.appcoinsunity.UnityAppcoins");
 
@@ -66,7 +64,6 @@ namespace Aptoide.AppcoinsUnity
 
                 //start sdk
                 _class.CallStatic("start");
-            #endif
         }
 
         // This function is called when this script is loaded or some variable changes its value.
@@ -80,15 +77,12 @@ namespace Aptoide.AppcoinsUnity
         //called to add all skus specified in the inpector window.
         private void addAllSKUs()
         {
-            #if UNITY_EDITOR
-            #else
                 for (int i = 0; i < products.Length; i++)
                 {
                     AppcoinsSku product = products[i];
                     if (product != null)
                         _class.CallStatic("addNewSku", product.Name, product.SKUID, product.Price);
                 }
-            #endif
         }
 
 
@@ -102,11 +96,8 @@ namespace Aptoide.AppcoinsUnity
             }
 
 
-#if UNITY_EDITOR
             onStartPurchase.Invoke(skuid);
-#else
             _class.CallStatic("makePurchase", skuid); 
-#endif
         }
 
         //callback on successful purchases

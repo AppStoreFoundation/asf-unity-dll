@@ -52,6 +52,18 @@
     <Compile Include="..\Scripts\AppcoinsPurchaser.cs">
       <Link>AppcoinsPurchaser.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\AppCoinsChecks.cs">
+      <Link>AppCoinsChecks.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\AppcoinsError.cs">
+      <Link>AppcoinsError.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\AppcoinsErrorHandler.cs">
+      <Link>AppcoinsErrorHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\AppcoinsUnityTests.cs">
+      <Link>AppcoinsUnityTests.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

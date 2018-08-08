@@ -22,19 +22,19 @@ public class CustomBuildMenuItem : EditorWindow
     public static bool Setup() {
 
         UnityEngine.Debug.Log("Application.unityVersion " + Application.unityVersion);
+        bool continueCustomBuild = true;
 
         ValidatePrefabName();
 
-        //TODO figure out a way of doing this!
-        //if (appCoinsPrefabObject != null)
-        //{
-        //    if (Application.isEditor) {
-        //        if (appCoinsPrefabObject.CheckForRepeatedSkuId())
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
+        if (appCoinsPrefabObject != null)
+        {
+            APPCOINS_ERROR error;
+            error = AppCoinsChecks.CheckSKUs(appCoinsPrefabObject.products);
+            continueCustomBuild = AppcoinsErrorHandler.HandleError(error);
+
+            error = AppCoinsChecks.CheckForRepeatedSkuId(appCoinsPrefabObject.products);
+            continueCustomBuild = AppcoinsErrorHandler.HandleError(error);
+        }
 
         //Check if the active platform is Android. If it isn't change it
         if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
@@ -56,7 +56,7 @@ public class CustomBuildMenuItem : EditorWindow
         UnityEngine.Debug.ClearDeveloperConsole();
 
         UnityEngine.Debug.Log("Successfully integrated Appcoins Unity plugin!");
-        return true;
+        return continueCustomBuild;
     }
 
     //Makes sure that the prefab name is updated on the mainTemplat.gradle before the build process
@@ -685,7 +685,6 @@ public class ExportScenes
             if(EditorBuildSettings.scenes[i].enabled)
             {
                 pathScenes.Add(EditorBuildSettings.scenes[i].path);
-                UnityEngine.Debug.Log(EditorBuildSettings.scenes[i].path);
             }
         }
 
