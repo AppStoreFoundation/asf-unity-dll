@@ -10,7 +10,8 @@ using UnityEngine.Events;
 namespace Aptoide.AppcoinsUnity
 {
 
-    public class StartPurchaseEvent : UnityEvent<string> {
+    public class StartPurchaseEvent : UnityEvent<string>
+    {
 
     }
 
@@ -35,11 +36,8 @@ namespace Aptoide.AppcoinsUnity
         [Header("Add your purchaser object here")]
         public AppcoinsPurchaser purchaserObject;
 
-        #if UNITY_EDITOR
-        #else
-            AndroidJavaClass _class;
-            AndroidJavaObject instance { get { return _class.GetStatic<AndroidJavaObject>("instance"); } }
-        #endif
+        AndroidJavaClass _class;
+        AndroidJavaObject instance { get { return _class.GetStatic<AndroidJavaObject>("instance"); } }
 
         private void Awake()
         {
@@ -50,6 +48,7 @@ namespace Aptoide.AppcoinsUnity
         // Use this for initialization
         void Start()
         {
+            if (!Application.isEditor){
                 //get refference to java class
                 _class = new AndroidJavaClass("com.aptoide.appcoinsunity.UnityAppcoins");
 
@@ -64,6 +63,7 @@ namespace Aptoide.AppcoinsUnity
 
                 //start sdk
                 _class.CallStatic("start");
+            }
         }
 
         // This function is called when this script is loaded or some variable changes its value.
@@ -77,12 +77,14 @@ namespace Aptoide.AppcoinsUnity
         //called to add all skus specified in the inpector window.
         private void addAllSKUs()
         {
+            if (!Application.isEditor) {
                 for (int i = 0; i < products.Length; i++)
                 {
                     AppcoinsSku product = products[i];
                     if (product != null)
                         _class.CallStatic("addNewSku", product.Name, product.SKUID, product.Price);
-                }
+                }        
+            }
         }
 
 
@@ -95,9 +97,11 @@ namespace Aptoide.AppcoinsUnity
                 return;
             }
 
-
-            onStartPurchase.Invoke(skuid);
-            _class.CallStatic("makePurchase", skuid); 
+            if (Application.isEditor) {
+                onStartPurchase.Invoke(skuid);    
+            } else {
+                _class.CallStatic("makePurchase", skuid);     
+            }
         }
 
         //callback on successful purchases
