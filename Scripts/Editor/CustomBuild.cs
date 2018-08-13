@@ -189,6 +189,51 @@ public class CustomBuild
         {
             UnityEngine.Debug.LogError("Please run Unity on a desktop OS");
         }
+
+        CustomBuild.GetEditorPrefs();
+    }
+
+    private static GetEditorPrefs()
+    {
+        if(EditorPrefs.HasKey("gradle_path"))
+        {
+            CustomBuild.gradlePath = EditorPrefs.SetString("gradle_path");
+        }
+
+        if(EditorPrefs.HasKey("adb_path"))
+        {
+            CustomBuild.adbPath = EditorPrefs.SetString("adb_path");
+        }
+
+        if(EditorPrefs.HasKey("main_activity_path"))
+        {
+            CustomBuild.mainActivityPath = EditorPrefs.SetString("main_activity_path");
+        }
+
+        if(EditorPrefs.HasKey("build_debug"))
+        {
+            CustomBuild.buildDebug = EditorPrefs.SetBool("build_debug");
+        }
+
+        if(EditorPrefs.HasKey("build_release"))
+        {
+            CustomBuild.buildRelease = EditorPrefs.SetBool("build_release");
+        }
+
+        if(EditorPrefs.HasKey("gradle_path"))
+        {
+            EditorPrefs.SetBool("run_adb_install", CustomBuild.runAdbInstall);
+        }
+
+        if(EditorPrefs.HasKey("gradle_path"))
+        {
+            EditorPrefs.SetBool("run_adb_run", CustomBuild.runAdbRun);
+        }
+
+        if(EditorPrefs.HasKey("gradle_path"))
+        {
+            EditorPrefs.SetBool("debug_mode", CustomBuild.debugMode);
+        }
     }
 
     public void ExecuteCustomBuild(string target)
@@ -606,7 +651,7 @@ public class CustomBuildWindow : EditorWindow
         GUI.Label(new Rect(5, gradlePartHeight, 590, 40), "Select the gradle path");
         gradlePartHeight += 20;
         CustomBuild.gradlePath = GUI.TextField(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.gradlePath);
-        CustomBuild.gradlePath = CustomBuildWindow.HandleCopyPaste(CustomBuild.gradlePath.GetHashCode()) ?? CustomBuild.gradlePath;
+        CustomBuild.gradlePath = CustomBuildWindow.HandleCopyPaste(GUIUtility.keyboardControl) ?? CustomBuild.gradlePath;
         gradlePartHeight += 20;
         CustomBuild.buildDebug = GUI.Toggle(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.buildDebug, "Build Debug?");
         gradlePartHeight += 20;
@@ -617,6 +662,7 @@ public class CustomBuildWindow : EditorWindow
         GUI.Label(new Rect(5, adbPartHeight, 590, 40), "Select the adb path");
         adbPartHeight += 20;
         CustomBuild.adbPath = GUI.TextField(new Rect(5, adbPartHeight, 590, 20), CustomBuild.adbPath);
+        CustomBuild.adbPath = CustomBuildWindow.HandleCopyPaste(GUIUtility.keyboardControl) ?? CustomBuild.adbPath;
         adbPartHeight += 20;
         CustomBuild.runAdbInstall = GUI.Toggle(new Rect(5, adbPartHeight, 590, 20), CustomBuild.runAdbInstall, "Install build when done?");
 
@@ -625,6 +671,7 @@ public class CustomBuildWindow : EditorWindow
         GUI.Label(new Rect(5, adbRunPartHeight, 590, 40), "Path to the main activity name (.UnityPlayerActivity by default)");
         adbRunPartHeight += 20;
         CustomBuild.mainActivityPath = GUI.TextField(new Rect(5, adbRunPartHeight, 590, 20), CustomBuild.mainActivityPath);
+        CustomBuild.mainActivityPath = CustomBuildWindow.HandleCopyPaste(GUIUtility.keyboardControl) ?? CustomBuild.mainActivityPath;
         adbRunPartHeight += 20;
         CustomBuild.runAdbRun = GUI.Toggle(new Rect(5, adbRunPartHeight, 590, 20), CustomBuild.runAdbRun, "Run build when done?");
 
@@ -649,26 +696,42 @@ public class CustomBuildWindow : EditorWindow
 
         if (GUI.Button(new Rect(5, 470, 100, 20), "Player Settings"))
         {
+            CustomBuildWindow.SetCustomBuildPrefs();
             EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
         }
         if(GUI.Button(new Rect(115, 470, 120, 20), "Add Open Scenes"))
         {
+            CustomBuildWindow.SetCustomBuildPrefs();
             ExportScenes.AddAllOpenScenesToBuildSettings();
             ExportScenes.buildScenesEnabled = ExportScenes.GetScenesEnabled();
         }
         if (GUI.Button(new Rect(460, 470, 60, 20), "Cancel"))
         {
+            CustomBuildWindow.SetCustomBuildPrefs();
             this.Close();
         }
 
         if (CustomBuild.gradlePath != "" && GUI.Button(new Rect(530, 470, 60, 20), "Confirm"))
         {
+            CustomBuildWindow.SetCustomBuildPrefs();
             CustomBuild.continueProcessEvent.Invoke();
             this.Close();
         }
     }
 
-    public static string HandleCopyPaste(int controlID)
+    private static void SetCustomBuildPrefs()
+    {
+        EditorPrefs.SetString("gradle_path", CustomBuild.gradlePath);
+        EditorPrefs.SetString("adb_path", CustomBuild.adbPath);
+        EditorPrefs.SetString("main_activity_path", CustomBuild.mainActivityPath);
+        EditorPrefs.SetBool("build_debug", CustomBuild.buildDebug);
+        EditorPrefs.SetBool("build_release", CustomBuild.buildRelease);
+        EditorPrefs.SetBool("run_adb_install", CustomBuild.runAdbInstall);
+        EditorPrefs.SetBool("run_adb_run", CustomBuild.runAdbRun);
+        EditorPrefs.SetBool("debug_mode", CustomBuild.debugMode);
+    }
+
+    private static string HandleCopyPaste(int controlID)
     {
         if (controlID == GUIUtility.keyboardControl)
         {
