@@ -193,46 +193,46 @@ public class CustomBuild
         CustomBuild.GetEditorPrefs();
     }
 
-    private static GetEditorPrefs()
+    private static void GetEditorPrefs()
     {
         if(EditorPrefs.HasKey("gradle_path"))
         {
-            CustomBuild.gradlePath = EditorPrefs.SetString("gradle_path");
+            CustomBuild.gradlePath = EditorPrefs.GetString("gradle_path", "");
         }
 
         if(EditorPrefs.HasKey("adb_path"))
         {
-            CustomBuild.adbPath = EditorPrefs.SetString("adb_path");
+            CustomBuild.adbPath = EditorPrefs.GetString("adb_path", "");
         }
 
         if(EditorPrefs.HasKey("main_activity_path"))
         {
-            CustomBuild.mainActivityPath = EditorPrefs.SetString("main_activity_path");
+            CustomBuild.mainActivityPath = EditorPrefs.GetString("main_activity_path", "");
         }
 
         if(EditorPrefs.HasKey("build_debug"))
         {
-            CustomBuild.buildDebug = EditorPrefs.SetBool("build_debug");
+            CustomBuild.buildDebug = EditorPrefs.GetBool("build_debug", false);
         }
 
         if(EditorPrefs.HasKey("build_release"))
         {
-            CustomBuild.buildRelease = EditorPrefs.SetBool("build_release");
+            CustomBuild.buildRelease = EditorPrefs.GetBool("build_release", false);
         }
 
-        if(EditorPrefs.HasKey("gradle_path"))
+        if(EditorPrefs.HasKey("un_adb_install"))
         {
-            EditorPrefs.SetBool("run_adb_install", CustomBuild.runAdbInstall);
+            CustomBuild.runAdbInstall = EditorPrefs.GetBool("run_adb_install", false);
         }
 
-        if(EditorPrefs.HasKey("gradle_path"))
+        if(EditorPrefs.HasKey("run_adb_run"))
         {
-            EditorPrefs.SetBool("run_adb_run", CustomBuild.runAdbRun);
+            CustomBuild.runAdbRun = EditorPrefs.GetBool("run_adb_run", false);
         }
 
-        if(EditorPrefs.HasKey("gradle_path"))
+        if(EditorPrefs.HasKey("debug_mode"))
         {
-            EditorPrefs.SetBool("debug_mode", CustomBuild.debugMode);
+            CustomBuild.debugMode = EditorPrefs.GetBool("debug_mode", false);
         }
     }
 
