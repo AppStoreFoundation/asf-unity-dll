@@ -606,6 +606,7 @@ public class CustomBuildWindow : EditorWindow
         GUI.Label(new Rect(5, gradlePartHeight, 590, 40), "Select the gradle path");
         gradlePartHeight += 20;
         CustomBuild.gradlePath = GUI.TextField(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.gradlePath);
+        CustomBuild.gradlePath = CustomBuildWindow.HandleCopyPaste(CustomBuild.gradlePath.GetHashCode()) ?? CustomBuild.gradlePath;
         gradlePartHeight += 20;
         CustomBuild.buildDebug = GUI.Toggle(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.buildDebug, "Build Debug?");
         gradlePartHeight += 20;
@@ -665,6 +666,31 @@ public class CustomBuildWindow : EditorWindow
             CustomBuild.continueProcessEvent.Invoke();
             this.Close();
         }
+    }
+
+    public static string HandleCopyPaste(int controlID)
+    {
+        if (controlID == GUIUtility.keyboardControl)
+        {
+            if (Event.current.type == EventType.KeyUp && (Event.current.modifiers == EventModifiers.Control || Event.current.modifiers == EventModifiers.Command))
+            {
+                if (Event.current.keyCode == KeyCode.C)
+                {
+                    Event.current.Use();
+                    TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                    editor.Copy();
+                }
+
+                else if (Event.current.keyCode == KeyCode.V)
+                {
+                    Event.current.Use();
+                    TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                    editor.Paste();
+                    return editor.text;
+                }
+            }
+        }
+        return null;
     }
 }
 
