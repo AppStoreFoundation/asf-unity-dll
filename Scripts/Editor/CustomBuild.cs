@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
@@ -149,17 +150,34 @@ public class CustomBuild
         DONE,
     }
 
+    // EditorPref.key: gradle_path
     public static string gradlePath = null;
+
     private static string gradleWindowsPath = "C:\\Program Files\\Android\\Android Studio\\gradle\\gradle-4.4\\bin\\gradle";
     private static string gradleUnixPath = "/Applications/Android Studio.app/Contents/gradle/gradle-4.4/bin/";
+
+    // EditorPref.key: adb_path
     public static string adbPath = EditorPrefs.GetString("AndroidSdkRoot") + "/platform-tools/adb";
+
+    // EditorPref.key: run_adb_install
     public static bool runAdbInstall = false;
+
+    // EditorPref.key: run_adb_run
     public static bool runAdbRun = false;
+
+    // EditorPref.key: build_debug
     public static bool buildDebug = true;
+
+    // EditorPref.key: build_release
     public static bool buildRelease = false;
+
+    // EditorPref.key: debug_mode
     public static bool debugMode = false;
+
     // public static string mainActivityPath = "com.unity3d.player.UnityPlayerActivity";
+    // EditorPref.key: main_activity_path
     public static string mainActivityPath = ".UnityPlayerActivity";
+
     public static BuildStage stage;
 
     protected string ANDROID_STRING = "android";
@@ -190,10 +208,22 @@ public class CustomBuild
             UnityEngine.Debug.LogError("Please run Unity on a desktop OS");
         }
 
-        CustomBuild.GetEditorPrefs();
+        CustomBuild.LoadCustomBuildPrefs();
     }
 
-    private static void GetEditorPrefs()
+    internal static void SetCustomBuildPrefs()
+    {
+        EditorPrefs.SetString("gradle_path", CustomBuild.gradlePath);
+        EditorPrefs.SetString("adb_path", CustomBuild.adbPath);
+        EditorPrefs.SetString("main_activity_path", CustomBuild.mainActivityPath);
+        EditorPrefs.SetBool("build_debug", CustomBuild.buildDebug);
+        EditorPrefs.SetBool("build_release", CustomBuild.buildRelease);
+        EditorPrefs.SetBool("run_adb_install", CustomBuild.runAdbInstall);
+        EditorPrefs.SetBool("run_adb_run", CustomBuild.runAdbRun);
+        EditorPrefs.SetBool("debug_mode", CustomBuild.debugMode);
+    }
+
+    internal static void LoadCustomBuildPrefs()
     {
         if(EditorPrefs.HasKey("gradle_path"))
         {
@@ -220,7 +250,7 @@ public class CustomBuild
             CustomBuild.buildRelease = EditorPrefs.GetBool("build_release", false);
         }
 
-        if(EditorPrefs.HasKey("un_adb_install"))
+        if(EditorPrefs.HasKey("run_adb_install"))
         {
             CustomBuild.runAdbInstall = EditorPrefs.GetBool("run_adb_install", false);
         }
@@ -427,7 +457,21 @@ public class CustomBuild
 
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 
-        BuildPipeline.BuildPlayer(scenesPath, path, build_target, build_options);
+        try
+        {
+            // string s = BuildPipeline.BuildPlayer(scenesPath, path, build_target, build_options);
+            // UnityEngine.Debug.Log(s);
+
+            UnityEditor.Build.Reporting.BuildReport error = BuildPipeline.BuildPlayer(scenesPath, path, build_target, build_options);
+            bool b = (error.summary.result == UnityEditor.Build.Reporting.BuildResult.Failed || error.summary.result == UnityEditor.Build.Reporting.BuildResult.Cancelled);
+            UnityEngine.Debug.Log(b.ToString());
+        }
+        catch (UnityEditor.Build.BuildFailedException)
+        {
+            UnityEngine.Debug.Log("a");
+            path = null;
+        }
+
         return path;
     }
 
@@ -696,39 +740,24 @@ public class CustomBuildWindow : EditorWindow
 
         if (GUI.Button(new Rect(5, 470, 100, 20), "Player Settings"))
         {
-            CustomBuildWindow.SetCustomBuildPrefs();
             EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
         }
         if(GUI.Button(new Rect(115, 470, 120, 20), "Add Open Scenes"))
         {
-            CustomBuildWindow.SetCustomBuildPrefs();
             ExportScenes.AddAllOpenScenesToBuildSettings();
             ExportScenes.buildScenesEnabled = ExportScenes.GetScenesEnabled();
         }
         if (GUI.Button(new Rect(460, 470, 60, 20), "Cancel"))
         {
-            CustomBuildWindow.SetCustomBuildPrefs();
             this.Close();
         }
 
         if (CustomBuild.gradlePath != "" && GUI.Button(new Rect(530, 470, 60, 20), "Confirm"))
         {
-            CustomBuildWindow.SetCustomBuildPrefs();
+            CustomBuild.SetCustomBuildPrefs();
             CustomBuild.continueProcessEvent.Invoke();
             this.Close();
         }
-    }
-
-    private static void SetCustomBuildPrefs()
-    {
-        EditorPrefs.SetString("gradle_path", CustomBuild.gradlePath);
-        EditorPrefs.SetString("adb_path", CustomBuild.adbPath);
-        EditorPrefs.SetString("main_activity_path", CustomBuild.mainActivityPath);
-        EditorPrefs.SetBool("build_debug", CustomBuild.buildDebug);
-        EditorPrefs.SetBool("build_release", CustomBuild.buildRelease);
-        EditorPrefs.SetBool("run_adb_install", CustomBuild.runAdbInstall);
-        EditorPrefs.SetBool("run_adb_run", CustomBuild.runAdbRun);
-        EditorPrefs.SetBool("debug_mode", CustomBuild.debugMode);
     }
 
     private static string HandleCopyPaste(int controlID)
@@ -753,6 +782,7 @@ public class CustomBuildWindow : EditorWindow
                 }
             }
         }
+        
         return null;
     }
 }
