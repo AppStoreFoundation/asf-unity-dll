@@ -20,7 +20,6 @@ namespace Aptoide.AppcoinsUnity
                         "OK"
                     );
 
-                    ret = false;
                     break;
 
                 case APPCOINS_ERROR.NO_PRODUCTS:

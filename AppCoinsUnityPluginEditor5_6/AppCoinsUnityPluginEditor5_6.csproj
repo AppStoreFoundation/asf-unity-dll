@@ -50,15 +50,12 @@
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\5.6\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="AppCoinsUnityPlugin5_6">
-      <HintPath>..\AppCoinsUnityPlugin5_6\bin\Debug\AppCoinsUnityPlugin5_6.dll</HintPath>
+    <Reference Include="AppCoinsUnityPluginTests5_6">
+      <HintPath>..\AppCoinsUnityPluginTests5_6\bin\Debug\AppCoinsUnityPluginTests5_6.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Scripts\Editor\CustomBuild.cs">
-      <Link>CustomBuild.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\Editor\AppcoinsStartup.cs">
       <Link>AppcoinsStartup.cs</Link>
     </Compile>
@@ -68,6 +65,15 @@
     <Compile Include="..\Scripts\Editor\AppCoinsProductEditor.cs">
       <Link>AppCoinsProductEditor.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuild5_6.cs">
+      <Link>CustomBuild5_6.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj">
+      <Project>{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}</Project>
+      <Name>AppCoinsUnityPlugin5_6</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

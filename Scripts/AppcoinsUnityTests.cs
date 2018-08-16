@@ -1,6 +1,7 @@
 ﻿//created by Lukmon Agboola(Codeberg)
 //Modified by Aptoide
 //Note: do not change anything here as it may break the workings of the plugin else you're very sure of what you're doing.
+
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +25,7 @@ namespace Aptoide.AppcoinsUnity
                 appcoinsUnity.onStartPurchase.AddListener(makePurchase);
 
                 error = AppCoinsChecks.CheckPoAActive(appcoinsUnity.enablePOA);
-                if (!AppcoinsErrorHandler.HandleError(error)) {UnityEditor.EditorApplication.isPlaying = false;}
+                AppcoinsErrorHandler.HandleError(error);
 
                 error = AppCoinsChecks.CheckSKUs(appcoinsUnity.products);
                 if (!AppcoinsErrorHandler.HandleError(error)) {UnityEditor.EditorApplication.isPlaying = false;}
