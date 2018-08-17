@@ -68,6 +68,9 @@
     <Compile Include="..\Scripts\Editor\CustomBuild5_6.cs">
       <Link>CustomBuild5_6.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuild.cs">
+      <Link>CustomBuild.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj">

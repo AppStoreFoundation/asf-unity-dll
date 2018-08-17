@@ -70,6 +70,9 @@
     <Compile Include="..\Scripts\Editor\CustomBuild2018.cs">
       <Link>CustomBuild2018.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuild.cs">
+      <Link>CustomBuild.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
