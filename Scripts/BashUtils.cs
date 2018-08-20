@@ -16,6 +16,7 @@ namespace Aptoide.AppcoinsUnity
 
             if (processLog.Length != 0)
             {
+                UnityEngine.Debug.LogError("CUSTOM BUILD ERROR:\n" + processLog);
                 return true;
             }
 

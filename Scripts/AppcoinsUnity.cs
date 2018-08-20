@@ -43,6 +43,8 @@ namespace Aptoide.AppcoinsUnity
         {
             purchaserObject.Init(this);
             onStartPurchase = new StartPurchaseEvent();
+
+            DontDestroyOnLoad(this.gameObject);
         }
 
         // Use this for initialization

@@ -58,7 +58,7 @@ public abstract class CustomBuildMenuItem : EditorWindow
     //Makes sure that the prefab name is updated on the mainTemplat.gradle before the build process
     private void ValidatePrefabName()
     {
-        var foundObjects = FindObjectsOfType<AppcoinsUnity>();
+        var foundObjects = Resources.FindObjectsOfTypeAll<AppcoinsUnity>();
 
         if (foundObjects.Length == 0) {
             UnityEngine.Debug.LogError("Found no object with component AppcoinsUnity! Are you using the prefab?");
