@@ -410,7 +410,7 @@ public abstract class CustomBuild
     protected void SetGradleMem(string projPath)
     {
         StreamWriter writer = new StreamWriter(projPath + "/gradle.properties", false);
-        writer.WriteLine("org.gradle.jvmargs=-Xmx" + gradleMem + "M");
+        writer.WriteLine("org.gradle.jvmargs=-Xmx" + gradleMem.ToString() + "M");
         writer.Close();
     }
 
@@ -631,7 +631,6 @@ public abstract class CustomBuild
 // Draw the window for the user select what scenes he wants to export and configure player settings.
 public class CustomBuildWindow : EditorWindow
 {
-    public static string a = "";
     public static CustomBuildWindow instance;
     public Vector2 scrollViewVector = Vector2.zero;
 
