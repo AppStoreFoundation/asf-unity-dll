@@ -11,14 +11,15 @@ using System.Threading;
 using Aptoide.AppcoinsUnity;
 
 
-public abstract class CustomBuildMenuItem : EditorWindow
+public class CustomBuildMenuItem : EditorWindow
 {
+    public static UnityEvent onSetupCalled;
     public const string DEFAULT_UNITY_PACKAGE_IDENTIFIER = "com.Company.ProductName";
 
-    private AppcoinsUnity appCoinsPrefabObject = null;
+    private static AppcoinsUnity appCoinsPrefabObject = null;
 
     //[MenuItem("AppCoins/Setup")]
-    public bool Setup() {
+    public static bool Setup() {
 
         ValidatePrefabName();
 
@@ -34,19 +35,19 @@ public abstract class CustomBuildMenuItem : EditorWindow
 
         //Check if the active platform is Android. If it isn't change it
         if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
-            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
 
         //Check if min sdk version is lower than 21. If it is, set it to 21
         if (PlayerSettings.Android.minSdkVersion < AndroidSdkVersions.AndroidApiLevel21)
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel21;
 
         //Check if the bunde id is the default one and change it if it to avoid that error
-        if (PlayerSettings.applicationIdentifier.Equals(DEFAULT_UNITY_PACKAGE_IDENTIFIER))
-            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.aptoide.appcoins");
+        if (PlayerSettings.bundleIdentifier.Equals(DEFAULT_UNITY_PACKAGE_IDENTIFIER))
+            PlayerSettings.bundleIdentifier = "com.aptoide.appcoins";
 
         //Make sure that gradle is the selected build system
-        if (EditorUserBuildSettings.androidBuildSystem != AndroidBuildSystem.Gradle)
-            EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
+        // if (EditorUserBuildSettings.androidBuildSystem != AndroidBuildSystem.Gradle)
+        //     EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
         
         //Make sure all non relevant errors go away
         UnityEngine.Debug.ClearDeveloperConsole();
@@ -56,13 +57,12 @@ public abstract class CustomBuildMenuItem : EditorWindow
     }
 
     //Makes sure that the prefab name is updated on the mainTemplat.gradle before the build process
-    private void ValidatePrefabName()
+    private static void ValidatePrefabName()
     {
-        var foundObjects = Resources.FindObjectsOfTypeAll<AppcoinsUnity>();
+        var foundObjects = FindObjectsOfType<AppcoinsUnity>();
 
         if (foundObjects.Length == 0) {
             UnityEngine.Debug.LogError("Found no object with component AppcoinsUnity! Are you using the prefab?");
-            return;
         }
 
         appCoinsPrefabObject = foundObjects[0];
@@ -112,9 +112,28 @@ public abstract class CustomBuildMenuItem : EditorWindow
 
         fileWriter.Close();
     }
+
+    
+
+    [MenuItem("AppCoins/Custom Android Build")]
+    public static void CallAndroidCustomBuild()
+    {
+        //Make sure settings are correctly applied
+
+        if (Setup())
+        {
+            CustomBuild buildObj = new CustomBuild();
+            buildObj.ExecuteCustomBuild("android");
+        }
+
+        else
+        {
+            UnityEngine.Debug.LogError("Custom Build aborted.");
+        }     
+    }
 }
 
-public abstract class CustomBuild
+public class CustomBuild
 {
     internal static UnityEvent continueProcessEvent = new UnityEvent();
 
@@ -133,8 +152,6 @@ public abstract class CustomBuild
 
     private static string gradleWindowsPath = "C:\\Program Files\\Android\\Android Studio\\gradle\\gradle-4.4\\bin\\gradle";
     private static string gradleUnixPath = "/Applications/Android Studio.app/Contents/gradle/gradle-4.4/bin/";
-    public static string gradleMem = "1536";
-    public static string dexMem = "1024";
 
     // EditorPref.key: appcoins_adb_path
     public static string adbPath = EditorPrefs.GetString("AndroidSdkRoot") + "/platform-tools/adb";
@@ -145,6 +162,9 @@ public abstract class CustomBuild
     // EditorPref.key: appcoins_run_adb_run
     public static bool runAdbRun = false;
 
+    // EditorPref.key: appcoins_build_debug
+    public static bool buildDebug = true;
+
     // EditorPref.key: appcoins_build_release
     public static bool buildRelease = false;
 
@@ -153,7 +173,7 @@ public abstract class CustomBuild
 
     // public static string mainActivityPath = "com.unity3d.player.UnityPlayerActivity";
     // EditorPref.key: appcoins_main_activity_path
-    public static string mainActivityPath = PlayerSettings.applicationIdentifier + ".UnityPlayerActivity";
+    public static string mainActivityPath = PlayerSettings.bundleIdentifier + ".UnityPlayerActivity";
 
     public static BuildStage stage;
 
@@ -167,14 +187,14 @@ public abstract class CustomBuild
     public CustomBuild()
     {
         StateBuildIdle();
-        if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.MacOSX ||
-            SystemInfo.operatingSystemFamily == OperatingSystemFamily.Linux)
+        if (SystemInfo.operatingSystem.Substring(0, 3).ToLower().Equals("mac") ||
+            SystemInfo.operatingSystem.Substring(0, 5).ToLower().Equals("linux"))
         {
             TERMINAL_CHOSEN = BASH_LOCATION;
             gradlePath = gradleUnixPath;
         }
 
-        else if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
+        else if (SystemInfo.operatingSystem.Substring(0, 7).ToLower().Equals("windows"))
         {
             TERMINAL_CHOSEN = CMD_LOCATION;
             gradlePath = gradleWindowsPath;
@@ -193,12 +213,11 @@ public abstract class CustomBuild
         EditorPrefs.SetString("appcoins_gradle_path", CustomBuild.gradlePath);
         EditorPrefs.SetString("appcoins_adb_path", CustomBuild.adbPath);
         EditorPrefs.SetString("appcoins_main_activity_path", CustomBuild.mainActivityPath);
+        EditorPrefs.SetBool("appcoins_build_debug", CustomBuild.buildDebug);
         EditorPrefs.SetBool("appcoins_build_release", CustomBuild.buildRelease);
         EditorPrefs.SetBool("appcoins_run_adb_install", CustomBuild.runAdbInstall);
         EditorPrefs.SetBool("appcoins_run_adb_run", CustomBuild.runAdbRun);
         EditorPrefs.SetBool("appcoins_debug_mode", CustomBuild.debugMode);
-        EditorPrefs.SetString("gradle_mem", CustomBuild.gradleMem);
-        EditorPrefs.SetString("dex_mem", CustomBuild.dexMem);
     }
 
     internal static void LoadCustomBuildPrefs()
@@ -216,6 +235,11 @@ public abstract class CustomBuild
         if(EditorPrefs.HasKey("appcoins_main_activity_path"))
         {
             CustomBuild.mainActivityPath = EditorPrefs.GetString("appcoins_main_activity_path", "");
+        }
+
+        if(EditorPrefs.HasKey("appcoins_build_debug"))
+        {
+            CustomBuild.buildDebug = EditorPrefs.GetBool("appcoins_build_debug", false);
         }
 
         if(EditorPrefs.HasKey("appcoins_build_release"))
@@ -236,16 +260,6 @@ public abstract class CustomBuild
         if(EditorPrefs.HasKey("appcoins_debug_mode"))
         {
             CustomBuild.debugMode = EditorPrefs.GetBool("appcoins_debug_mode", false);
-        }
-
-        if(EditorPrefs.HasKey("gradle_mem"))
-        {
-            CustomBuild.gradleMem = EditorPrefs.GetString("gradle_mem", "1536");
-        }
-
-        if(EditorPrefs.HasKey("dex_mem"))
-        {
-            CustomBuild.dexMem = EditorPrefs.GetString("dex_mem", "1024");
         }
     }
 
@@ -277,15 +291,12 @@ public abstract class CustomBuild
         if (target.ToLower() == ANDROID_STRING)
         {
             StateUnityBuild();
-            SetDexMem();
             _buildPath = this.AndroidCustomBuild(scenesPath);
-            _buildPath += "/" + PlayerSettings.productName;
         }
 
         if (_buildPath != null)
         {
             StateGradleBuild();
-            SetGradleMem(_buildPath);
             Build(_buildPath, (int retCode) =>
             {
 
@@ -407,53 +418,6 @@ public abstract class CustomBuild
 
     #endregion
 
-    protected void SetGradleMem(string projPath)
-    {
-        StreamWriter writer = new StreamWriter(projPath + "/gradle.properties", false);
-        writer.WriteLine("org.gradle.jvmargs=-Xmx" + gradleMem + "M");
-        writer.Close();
-    }
-
-    protected void SetDexMem()
-    {
-        StreamReader reader = new StreamReader(Application.dataPath + "/Plugins/Android/mainTemplate.gradle");
-        List<string> lines = new List<string>();
-
-        const string strToSearch = "javaMaxHeapSize";
-        string line;
-        bool afterDex = false;
-
-        while ((line = reader.ReadLine()) != null)
-        {
-            if (line.Contains("dexOptions"))
-            {
-                afterDex = true;
-            }
-
-            if (afterDex && line.Contains(strToSearch))
-            {
-                int tabs = line.IndexOf('j');
-                line = string.Concat(line.Substring(0, tabs), "javaMaxHeapSize \"" + 
-                                                      (Int32.Parse(dexMem) / 1024).ToString() +
-                                                      "g\"");
-                afterDex = false;
-            }
-
-            lines.Add(line);
-        }
-
-        reader.Close();
-
-        StreamWriter writer = new StreamWriter(Application.dataPath + "/Plugins/Android/mainTemplate.gradle", false);
-
-        foreach (string l in lines)
-        {
-            writer.WriteLine(l);
-        }
-
-        writer.Close();
-    }
-
     protected string AndroidCustomBuild(string[] scenesPath)
     {
         return GenericBuild(scenesPath, null, BuildTarget.Android, BuildOptions.AcceptExternalModificationsToPlayer);
@@ -469,8 +433,47 @@ public abstract class CustomBuild
         return projPath;
     }
 
-    protected abstract string GenericBuild(string[] scenesPath, string target_dir,
-                                           BuildTarget build_target, BuildOptions build_options);
+    protected string GenericBuild(string[] scenesPath, string target_dir, BuildTarget build_target, BuildOptions build_options)
+    {
+        string path = this.SelectPath();
+
+        if (path == null || path.Length == 0)
+        {
+            return null;
+        }
+
+        string projPath = CustomBuild.GetProjectPath();
+
+        if (path == projPath)
+        {
+            EditorUtility.DisplayDialog("Custom Build", "Please pick a folder that is not the project root", "Got it");
+            return null;
+        }
+
+        this.DeleteIfFolderAlreadyExists(path);
+
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+
+        string parent = Directory.GetParent(Application.dataPath).FullName;
+        File.Move(Application.dataPath + "/AppcoinsUnity/Scripts/AppCoinsUnityPluginTests5_3.dll", 
+                  parent + "/AppCoinsUnityPluginTests5_3.dll");
+        AssetDatabase.Refresh();
+
+        string s =  BuildPipeline.BuildPlayer(scenesPath, path, build_target, build_options);
+
+        File.Move(parent + "/AppCoinsUnityPluginTests5_3.dll", 
+                  Application.dataPath + "/AppcoinsUnity/Scripts/AppCoinsUnityPluginTests5_3.dll");
+
+        AssetDatabase.Refresh();
+
+        // If Export is done succesfully s is: "".
+        if (!s.Equals(""))
+        {
+            path = null;  // Custom Build is cancelled if path is null.
+        }
+
+        return path;
+    }
 
     protected string SelectPath()
     {
@@ -523,7 +526,7 @@ public abstract class CustomBuild
         if (CustomBuild.buildRelease)
             gradleArgs = "assembleRelease";
 
-        string cmdPath = "'" + path + "'";
+        string cmdPath = "'" + path + "/" + PlayerSettings.productName + "'";
 
         if(CustomBuild.debugMode)
         {
@@ -543,8 +546,8 @@ public abstract class CustomBuild
 
         //If we're not in windows we need to make sure that the gradle file has exec permission
         //and if not, set them
-        if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.MacOSX ||
-            SystemInfo.operatingSystemFamily == OperatingSystemFamily.Linux)
+        if (SystemInfo.operatingSystem.Substring(0, 3).ToLower().Equals("mac") ||
+            SystemInfo.operatingSystem.Substring(0, 5).ToLower().Equals("linux"))
         {
             string chmodCmd = "chmod";
             string chmodArgs = "+x '" + gradlePath + "gradle'";
@@ -576,18 +579,22 @@ public abstract class CustomBuild
         string adbCmd = "'" + CustomBuild.adbPath + "adb'";
 
         string adbArgs = "";
-
-        if(CustomBuild.buildRelease)
-        {
-            adbArgs = "-d install -r './build/outputs/apk/release/" + PlayerSettings.productName + "-release.apk'";
-        }
-
-        else
+        if(CustomBuild.buildDebug)
         {
             adbArgs = "-d install -r './build/outputs/apk/debug/" + PlayerSettings.productName + "-debug.apk'";
         }
 
-        string cmdPath = "'" + path + "'";
+        else if(CustomBuild.buildRelease)
+        {
+            adbArgs = "-d install -r './build/outputs/apk/release/" + PlayerSettings.productName + "-release.apk'";
+        }
+
+        else 
+        {
+            UnityEngine.Debug.LogError("Please enable one of: 'build debug' or 'build realease'");
+        }
+
+        string cmdPath = "'" + path + "/" + PlayerSettings.productName + "'";
 
         Terminal terminal = null;
         if (TERMINAL_CHOSEN == CMD_LOCATION)
@@ -609,7 +616,7 @@ public abstract class CustomBuild
 
         string adbCmd = "'" + CustomBuild.adbPath + "adb'";
 
-        string adbArgs = "shell am start -n '" + PlayerSettings.applicationIdentifier + "/" + CustomBuild.mainActivityPath + "'";
+        string adbArgs = "shell am start -n '" + PlayerSettings.bundleIdentifier + "/" + CustomBuild.mainActivityPath + "'";
 
         string cmdPath = "'" + path + "/" + PlayerSettings.productName + "'";
 
@@ -631,7 +638,6 @@ public abstract class CustomBuild
 // Draw the window for the user select what scenes he wants to export and configure player settings.
 public class CustomBuildWindow : EditorWindow
 {
-    public static string a = "";
     public static CustomBuildWindow instance;
     public Vector2 scrollViewVector = Vector2.zero;
 
@@ -686,27 +692,18 @@ public class CustomBuildWindow : EditorWindow
     void CreateCustomBuildUI()
     {
         float gradlePartHeight = 5;
-        GUI.Label(new Rect(5, gradlePartHeight, 590, 40), "Select the gradle path:");
+        GUI.Label(new Rect(5, gradlePartHeight, 590, 40), "Select the gradle path");
         gradlePartHeight += 20;
         CustomBuild.gradlePath = GUI.TextField(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.gradlePath);
         CustomBuild.gradlePath = CustomBuildWindow.HandleCopyPaste(GUIUtility.keyboardControl) ?? CustomBuild.gradlePath;
         gradlePartHeight += 20;
-        CustomBuild.buildRelease = GUI.Toggle(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.buildRelease, 
-                                              "Build a Release version? (Uncheck it if you want to build a Debug Version).");
+        CustomBuild.buildDebug = GUI.Toggle(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.buildDebug, "Build Debug?");
         gradlePartHeight += 20;
-        CustomBuild.debugMode = GUI.Toggle(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.debugMode,
-                                           "Run gradle in debug mode? This will not end gradle terminal automatically.");
-        gradlePartHeight += 20;
-        GUI.Label(new Rect(5, gradlePartHeight, 105, 20), "Gradle heap size:");
-        CustomBuild.gradleMem = GUI.TextField(new Rect(105, gradlePartHeight, 60, 20), CustomBuild.gradleMem);
-        GUI.Label(new Rect(165, gradlePartHeight, 70, 20), "MB");
-        gradlePartHeight += 25;
-        GUI.Label(new Rect(5, gradlePartHeight, 150, 20), "Dex heap size:");
-        CustomBuild.dexMem = GUI.TextField(new Rect(105, gradlePartHeight, 60, 20), CustomBuild.dexMem);
-        GUI.Label(new Rect(165, gradlePartHeight, 590, 20), "MB  (Gradle heap size has to be grater than Dex heap size)");
+        CustomBuild.buildRelease = GUI.Toggle(new Rect(5, gradlePartHeight, 590, 20), CustomBuild.buildRelease, "Build Release?");
 
-        float adbPartHeight = gradlePartHeight + 50;
-        GUI.Label(new Rect(5, adbPartHeight, 590, 40), "Select the adb path:");
+
+        float adbPartHeight = gradlePartHeight + 20;
+        GUI.Label(new Rect(5, adbPartHeight, 590, 40), "Select the adb path");
         adbPartHeight += 20;
         CustomBuild.adbPath = GUI.TextField(new Rect(5, adbPartHeight, 590, 20), CustomBuild.adbPath);
         CustomBuild.adbPath = CustomBuildWindow.HandleCopyPaste(GUIUtility.keyboardControl) ?? CustomBuild.adbPath;
@@ -722,7 +719,10 @@ public class CustomBuildWindow : EditorWindow
         adbRunPartHeight += 20;
         CustomBuild.runAdbRun = GUI.Toggle(new Rect(5, adbRunPartHeight, 590, 20), CustomBuild.runAdbRun, "Run build when done?");
 
-        float scenesPartHeight = adbRunPartHeight + 40;
+        float debugModeHeight = adbRunPartHeight + 20;
+        CustomBuild.debugMode = GUI.Toggle(new Rect(5, debugModeHeight, 590, 20), CustomBuild.debugMode, "Run gradle in debug mode? This will not end gradle terminal automatically.");
+
+        float scenesPartHeight = debugModeHeight + 20;
         GUI.Label(new Rect(5, scenesPartHeight, 590, 40), "Select what scenes you want to export:\n(Only scenes that are in build settings are true by default)");
         int scenesLength = EditorBuildSettings.scenes.Length;
         float scrollViewLength = scenesLength * 25f;
