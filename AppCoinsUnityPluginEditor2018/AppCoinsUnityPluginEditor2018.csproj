@@ -73,6 +73,27 @@
     <Compile Include="..\Scripts\Editor\CustomBuild.cs">
       <Link>CustomBuild.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAndroid.cs">
+      <Link>CustomBuildAndroid.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrors.cs">
+      <Link>CustomBuildErrors.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrorWindow.cs">
+      <Link>CustomBuildErrorWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildWindow.cs">
+      <Link>CustomBuildWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\ExportScenes.cs">
+      <Link>ExportScenes.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\SceneToExport.cs">
+      <Link>SceneToExport.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\Tools.cs">
+      <Link>Tools.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

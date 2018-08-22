@@ -71,6 +71,39 @@
     <Compile Include="..\Scripts\Editor\CustomBuild.cs">
       <Link>CustomBuild.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAndroid.cs">
+      <Link>CustomBuildAndroid.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrors.cs">
+      <Link>CustomBuildErrors.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrorWindow.cs">
+      <Link>CustomBuildErrorWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildWindow.cs">
+      <Link>CustomBuildWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\ExportScenes.cs">
+      <Link>ExportScenes.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\SceneToExport.cs">
+      <Link>SceneToExport.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\Tools.cs">
+      <Link>Tools.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildVisitor5_6.cs">
+      <Link>CustomBuildVisitor5_6.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildVisitor.cs">
+      <Link>CustomBuildVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildException.cs">
+      <Link>CustomBuildException.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\HandleException.cs">
+      <Link>HandleException.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj">
