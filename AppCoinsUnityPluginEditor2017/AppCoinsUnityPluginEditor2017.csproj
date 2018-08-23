@@ -86,14 +86,23 @@
     <Compile Include="..\Scripts\Editor\CustomBuildWindow.cs">
       <Link>CustomBuildWindow.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\Editor\ExportScenes.cs">
-      <Link>ExportScenes.cs</Link>
+    <Compile Include="..\Scripts\Editor\SelectScenes.cs">
+      <Link>SelectScenes.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\Editor\SceneToExport.cs">
       <Link>SceneToExport.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\Editor\Tools.cs">
       <Link>Tools.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildUnityExport.cs">
+      <Link>CustomBuildUnityExport.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildUnityExport2017.cs">
+      <Link>CustomBuildUnityExport2017.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildException.cs">
+      <Link>CustomBuildException.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

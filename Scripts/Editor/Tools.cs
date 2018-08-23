@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Aptoide.AppcoinsUnity;
+
 public class Tools
 {
     // Change a line in a file as much times as specified. 
@@ -97,7 +99,7 @@ public class Tools
     }
 
     // If folder already exists in the chosen directory delete it.
-    protected void DeleteIfFolderAlreadyExists(string path)
+    public void DeleteIfFolderAlreadyExists(string path)
     {
         string[] folders = Directory.GetDirectories(path);
 
@@ -119,5 +121,36 @@ public class Tools
                 }
             }
         }
+    }
+
+    public static Terminal GetTerminalByOS()
+    {
+        if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.MacOSX ||
+            SystemInfo.operatingSystemFamily == OperatingSystemFamily.Linux)
+        {
+            return new Bash();
+        }
+
+        else if (SystemInfo.operatingSystemFamily ==
+                 OperatingSystemFamily.Windows
+                )
+        {
+            return new CMD();
+        }
+
+        return null;
+    }
+
+    //If path for app contains appName remove it
+    public static string FixAppPath(string path, string AppName)
+    {
+        string fileName = Path.GetFileName(path);
+
+        if (!fileName.Equals(AppName))
+        {
+            path = Path.GetDirectoryName(path) + "/" + AppName;
+        }
+
+        return path;
     }
 }

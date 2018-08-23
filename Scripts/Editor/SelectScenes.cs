@@ -1,9 +1,11 @@
+using UnityEditor;
+using System.Collections;
+
 // Get all the loaded scenes and asks the user what scenes he wants 
 // to export by 'ExportScenesWindow' class.
-
-public class ExportScenes
+public class SelectScenes
 {
-    public static bool[] buildScenesEnabled;
+    public bool[] buildScenesEnabled;
 
     public string[] ScenesToString()
     {
@@ -22,17 +24,18 @@ public class ExportScenes
 
     public void AllScenesToExport()
     {
-        this.SelectScenesToExport();
+        SelectScenesToExport();
     }
 
-    public static SceneToExport[] GetAllOpenScenes()
+    public SceneToExport[] GetAllOpenScenes()
     {
         int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCount;
         SceneToExport[] scenes = new SceneToExport[sceneCount];
 
         for(int i = 0; i < sceneCount; i++)
         {
-            UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+            UnityEngine.SceneManagement.Scene scene = 
+                UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
 
             if(scenes[i] == null)
             {
@@ -46,21 +49,25 @@ public class ExportScenes
         return scenes;
     }
 
-    public static void AddAllOpenScenesToBuildSettings()
+    public void AddAllOpenScenesToBuildSettings()
     {
         SceneToExport[] scenes = GetAllOpenScenes();
 
-        EditorBuildSettingsScene[] buildScenes = new EditorBuildSettingsScene[scenes.Length];
+        EditorBuildSettingsScene[] buildScenes = 
+            new EditorBuildSettingsScene[scenes.Length];
 
         for(int i = 0; i < scenes.Length; i++)
         {
-            buildScenes[i] = new EditorBuildSettingsScene(scenes[i].scene.path, true);
+            buildScenes[i] = new EditorBuildSettingsScene(scenes[i].scene.path, 
+                                                          true);
         }
 
         EditorBuildSettings.scenes = buildScenes;
     }
 
-    public static bool[] GetScenesEnabled()
+    // Return a bool array. All indexes with true value correspond to an enabled
+    // scene at BuildSettings scenes.
+    public bool[] GetBuildSettingsScenesEnabled()
     {
         bool[] scenesEnabled = new bool[EditorBuildSettings.scenes.Length];
         EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
@@ -73,16 +80,16 @@ public class ExportScenes
         return scenesEnabled;
     }
 
-    public static void UpdatedBuildScenes(bool[] enabledScenes)
+    public void UpdatedBuildScenes(bool[] enabledScenes)
     {
-        EditorBuildSettingsScene[] newBuildScenes = new EditorBuildSettingsScene[enabledScenes.Length];
+        EditorBuildSettingsScene[] newBuildScenes = 
+            new EditorBuildSettingsScene[enabledScenes.Length];
 
         for(int i = 0; i < enabledScenes.Length; i++)
         {
-            newBuildScenes[i] = new EditorBuildSettingsScene(
-                                                            EditorBuildSettings.scenes[i].path,
-                                                            enabledScenes[i]
-                                                            );
+            newBuildScenes[i] = 
+                new EditorBuildSettingsScene(EditorBuildSettings.scenes[i].path,
+                                             enabledScenes[i]);
         }
 
         EditorBuildSettings.scenes = newBuildScenes;
@@ -91,6 +98,6 @@ public class ExportScenes
     // Opens ExportScenesWindow window.
     public void SelectScenesToExport()
     {
-        CustomBuildWindow.CreateExportScenesWindow();
+        CustomBuildWindow.CreateCustomBuildWindow();
     }
 }

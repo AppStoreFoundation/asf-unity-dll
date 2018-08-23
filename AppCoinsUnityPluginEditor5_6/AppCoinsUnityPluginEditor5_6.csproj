@@ -83,8 +83,8 @@
     <Compile Include="..\Scripts\Editor\CustomBuildWindow.cs">
       <Link>CustomBuildWindow.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\Editor\ExportScenes.cs">
-      <Link>ExportScenes.cs</Link>
+    <Compile Include="..\Scripts\Editor\SelectScenes.cs">
+      <Link>SelectScenes.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\Editor\SceneToExport.cs">
       <Link>SceneToExport.cs</Link>
@@ -92,17 +92,50 @@
     <Compile Include="..\Scripts\Editor\Tools.cs">
       <Link>Tools.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\Editor\CustomBuildVisitor5_6.cs">
-      <Link>CustomBuildVisitor5_6.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\Editor\CustomBuildVisitor.cs">
-      <Link>CustomBuildVisitor.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\Editor\CustomBuildException.cs">
       <Link>CustomBuildException.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\Editor\HandleException.cs">
       <Link>HandleException.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\AndroidCustomBuildWindow.cs">
+      <Link>AndroidCustomBuildWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildProjectBuild.cs">
+      <Link>CustomBuildProjectBuild.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildProjectInstall.cs">
+      <Link>CustomBuildProjectInstall.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildProjectRun.cs">
+      <Link>CustomBuildProjectRun.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildUnityExport.cs">
+      <Link>CustomBuildUnityExport.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildGradleProjectBuild.cs">
+      <Link>CustomBuildGradleProjectBuild.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildUnityExport5_6.cs">
+      <Link>CustomBuildUnityExport5_6.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\ConfigureTerminal.cs">
+      <Link>ConfigureTerminal.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\IConfigureTerminal.cs">
+      <Link>IConfigureTerminal.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildPrefs.cs">
+      <Link>CustomBuildPrefs.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAdbProjectInstall.cs">
+      <Link>CustomBuildAdbProjectInstall.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAdbProjectRun.cs">
+      <Link>CustomBuildAdbProjectRun.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\BashUtils.cs">
+      <Link>BashUtils.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

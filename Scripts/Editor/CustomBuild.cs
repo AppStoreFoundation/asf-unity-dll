@@ -13,23 +13,33 @@ public abstract class CustomBuildMenuItem : EditorWindow
     private AppcoinsUnity appCoinsPrefabObject = null;
 
     protected abstract void PlatformSetup();
+}
 
+public enum BuildStage
+{
+    IDLE,
+    UNITY_EXPORT,
+    PROJECT_BUILD,
+    PROJECT_INSTALL,
+    PROJECT_RUN,
+    DONE,
+}
 
+public enum TerminalSelected
+{
+    BASH,
+    CMD
 }
 
 public abstract class CustomBuild
 {
     internal static UnityEvent continueProcessEvent = new UnityEvent();
 
-    public enum BuildStage
-    {
-        IDLE,
-        UNITY_EXPORT,
-        PROJECT_BUILD,
-        PROJECT_INSTALL,
-        PROJECT_RUN,
-        DONE,
-    }
+    CustomBuildWindow customBuildWindow;
+    CustomBuildUnityExport unityExport;
+    CustomBuildProjectBuild projectBuild;
+    CustomBuildProjectInstall projectInstall;
+    CustomBuildProjectrun projectRun;
 
     // Defualt package identifier
     protected const string DEFAULT_UNITY_PACKAGE_IDENTIFIER = "com.Company.ProductName";
@@ -175,7 +185,7 @@ public abstract class CustomBuild
     {
         if (TERMINAL_CHOSEN != null)
         {
-            ExportScenes expScenes = new ExportScenes();
+            SelectScenes expScenes = new SelectScenes();
             expScenes.AllScenesToExport();
             CustomBuild.continueProcessEvent.RemoveAllListeners();
             CustomBuild.continueProcessEvent.AddListener(
