@@ -24,13 +24,13 @@ namespace Aptoide.AppcoinsUnity
 
                 appcoinsUnity.onStartPurchase.AddListener(makePurchase);
 
-                error = AppCoinsChecks.CheckPoAActive(appcoinsUnity.enablePOA);
+                error = AppcoinsChecks.CheckPoAActive(appcoinsUnity.enablePOA);
                 AppcoinsErrorHandler.HandleError(error);
 
-                error = AppCoinsChecks.CheckSKUs(appcoinsUnity.products);
+                error = AppcoinsChecks.CheckSKUs(appcoinsUnity.products);
                 if (!AppcoinsErrorHandler.HandleError(error)) {UnityEditor.EditorApplication.isPlaying = false;}
 
-                AppCoinsChecks.CheckForRepeatedSkuId(appcoinsUnity.products);
+                AppcoinsChecks.CheckForRepeatedSkuId(appcoinsUnity.products);
                 if (!AppcoinsErrorHandler.HandleError(error)) {UnityEditor.EditorApplication.isPlaying = false;}
             }   
         }

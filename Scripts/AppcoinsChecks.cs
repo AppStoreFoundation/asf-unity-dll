@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Aptoide.AppcoinsUnity
 {
-    public static class AppCoinsChecks
+    public static class AppcoinsChecks
     {
         public static APPCOINS_ERROR CheckSKUs(AppcoinsSku[] products)
         {
@@ -27,7 +27,8 @@ namespace Aptoide.AppcoinsUnity
             return APPCOINS_ERROR.NONE;
         }
 
-        public static APPCOINS_ERROR CheckForRepeatedSkuId(AppcoinsSku[] products)
+        public static APPCOINS_ERROR CheckForRepeatedSkuId(
+            AppcoinsSku[] products)
         {
             for (int i = 0; i < products.Length - 1; i++)
             {
@@ -37,7 +38,9 @@ namespace Aptoide.AppcoinsUnity
                 {
                     AppcoinsSku compareProduct = products[j];
 
-                    if (currentProduct != null && currentProduct.SKUID.Length == compareProduct.SKUID.Length)
+                    if (currentProduct != null && currentProduct.SKUID.Length == 
+                        compareProduct.SKUID.Length
+                       )
                     {
                         if (currentProduct.SKUID.Equals(compareProduct.SKUID))
                         {
@@ -58,14 +61,17 @@ namespace Aptoide.AppcoinsUnity
             return APPCOINS_ERROR.NONE;
         }
 
-        //Makes sure that the prefab name is updated on the mainTemplat.gradle before the build process
+        // Makes sure that the prefab name is updated on the mainTemplat.gradle 
+        // before the build process
         public static AppcoinsUnity ValidatePrefabName()
         {
             var foundObjects = Resources.FindObjectsOfTypeAll<AppcoinsUnity>();
 
             if (foundObjects.Length == 0)
             {
-                UnityEngine.Debug.LogError("Found no object with component AppcoinsUnity! Are you using the prefab?");
+                UnityEngine.Debug.LogError("Found no object with component " +
+                                           "AppcoinsUnity! Are you using the " +
+                                           "prefab?");
                 return null;
             }
 
@@ -74,7 +80,10 @@ namespace Aptoide.AppcoinsUnity
             string line;
             ArrayList fileLines = new ArrayList();
 
-            System.IO.StreamReader fileReader = new System.IO.StreamReader(Application.dataPath + "/Plugins/Android/mainTemplate.gradle");
+            System.IO.StreamReader fileReader = 
+                new System.IO.StreamReader(Application.dataPath + 
+                                           "/Plugins/Android/" +
+                                           "mainTemplate.gradle");
 
             while ((line = fileReader.ReadLine()) != null)
             {
@@ -94,7 +103,10 @@ namespace Aptoide.AppcoinsUnity
                     //Erase content after last comma
                     int lastComma = newLine.LastIndexOf(",");
                     newLine = newLine.Substring(0, lastComma + 1);
-                    newLine = string.Concat(newLine, " \"" + appCoinsPrefabObject.gameObject.name + "\"");
+                    newLine = string.Concat(
+                        newLine, 
+                        " \"" + appCoinsPrefabObject.gameObject.name + "\""
+                    );
 
                     fileLines.Add(newLine);
                 }
@@ -107,7 +119,10 @@ namespace Aptoide.AppcoinsUnity
 
             fileReader.Close();
 
-            System.IO.StreamWriter fileWriter = new System.IO.StreamWriter(Application.dataPath + "/Plugins/Android/mainTemplate.gradle");
+            System.IO.StreamWriter fileWriter = 
+                new System.IO.StreamWriter(Application.dataPath + 
+                                           "/Plugins/Android/" +
+                                           "mainTemplate.gradle");
 
             foreach (string newLine in fileLines)
             {

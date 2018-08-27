@@ -46,9 +46,6 @@
     <Compile Include="..\Scripts\AppcoinsSku.cs">
       <Link>AppcoinsSku.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\BashUtils.cs">
-      <Link>BashUtils.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\CustomTree.cs">
       <Link>CustomTree.cs</Link>
     </Compile>

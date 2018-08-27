@@ -5,7 +5,6 @@ using Aptoide.AppcoinsUnity;
 
 public class CustomBuildGradleProjectBuild : CustomBuildProjectBuild
 {
-    private readonly string mainTemplatePath;
     private string gradleMem = "1536";
     private const string gradleMemLine = "org.gradle.jvmargs=-Xmx{0}M";
 
@@ -15,9 +14,6 @@ public class CustomBuildGradleProjectBuild : CustomBuildProjectBuild
 
     public CustomBuildGradleProjectBuild()
     {
-        mainTemplatePath = Application.dataPath + 
-                                      "/Plugins/Android/mainTemplate.gradle";
-        
         terminal = Tools.GetTerminalByOS();
     }
 
@@ -47,32 +43,33 @@ public class CustomBuildGradleProjectBuild : CustomBuildProjectBuild
             SystemInfo.operatingSystemFamily == OperatingSystemFamily.Linux)
         {
             string chmodCmd = "chmod";
-            string chmodArgs = "+x '" + gradlePath + "gradle'";
 
-            return terminal.RunCommand(stage, chmodCmd, chmodArgs, ".", false);
+            terminal.RunCommand(stage, chmodCmd, "+x", gradlePath, ".", false);
         }
     }
 
-    private void ChangeGradleMem()
+    private void ChangeGradleMem(string projPath)
     {
+        string buildGradlePath = projPath + "/gradle.properties";
         gradleMem = EditorPrefs.GetString("appcoins_gradle_mem", "1536");
         string[] lines = { gradleMemLine.Replace("{0}", gradleMem) };
-        Tools.WriteToFile(mainTemplatePath, lines);
+
+        Tools.WriteToFile(buildGradlePath, lines);
     }
 
-    internal override void ProjectBuild(BuildStage stage, string projPath)
+    internal override void BuildProject(BuildStage stage, string projPath)
     {
         string command = Tools.FixAppPath(
             EditorPrefs.GetString("appcoins_gradle_path", ""), 
             "gradle"
         );
 
-        TurnGradleIntoExe(command);
+        TurnGradleIntoExe(stage, command);
 
         string gradleArgs = GetGradleArgs();
-        string path = "'" + projPath + "'";
-        terminal.RunCommand(stage, command, gradleArgs, path, gradleDebugMode);
+        terminal.RunCommand(stage, command, "", gradleArgs, projPath, 
+                            gradleDebugMode);
 
-        ChangeGradleMem();
+        ChangeGradleMem(projPath);
     }
 }

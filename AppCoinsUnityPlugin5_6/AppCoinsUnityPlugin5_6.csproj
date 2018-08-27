@@ -49,7 +49,7 @@
     <Compile Include="..\Scripts\CustomTree.cs">
       <Link>CustomTree.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AppCoinsChecks.cs">
+    <Compile Include="..\Scripts\AppcoinsChecks.cs">
       <Link>AppCoinsChecks.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\AppcoinsError.cs">

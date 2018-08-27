@@ -5,6 +5,17 @@ using UnityEngine;
 // and configure player settings.
 public class AndroidCustomBuildWindow : CustomBuildWindow
 {
+    // Default values:
+    private string gradlePath;
+    private bool buildRelease;
+    private bool debugMode;
+    private string gradleMem;
+    private string dexMem;
+    private string adbPath;
+    private bool runAdbInstall;
+    private string mainActivityPath;
+    private bool runAdbRun;
+
     protected override void IdleGUI()
     {
         // GRADLE
@@ -13,43 +24,43 @@ public class AndroidCustomBuildWindow : CustomBuildWindow
                   "Select the gradle path:");
 
         gradlePartHeight += 20;
-        CustomBuild.gradlePath = GUI.TextField(
+        gradlePath = GUI.TextField(
             new Rect(5, gradlePartHeight, 590, 20),
-            CustomBuild.gradlePath);
+            gradlePath);
 
-        CustomBuild.gradlePath =
+        gradlePath =
             HandleCopyPaste(GUIUtility.keyboardControl) ??
-            CustomBuild.gradlePath;
+            gradlePath;
 
         gradlePartHeight += 20;
-        CustomBuild.buildRelease = GUI.Toggle(
+        buildRelease = GUI.Toggle(
                 new Rect(5, gradlePartHeight, 590, 20),
-                CustomBuild.buildRelease,
+                buildRelease,
                 "Build a Release version? (Uncheck it if you want to build a " +
                 "Debug Version)."
         );
 
         gradlePartHeight += 20;
-        CustomBuild.debugMode = GUI.Toggle(
+        debugMode = GUI.Toggle(
             new Rect(5, gradlePartHeight, 590, 20),
-            CustomBuild.debugMode,
+            debugMode,
             "Run gradle in debug mode? This will not end gradle terminal " +
             "automatically."
         );
 
         gradlePartHeight += 20;
         GUI.Label(new Rect(5, gradlePartHeight, 105, 20), "Gradle heap size:");
-        CustomBuild.gradleMem = GUI.TextField(
+        gradleMem = GUI.TextField(
             new Rect(105, gradlePartHeight, 60, 20),
-            CustomBuild.gradleMem
+            gradleMem
         );
         GUI.Label(new Rect(165, gradlePartHeight, 70, 20), "MB");
 
         gradlePartHeight += 25;
         GUI.Label(new Rect(5, gradlePartHeight, 150, 20), "Dex heap size:");
-        CustomBuild.dexMem = GUI.TextField(
+        dexMem = GUI.TextField(
             new Rect(105, gradlePartHeight, 60, 20),
-            CustomBuild.dexMem
+            dexMem
         );
         GUI.Label(new Rect(165, gradlePartHeight, 590, 20),
                   "MB  (Gradle heap size has to be grater than Dex heap size)");
@@ -59,16 +70,16 @@ public class AndroidCustomBuildWindow : CustomBuildWindow
         GUI.Label(new Rect(5, adbPartHeight, 590, 40), "Select the adb path:");
 
         adbPartHeight += 20;
-        CustomBuild.adbPath = GUI.TextField(new Rect(5, adbPartHeight, 590, 20),
-                                            CustomBuild.adbPath);
-        CustomBuild.adbPath =
+        adbPath = GUI.TextField(new Rect(5, adbPartHeight, 590, 20),
+                                            adbPath);
+        adbPath =
             HandleCopyPaste(GUIUtility.keyboardControl) ??
-            CustomBuild.adbPath;
+            adbPath;
 
         adbPartHeight += 20;
-        CustomBuild.runAdbInstall = GUI.Toggle(
+        runAdbInstall = GUI.Toggle(
             new Rect(5, adbPartHeight, 590, 20),
-            CustomBuild.runAdbInstall,
+            runAdbInstall,
             "Install build when done?"
         );
 
@@ -79,18 +90,18 @@ public class AndroidCustomBuildWindow : CustomBuildWindow
                  );
 
         adbRunPartHeight += 20;
-        CustomBuild.mainActivityPath = GUI.TextField(
+        mainActivityPath = GUI.TextField(
             new Rect(5, adbRunPartHeight, 590, 20),
-            CustomBuild.mainActivityPath
+            mainActivityPath
         );
-        CustomBuild.mainActivityPath =
+        mainActivityPath =
             HandleCopyPaste(GUIUtility.keyboardControl) ??
-            CustomBuild.mainActivityPath;
+            mainActivityPath;
 
         adbRunPartHeight += 20;
-        CustomBuild.runAdbRun = GUI.Toggle(
+        runAdbRun = GUI.Toggle(
             new Rect(5, adbRunPartHeight, 590, 20),
-            CustomBuild.runAdbRun,
+            runAdbRun,
             "Run build when done?");
 
         // SCENES
@@ -138,50 +149,14 @@ public class AndroidCustomBuildWindow : CustomBuildWindow
             this.Close();
         }
 
-        if (CustomBuild.gradlePath != "" &&
+        if (gradlePath != "" &&
             GUI.Button(new Rect(530, 470, 60, 20), "Confirm")
            )
         {
-            CustomBuild.SetCustomBuildPrefs();
-            CustomBuild.continueProcessEvent.Invoke();
-            this.Close();
+            SetCustomBuildPrefs();
+            instance.unityEvent.Invoke();
+            instance.Close();
         }
-    }
-
-    private static string HandleCopyPaste(int controlID)
-    {
-        if (controlID == GUIUtility.keyboardControl)
-        {
-            if (Event.current.type == EventType.KeyUp &&
-                (Event.current.modifiers == EventModifiers.Control ||
-                 Event.current.modifiers == EventModifiers.Command
-                )
-               )
-            {
-                if (Event.current.keyCode == KeyCode.C)
-                {
-                    Event.current.Use();
-                    TextEditor editor = (TextEditor)
-                        GUIUtility.GetStateObject(typeof(TextEditor),
-                                                  GUIUtility.keyboardControl
-                                                 );
-                    editor.Copy();
-                }
-
-                else if (Event.current.keyCode == KeyCode.V)
-                {
-                    Event.current.Use();
-                    TextEditor editor = (TextEditor)
-                        GUIUtility.GetStateObject(typeof(TextEditor),
-                                                  GUIUtility.keyboardControl
-                                                 );
-                    editor.Paste();
-                    return editor.text;
-                }
-            }
-        }
-
-        return null;
     }
 
     protected override void UnityExportGUI()
@@ -208,5 +183,56 @@ public class AndroidCustomBuildWindow : CustomBuildWindow
     {
         GUI.Label(new Rect(5, 30, 590, 40), "Running APK...\nPlease be " +
                   "patient...");
+    }
+
+    protected override void SetCustomBuildPrefs()
+    {
+        EditorPrefs.SetString("appcoins_gradle_path", gradlePath);
+        EditorPrefs.SetString("appcoins_adb_path", adbPath);
+        EditorPrefs.SetString("appcoins_main_activity_path",
+                              mainActivityPath);
+
+        EditorPrefs.SetBool("appcoins_build_release", buildRelease);
+        EditorPrefs.SetBool("appcoins_run_adb_install",
+                            runAdbInstall);
+
+        EditorPrefs.SetBool("appcoins_run_adb_run", runAdbRun);
+        EditorPrefs.SetBool("appcoins_debug_mode", debugMode);
+        EditorPrefs.SetString("appcoins_gradle_mem", gradleMem);
+        EditorPrefs.SetString("appcoins_dex_mem", dexMem);
+    }
+
+    protected override void LoadCustomBuildPrefs()
+    {
+        gradlePath = EditorPrefs.GetString(
+            "appcoins_gradle_path", 
+            SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows ?
+            "C:\\Program Files\\Android\\Android Studio\\gradle\\" +
+                "gradle-4.4\\bin\\gradle" :
+            "/Applications/Android Studio.app/Contents/gradle/gradle-4.4/" +
+                "bin/"
+         );
+
+        adbPath = EditorPrefs.GetString(
+            "appcoins_adb_path", 
+            EditorPrefs.GetString("AndroidSdkRoot") + 
+                "/platform-tools/adb"
+        );
+
+        mainActivityPath = EditorPrefs.GetString(
+            "appcoins_main_activity_path", 
+            Application.identifier + "/.UnityPlayerActivity");
+        
+        buildRelease = EditorPrefs.GetBool("appcoins_build_release", false);
+        
+        runAdbInstall = EditorPrefs.GetBool("appcoins_run_adb_install", false);
+        
+        runAdbRun = EditorPrefs.GetBool("appcoins_run_adb_run", false);
+        
+        debugMode = EditorPrefs.GetBool("appcoins_debug_mode", false);
+        
+        gradleMem = EditorPrefs.GetString("appcoins_gradle_mem", "1536");
+
+        dexMem = EditorPrefs.GetString("appcoins_dex_mem", "1024");
     }
 }

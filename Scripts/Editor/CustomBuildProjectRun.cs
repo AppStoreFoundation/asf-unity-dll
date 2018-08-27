@@ -1,4 +1,4 @@
 public abstract class CustomBuildProjectRun
 {
-    internal abstract void ProjectRun(BuildStage stage, string path);
+    internal abstract void RunProject(BuildStage stage, string projPath);
 }

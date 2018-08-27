@@ -1,4 +1,4 @@
 public abstract class CustomBuildProjectBuild
 {
-    internal abstract void ProjectBuild(BuildStage stage, string projPath);
+    internal abstract void BuildProject(BuildStage stage, string projPath);
 }

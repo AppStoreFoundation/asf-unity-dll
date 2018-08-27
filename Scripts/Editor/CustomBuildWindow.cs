@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 // Draw the window for the user select what scenes he wants to export
 // and configure player settings.
@@ -7,35 +8,41 @@ using UnityEngine;
 public abstract class CustomBuildWindow : EditorWindow
 {
     protected static CustomBuildWindow instance;
+    protected CustomBuildWindow innerInstance;
     public Vector2 scrollViewVector = Vector2.zero;
 
+    protected internal BuildStage stage;
     protected internal SelectScenes selector;
     protected internal bool[] buildScenesEnabled = null;
+    protected internal UnityEvent unityEvent;
 
     //Create the custom Editor Window
-    public static void CreateCustomBuildWindow(CustomBuildWindow w, 
-                                               SelectScenes sel)
+    public static void CreateCustomBuildWindow(BuildStage s,
+                                               CustomBuildWindow w, 
+                                               SelectScenes sel,
+                                               UnityEvent ev
+                                              )
     {
         CustomBuildWindow.instance = (CustomBuildWindow)
             EditorWindow.GetWindowWithRect(
-                w.GetType(),
+                typeof(CustomBuildWindow),
                 new Rect(0, 0, 600, 500),
                 true,
                 "Custom Build Settings"
             );
 
-        instance.PassScenesSelector(sel);
+        instance.stage = s;
+        instance.innerInstance = w;
+        instance.unityEvent = ev;
+        instance.selector = sel;
         instance.buildScenesEnabled = 
             instance.selector.GetBuildSettingsScenesEnabled();
 
         instance.minSize = new Vector2(600, 500);
         instance.autoRepaintOnSceneChange = true;
-        instance.Show();
-    }
 
-    private void PassScenesSelector(SelectScenes sel)
-    {
-        selector = sel;
+        instance.innerInstance.LoadCustomBuildPrefs();
+        instance.Show();
     }
 
     public void OnInspectorUpdate()
@@ -46,24 +53,24 @@ public abstract class CustomBuildWindow : EditorWindow
 
     void OnGUI()
     {
-        switch (CustomBuild.stage)
+        switch (instance.stage)
         {
-            case CustomBuild.BuildStage.IDLE:
-                IdleGUI();
+            case BuildStage.IDLE:
+                instance.innerInstance.IdleGUI();
                 break;
-            case CustomBuild.BuildStage.UNITY_EXPORT:
-                UnityExportGUI();
+            case BuildStage.UNITY_EXPORT:
+                instance.innerInstance.UnityExportGUI();
                 break;
-            case CustomBuild.BuildStage.PROJECT_BUILD:
-                ProjectBuildGUI();
+            case BuildStage.PROJECT_BUILD:
+                instance.innerInstance.ProjectBuildGUI();
                 break;
-            case CustomBuild.BuildStage.PROJECT_INSTALL:
-                ProjectInstallGUI();
+            case BuildStage.PROJECT_INSTALL:
+                instance.innerInstance.ProjectInstallGUI();
                 break;
-            case CustomBuild.BuildStage.PROJECT_RUN:
-                ProjectRunGUI();
+            case BuildStage.PROJECT_RUN:
+                instance.innerInstance.ProjectRunGUI();
                 break;
-            case CustomBuild.BuildStage.DONE:
+            case BuildStage.DONE:
                 Close();
                 break;
         }
@@ -78,6 +85,10 @@ public abstract class CustomBuildWindow : EditorWindow
     protected abstract void ProjectInstallGUI();
 
     protected abstract void ProjectRunGUI();
+
+    protected abstract void LoadCustomBuildPrefs();
+
+    protected abstract void SetCustomBuildPrefs();
 
     protected string HandleCopyPaste(int controlID)
     {

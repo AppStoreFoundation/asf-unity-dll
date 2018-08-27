@@ -1,6 +1,7 @@
-﻿//created by Lukmon Agboola(Codeberg)
-//Modified by Aptoide
-//Note: do not change anything here as it may break the workings of the plugin else you're very sure of what you're doing.
+﻿// created by Lukmon Agboola(Codeberg)
+// Modified by Aptoide
+// Note: do not change anything here as it may break the workings of the plugin 
+// else you're very sure of what you're doing.
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;

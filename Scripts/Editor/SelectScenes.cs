@@ -22,11 +22,6 @@ public class SelectScenes
         return (pathScenes.ToArray(typeof(string)) as string[]);
     }
 
-    public void AllScenesToExport()
-    {
-        SelectScenesToExport();
-    }
-
     public SceneToExport[] GetAllOpenScenes()
     {
         int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCount;
@@ -95,9 +90,4 @@ public class SelectScenes
         EditorBuildSettings.scenes = newBuildScenes;
     }
 
-    // Opens ExportScenesWindow window.
-    public void SelectScenesToExport()
-    {
-        CustomBuildWindow.CreateCustomBuildWindow();
-    }
 }

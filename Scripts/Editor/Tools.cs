@@ -38,10 +38,10 @@ public class Tools
                 // to maintain the same format (we assume that
                 // only exists one 'command / definition' per line)
                 int tabsNum = 0;
-                while (Char.IsWhiteSpace(fileLines[i][tabsNum++]));
+                while (Char.IsWhiteSpace(fileLines[i][tabsNum++])) {}
 
                 fileLines[i] = String.Concat(
-                                    fileLines[i].Substring(0, tabsNum),
+                                    fileLines[i].Substring(0, tabsNum - 1),
                                     newLine);
                 
                 linesChanged++;
@@ -88,7 +88,16 @@ public class Tools
         fileWriter.Close();
     }
 
-    public static string GetProjectPath()
+    public static string SelectPath()
+    {
+        return EditorUtility.SaveFolderPanel(
+            "Save Android Project to folder",
+            "",
+            ""
+        );
+    }
+
+    public static string GetUnityProjectPath()
     {
         string projPath = Application.dataPath;
 
@@ -99,17 +108,16 @@ public class Tools
     }
 
     // If folder already exists in the chosen directory delete it.
-    public void DeleteIfFolderAlreadyExists(string path)
+    public static void DeleteIfFolderAlreadyExists(string path, 
+                                                   string folderName)
     {
         string[] folders = Directory.GetDirectories(path);
 
         for (int i = 0; i < folders.Length; i++)
         {
-            if ((new DirectoryInfo(folders[i]).Name) == 
-                PlayerSettings.productName
-               )
+            if ((new DirectoryInfo(folders[i]).Name).Equals(folderName))
             {
-                System.IO.DirectoryInfo di = new DirectoryInfo(folders[i]);
+                DirectoryInfo di = new DirectoryInfo(folders[i]);
 
                 foreach (FileInfo file in di.GetFiles())
                 {

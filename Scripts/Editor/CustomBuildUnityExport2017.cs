@@ -2,16 +2,28 @@ using UnityEditor;
 
 public class CustomBuildUnityExport2017 : CustomBuildUnityExport
 {
-    internal override void UnityExport(string[] scenesPath, 
-                                         string target_dir, 
-                                         BuildTarget build_target, 
-                                         BuildOptions build_options)
+    protected BuildTargetGroup buildTargetGroup;
+
+    public CustomBuildUnityExport2017(BuildTarget bT, BuildOptions bO,
+                                      BuildTargetGroup bG,
+                                      ICustomBuildTarget target)
+        : base(bT, bO, target)
     {
-        EditorUserBuildSettings.SwitchActiveBuildTarget(
-            BuildTargetGroup.Android, BuildTarget.Android);
+        buildTargetGroup = bG;
+    }
+
+    internal override void UnityExport(BuildStage stage, string[] scenesPath,
+                                       out string projPath)
+    {
+        platformTarget.RunAditionalSteps();
+        string containerPath = SelectProjectPath(PlayerSettings.productName);
+        projPath = containerPath + "/" + PlayerSettings.productName;
+
+        EditorUserBuildSettings.SwitchActiveBuildTarget(buildTargetGroup,
+                                                        buildTarget);
 
         string s = BuildPipeline.BuildPlayer(
-            scenesPath, target_dir, build_target, build_options);
+            scenesPath, containerPath, buildTarget, buildOptions);
 
         // If Export is done succesfully s is: "".
         if (!s.Equals(""))

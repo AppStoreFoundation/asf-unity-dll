@@ -92,3 +92,29 @@ public class ExportProjectFailedException : CustomBuildException
     {
     }
 }
+
+public class TerminalProcessFailedException : CustomBuildException
+{
+    const string _message = "Terminal process failed (See Unity Log window" +
+        "or the file {$Unity_Project_Path}/Assets/AppcoinsUnity/Tools/" +
+        "ProcessError.out for more informations.";
+
+    public TerminalProcessFailedException() : base(_message)
+    {
+    }
+
+    public TerminalProcessFailedException(string new_message)
+        : base(new_message)
+    {
+    }
+
+    public TerminalProcessFailedException(Exception inner)
+        : base(_message, inner)
+    {
+    }
+
+    public TerminalProcessFailedException(string new_message,
+        Exception inner) : base(new_message, inner)
+    {
+    }
+}

@@ -11,23 +11,21 @@ public class CustomBuildAdbProjectRun : CustomBuildProjectRun
         terminal = Tools.GetTerminalByOS();
     }
 
-    private string GetAdbRunArgs()
+    private void GetAdbRunArgs(out string adbOptions, out string adbArgs)
     {
-        return "shell am start -n '" +
-                PlayerSettings.applicationIdentifier + "/" +
-                CustomBuild.mainActivityPath + "'";
+        adbOptions = "shell am start -n";
+        adbArgs = EditorPrefs.GetString("appcoins_main_activity_path", "");
     }
 
-    internal override void ProjectRun(BuildStage stage, string path)
+    internal override void RunProject(BuildStage stage, string projPath)
     {
 
         string command = Tools.FixAppPath(
             EditorPrefs.GetString("appcoins_adb_path", ""),
             "adb");
 
-        string adbArgs = GetAdbRunArgs();
-        string cmdPath = "'" + path + "'";
-
-        terminal.RunCommand(stage, command, adbArgs, cmdPath, false);
+        GetAdbRunArgs(out string adbOptions, out string adbArgs);
+        terminal.RunCommand(stage, command, adbOptions, adbArgs, projPath, 
+                            false);
     }
 }

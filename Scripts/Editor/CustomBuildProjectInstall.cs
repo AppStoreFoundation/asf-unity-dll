@@ -1,4 +1,4 @@
 public abstract class CustomBuildProjectInstall
 {
-    internal abstract void ProjectInstall(BuildStage stage, string path);
+    internal abstract void InstallProject(BuildStage stage, string projPath);
 }

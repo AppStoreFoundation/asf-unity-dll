@@ -65,20 +65,11 @@
     <Compile Include="..\Scripts\Editor\AppCoinsProductEditor.cs">
       <Link>AppCoinsProductEditor.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\Editor\CustomBuild5_6.cs">
-      <Link>CustomBuild5_6.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\Editor\CustomBuild.cs">
       <Link>CustomBuild.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\Editor\CustomBuildAndroid.cs">
-      <Link>CustomBuildAndroid.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\Editor\CustomBuildErrors.cs">
       <Link>CustomBuildErrors.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\Editor\CustomBuildErrorWindow.cs">
-      <Link>CustomBuildErrorWindow.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\Editor\CustomBuildWindow.cs">
       <Link>CustomBuildWindow.cs</Link>
@@ -119,15 +110,6 @@
     <Compile Include="..\Scripts\Editor\CustomBuildUnityExport5_6.cs">
       <Link>CustomBuildUnityExport5_6.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\Editor\ConfigureTerminal.cs">
-      <Link>ConfigureTerminal.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\Editor\IConfigureTerminal.cs">
-      <Link>IConfigureTerminal.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\Editor\CustomBuildPrefs.cs">
-      <Link>CustomBuildPrefs.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\Editor\CustomBuildAdbProjectInstall.cs">
       <Link>CustomBuildAdbProjectInstall.cs</Link>
     </Compile>
@@ -136,6 +118,21 @@
     </Compile>
     <Compile Include="..\Scripts\BashUtils.cs">
       <Link>BashUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAndroidSetupEnv.cs">
+      <Link>CustomBuildAndroidSetupEnv.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildSetupEnv.cs">
+      <Link>CustomBuildSetupEnv.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\ICustomBuildTarget.cs">
+      <Link>ICustomBuildTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildTargetAndroid.cs">
+      <Link>CustomBuildTargetAndroid.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildMenuItem5_6.cs">
+      <Link>CustomBuildMenuItem5_6.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

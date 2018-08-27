@@ -11,34 +11,31 @@ public class CustomBuildAdbProjectInstall : CustomBuildProjectInstall
         terminal = Tools.GetTerminalByOS();
     }
 
-    private string GetAdbInstallArgs()
+    private void GetAdbInstallArgs(out string adbOptions, out string adbArgs)
     {
-        string adbArgs = "";
+        adbOptions = "-d install -r";
 
-        if (CustomBuild.buildRelease)
+        if (EditorPrefs.GetBool("appcoins_build_release", false))
         {
-            adbArgs = "-d install -r './build/outputs/apk/release/" +
-                       PlayerSettings.productName + "-release.apk'";
+            adbArgs = "./build/outputs/apk/release/" +
+                       PlayerSettings.productName + "-release.apk";
         }
 
         else
         {
-            adbArgs = "-d install -r './build/outputs/apk/debug/" +
-                       PlayerSettings.productName + "-debug.apk'";
+            adbArgs = "./build/outputs/apk/debug/" +
+                       PlayerSettings.productName + "-debug.apk";
         }
-
-        return adbArgs;
     }
 
-    internal override void ProjectInstall(BuildStage stage, string path)
+    internal override void InstallProject(BuildStage stage, string projPath)
     {
         string command = Tools.FixAppPath(
             EditorPrefs.GetString("appcoins_adb_path", ""), 
             "adb");
-        
-        string adbArgs = GetAdbInstallArgs();
-        string cmdPath = "'" + path + "'";
 
-        terminal.RunCommand(stage, command, adbArgs, cmdPath, false);
+        GetAdbInstallArgs(out string adbOptions, out string adbArgs);
+        terminal.RunCommand(stage, command, adbOptions, adbArgs, projPath, 
+                            false);
     }
 }

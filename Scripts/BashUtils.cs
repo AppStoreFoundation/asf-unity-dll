@@ -33,21 +33,24 @@ namespace Aptoide.AppcoinsUnity
             return processInfo;
         }
 
-        public virtual void RunCommand(BuildStage stage, string cmd, string cmdArgs, string path, bool debugMode, System.Action<int> onDoneCallback)
-        {
-        }
+        public abstract void RunCommand(BuildStage stage, string cmd, string cmdOptions, string cmdArgs, string path, bool debugMode);
 
-        public void RunTerminalCommand(BuildStage stage, string terminalPath, string cmd, string cmdArgs, bool debugMode, System.Action<int> onDoneCallback)
+        public void RunTerminalCommand(BuildStage stage, string terminalPath, string cmd, string cmdOptions, string cmdArgs, bool debugMode)
         {
-            RunCommand(stage, cmd, cmdArgs, ".", debugMode, onDoneCallback);
+            RunCommand(stage, cmd, "", cmdArgs, ".", debugMode);
         }
     }
 
     public class Bash : Terminal
     {
-        private void RunBashCommand(string terminalPath, BuildStage stage, string cmd, string cmdArgs, string path, bool debugMode, System.Action<int> onDoneCallback)
+        private void RunBashCommand(string terminalPath, BuildStage stage, string cmd, string cmdOptions, string cmdArgs, string path, bool debugMode)
         {
             bool GUI = false;
+
+            cmd = "'" + cmd + "'";
+            cmdArgs = cmdOptions.Equals("") ? "'" + cmdArgs + "'" : cmdOptions + " '" + cmdArgs + "'";
+
+            path = "'" + path + "'";
 
             ProcessStartInfo processInfo = InitializeProcessInfo(terminalPath);
             processInfo.CreateNoWindow = false;
@@ -90,11 +93,13 @@ namespace Aptoide.AppcoinsUnity
                 newProcess.Kill();
             }
 
-            int retCode = ((ProcessFailed() == true) ? -1 : 0);
-            onDoneCallback.Invoke(retCode);
+            if (ProcessFailed() == true)
+            {
+                throw new TerminalProcessFailedException();
+            }
         }
 
-        public override void RunCommand(BuildStage stage, string cmd, string cmdArgs, string path, bool debugMode, System.Action<int> onDoneCallback)
+        public override void RunCommand(BuildStage stage, string cmd, string cmdOptions, string cmdArgs, string path, bool debugMode)
         {
             string terminalPath = null;
             int version = -1;
@@ -110,7 +115,7 @@ namespace Aptoide.AppcoinsUnity
                 terminalPath = "/bin/bash";
             }
 
-            RunBashCommand(terminalPath, stage, cmd, cmdArgs, path, debugMode, onDoneCallback);
+            RunBashCommand(terminalPath, stage, cmd, cmdOptions, cmdArgs, path, debugMode);
         }
 
         //This creates a bash file that gets executed in the specified path
@@ -188,11 +193,12 @@ namespace Aptoide.AppcoinsUnity
         protected static string TERMINAL_PATH = "cmd.exe";
         private static bool NO_GUI = false;
 
-        public override void RunCommand(BuildStage stage, string cmd, string cmdArgs, string path, bool debugMode, System.Action<int> onDoneCallback)
+        public override void RunCommand(BuildStage stage, string cmd, string cmdOptions, string cmdArgs, string path, bool debugMode)
         {
-            cmd = cmd.Replace("'", "\"");
-            cmdArgs = cmdArgs.Replace("'", "\"");
-            path = path.Replace("'", "\"");
+            cmd = "\"" + cmd + "\"";
+            cmdArgs = cmdOptions.Equals("") ? "'" + cmdArgs + "'" : cmdOptions + " '" + cmdArgs + "'";
+
+            path = "\"" + path + "\"";
 
             CreateBatchFileToExecuteCommand(stage, cmd, cmdArgs, debugMode, path);
 
@@ -224,8 +230,10 @@ namespace Aptoide.AppcoinsUnity
                 newProcess.Kill();
             }
 
-            int retCode = ((ProcessFailed() == true) ? -1 : 0);
-            onDoneCallback.Invoke(retCode);
+            if (ProcessFailed() == true)
+            {
+                throw new TerminalProcessFailedException();
+            }
         }
 
         private void CreateBatchFileToExecuteCommand(BuildStage stage, string cmd, string cmdArgs, bool debugMode, string path)

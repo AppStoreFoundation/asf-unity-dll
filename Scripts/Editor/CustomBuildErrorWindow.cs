@@ -1,33 +1,57 @@
 using UnityEditor;
-using unityEngine;
+using UnityEngine;
+
+using System;
 
 public class CustomBuildErrorWindow : EditorWindow
 {
-    public static CustomBuildWindow instance;
+    protected static CustomBuildErrorWindow instance;
+    protected CustomBuildErrorWindow innerInstance;
+    protected BuildStage[] allStages = {BuildStage.UNITY_EXPORT,
+        BuildStage.PROJECT_BUILD, BuildStage.PROJECT_INSTALL,
+        BuildStage.PROJECT_RUN};
+
+    protected BuildStage failStage;
+    protected Exception error;
+
     public Vector2 scrollViewVector = Vector2.zero;
-    private static bool[] _errors = null;
-    private static const string[] _errorsTitles = {
+
+    protected internal BuildStage stage;
+
+    private static string[] _errorsTitles = {
         "Export Unity Project: ",
         "(Gradle) Build Exported Project: ",
         "(ADB) Install .apk to device: ",
         "(ADB) Run .apk in the device: "
-    }
+    };
 
     //Create the custom Editor Window
-    public static void CreateCustomBuildErrorWindow(bool[] errors)
+    public static void CreateCustomBuildErrorWindow(BuildStage fStage, 
+                                                    Exception e)
     {
-        CustomBuildWindow.instance = (CustomBuildWindow)EditorWindow.GetWindowWithRect(
-            typeof(CustomBuildWindow),
-            new Rect(0, 0, 600, 500),
-            true,
-            "Custom Build Errors"
-        );
+        CustomBuildErrorWindow.instance = (CustomBuildErrorWindow)
+            EditorWindow.GetWindowWithRect(
+                typeof(CustomBuildErrorWindow),
+                new Rect(0, 0, 600, 500),
+                true,
+                "Custom Build Errors"
+            );
 
+        instance.failStage = fStage;
+        instance.error = e;
         instance.minSize = new Vector2(600, 500);
         instance.autoRepaintOnSceneChange = true;
         instance.Show();
+    }
 
-        _errors = errors;
+    public void SetFailedBuildStage(BuildStage fStage)
+    {
+        failStage = fStage;
+    }
+
+    public void SetException(Exception e)
+    {
+        error = e;
     }
 
     public void OnInspectorUpdate()
@@ -38,18 +62,51 @@ public class CustomBuildErrorWindow : EditorWindow
 
     void OnGUI()
     {
-        int height = 10;
-        int i = 0;
+        ErrorGUI();
+    }
 
-        while (_errors[i] == true && i < _errors.Length)
+    protected virtual void ErrorGUI()
+    {
+        Texture2D success;
+        Texture2D fail;
+
+        int height = 10;
+        int failStageIndex = ArrayUtility.IndexOf<BuildStage>(allStages,
+                                                              failStage);
+
+        int i = 0;
+        while (i < allStages.Length)
         {
             GUI.Label(new Rect(5, height, 590, 20), _errorsTitles[i]);
+
+            if (i < failStageIndex)
+            {
+                success = (Texture2D)Resources.Load(
+                    "/Assets/AppcoinsUnity/icons/false.png", 
+                    typeof(Texture2D)
+                );
+
+                GUI.DrawTexture(new Rect(5, height, 40, 40), success);
+            }
+
+            else
+            {
+                fail = (Texture2D)Resources.Load(
+                    "/Assets/AppcoinsUnity/icons/false.png", 
+                    typeof(Texture2D)
+                );
+
+                GUI.DrawTexture(new Rect(5, height, 40, 40), fail);
+            }
+
             height += 10;
         }
 
-        if (CustomBuild.gradlePath != "" && GUI.Button(new Rect(530, 470, 60, 20), "Confirm"))
+        GUI.Label(new Rect(10, height, 590, height + 200), error.Message);
+
+        if (GUI.Button(new Rect(530, 470, 60, 20), "Got it"))
         {
             this.Close();
         }
-    } 
+    }
 }

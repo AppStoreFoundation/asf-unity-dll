@@ -81,8 +81,8 @@ public class CustomBuildAndroid : CustomBuild
 
     protected override void BuildProject(string projPath)
     {
-        expProjPath = buildPath + "/" + 
-        Tools.WriteToFile()
+        expProjPath = buildPath + "/" +
+            Tools.WriteToFile();
     }
 
     protected override void InstallProject(string projPath)
