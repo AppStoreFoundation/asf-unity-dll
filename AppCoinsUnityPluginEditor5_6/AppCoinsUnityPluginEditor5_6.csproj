@@ -134,6 +134,15 @@
     <Compile Include="..\Scripts\Editor\CustomBuildMenuItem5_6.cs">
       <Link>CustomBuildMenuItem5_6.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrorWindow.cs">
+      <Link>CustomBuildErrorWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAndroidErrorTitles.cs">
+      <Link>CustomBuildAndroidErrorTitles.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrorTitles.cs">
+      <Link>CustomBuildErrorTitles.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj">

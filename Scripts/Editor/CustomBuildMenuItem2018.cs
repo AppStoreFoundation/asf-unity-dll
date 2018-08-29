@@ -1,4 +1,7 @@
 using UnityEditor;
+using UnityEngine;
+
+using System;
 
 public static class CustomBuildMenuItem
 {
@@ -6,7 +9,9 @@ public static class CustomBuildMenuItem
     public static void AndroidCustomBuild()
     {
         CustomBuildSetupEnv customBuildSetup = new CustomBuildAndroidSetupEnv();
-        CustomBuildWindow customBuildWindow = new AndroidCustomBuildWindow();
+        CustomBuildWindow customBuildWindow = 
+            ScriptableObject.CreateInstance<AndroidCustomBuildWindow>();
+
         CustomBuildUnityExport customBuildUnityExport =
             GetCustomBuildUnityExport2018();
 
@@ -19,11 +24,14 @@ public static class CustomBuildMenuItem
         CustomBuildProjectRun customBuildProjectRun = 
             new CustomBuildAdbProjectRun();
 
+        CustomBuildErrorTitles eT = new CustomBuildAndroidErrorTitles();
+
         CustomBuild c = new CustomBuild(customBuildSetup, customBuildWindow,
                                         customBuildUnityExport,
                                         customBuildProjectBuild,
                                         customBuildProjectInstall,
-                                        customBuildProjectRun
+                                        customBuildProjectRun,
+                                        eT
                                        );
         c.RunProcess();
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using UnityEditor;
+using UnityEngine.Events;
 
 using System;
 
@@ -26,6 +27,8 @@ public class CustomBuild
     private CustomBuildProjectInstall customBuildProjectInstall;
     private CustomBuildProjectRun customBuildProjectRun;
 
+    private CustomBuildErrorTitles errorTitles;
+
     private UnityEvent idleClosed;
 
     public BuildStage stage;
@@ -34,7 +37,9 @@ public class CustomBuild
                        CustomBuildUnityExport unityExport, 
                        CustomBuildProjectBuild projectBuild,
                        CustomBuildProjectInstall projectInstall,
-                       CustomBuildProjectRun projectRun)
+                       CustomBuildProjectRun projectRun,
+                       CustomBuildErrorTitles eT
+                      )
     {
         scenesSelector = new SelectScenes();
 
@@ -44,6 +49,8 @@ public class CustomBuild
         customBuildProjectBuild = projectBuild;
         customBuildProjectInstall = projectInstall;
         customBuildProjectRun = projectRun;
+
+        errorTitles = eT;
 
         idleClosed = new UnityEvent();
     }
@@ -73,32 +80,28 @@ public class CustomBuild
 
     public virtual void RunInstalationProcess()
     {
+        errorTitles.SetErrorTitles();
+
         try
         {
             // Phase 3: Export Unity Project
             StateUnityExport();
             customBuildUnityExport.UnityExport(stage, scenesPath, out projPath);
         }
-        catch (ExportProjectPathIsEqualToUnityProjectPathException)
+        catch (ExportProjectPathIsEqualToUnityProjectPathException e)
         {
-            CustomBuildErrorWindow.CreateCustomBuildErrorWindow(
-                stage,
-                new ExportProjectPathIsEqualToUnityProjectPathException()
-            );
+            HandleExceptions(e);
+            return;
         }
-        catch (ExportProjectPathIsNullException)
+        catch (ExportProjectPathIsNullException e)
         {
-            CustomBuildErrorWindow.CreateCustomBuildErrorWindow(
-                stage,
-                new ExportProjectPathIsNullException()
-            );
+            HandleExceptions(e);
+            return;
         }
-        catch (ExportProjectFailedException)
+        catch (ExportProjectFailedException e)
         {
-            CustomBuildErrorWindow.CreateCustomBuildErrorWindow(
-                stage,
-                new ExportProjectFailedException()
-            );
+            HandleExceptions(e);
+            return;
         }
 
         try
@@ -106,22 +109,43 @@ public class CustomBuild
             // Phase 5: Build Exported Project
             StateProjectBuild();
             customBuildProjectBuild.BuildProject(stage, projPath);
+        }
+        catch (TerminalProcessFailedException e)
+        {
+            HandleExceptions(e);
+            return;
+        }
 
+        try
+        {
             // Phase 6: Intall apk
             StateProjectInstall();
             customBuildProjectInstall.InstallProject(stage, projPath);
+        }
+        catch (TerminalProcessFailedException e)
+        {
+            HandleExceptions(e);
+            return;
+        }
 
+        try
+        {
             // Phase 7: Run apk
             StateProjectRun();
             customBuildProjectRun.RunProject(stage, projPath);
         }
-        catch (TerminalProcessFailedException)
+        catch (TerminalProcessFailedException e)
         {
-            CustomBuildErrorWindow.CreateCustomBuildErrorWindow(
-                stage,
-                new TerminalProcessFailedException()
-            );
+            HandleExceptions(e);
+            return;
         }
+    }
+
+    private void HandleExceptions(Exception e)
+    {
+        EditorPrefs.SetInt("appcoins_error_stage", (int)stage);
+        EditorPrefs.SetString("appcoins_error_message", e.Message);
+        CustomBuildErrorWindow.CreateCustomBuildErrorWindow();
     }
 
     #region State Handling

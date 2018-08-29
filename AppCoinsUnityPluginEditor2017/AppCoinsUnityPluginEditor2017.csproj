@@ -137,6 +137,15 @@
     <Compile Include="..\Scripts\Editor\CustomBuildMenuItem2017.cs">
       <Link>CustomBuildMenuItem2017.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildAndroidErrorTitles.cs">
+      <Link>CustomBuildAndroidErrorTitles.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrorTitles.cs">
+      <Link>CustomBuildErrorTitles.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Editor\CustomBuildErrorWindow.cs">
+      <Link>CustomBuildErrorWindow.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

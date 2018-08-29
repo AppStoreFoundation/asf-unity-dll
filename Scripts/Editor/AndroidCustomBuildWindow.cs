@@ -154,8 +154,8 @@ public class AndroidCustomBuildWindow : CustomBuildWindow
            )
         {
             SetCustomBuildPrefs();
-            instance.unityEvent.Invoke();
             instance.Close();
+            instance.unityEvent.Invoke();
         }
     }
 
