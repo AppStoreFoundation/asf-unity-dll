@@ -73,7 +73,7 @@ public class CustomBuildErrorWindow : EditorWindow
 
     protected virtual void ErrorGUI(BuildStage[] allStages)
     {
-        float constMul = 5.8F;
+        float constMul = 6.8F;
         Texture2D success;
         Texture2D fail;
 

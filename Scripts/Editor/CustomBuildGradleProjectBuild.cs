@@ -67,7 +67,7 @@ public class CustomBuildGradleProjectBuild : CustomBuildProjectBuild
         TurnGradleIntoExe(stage, command);
 
         string gradleArgs = GetGradleArgs();
-        terminal.RunCommand(stage, command, "", gradleArgs, projPath, 
+        terminal.RunCommand(stage, command, gradleArgs, "", projPath, 
                             gradleDebugMode);
 
         ChangeGradleMem(projPath);

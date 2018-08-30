@@ -139,6 +139,9 @@ public class CustomBuild
             HandleExceptions(e);
             return;
         }
+
+        EditorUtility.DisplayDialog("Custom Build", "Custom Build Completed" +
+                                    "whitout any errors", "OK");
     }
 
     private void HandleExceptions(Exception e)

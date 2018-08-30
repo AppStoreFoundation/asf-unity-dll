@@ -48,7 +48,16 @@ namespace Aptoide.AppcoinsUnity
             bool GUI = false;
 
             cmd = "'" + cmd + "'";
-            cmdArgs = cmdOptions.Equals("") ? "'" + cmdArgs + "'" : cmdOptions + " '" + cmdArgs + "'";
+
+            if (cmdArgs.Equals(""))
+            {
+                cmdArgs = cmdOptions;
+            }
+
+            else
+            {
+                cmdArgs = cmdOptions.Equals("") ? "'" + cmdArgs + "'" : cmdOptions + " '" + cmdArgs + "'";
+            }
 
             path = "'" + path + "'";
 
@@ -196,7 +205,16 @@ namespace Aptoide.AppcoinsUnity
         public override void RunCommand(BuildStage stage, string cmd, string cmdOptions, string cmdArgs, string path, bool debugMode)
         {
             cmd = "\"" + cmd + "\"";
-            cmdArgs = cmdOptions.Equals("") ? "'" + cmdArgs + "'" : cmdOptions + " '" + cmdArgs + "'";
+
+            if (cmdArgs.Equals(""))
+            {
+                cmdArgs = cmdOptions;
+            }
+
+            else
+            {
+                cmdArgs = cmdOptions.Equals("") ? "\"" + cmdArgs + "\"" : cmdOptions + " \"" + cmdArgs + "\"";
+            }
 
             path = "\"" + path + "\"";
 
@@ -206,11 +224,7 @@ namespace Aptoide.AppcoinsUnity
             processInfo.CreateNoWindow = NO_GUI;
             processInfo.UseShellExecute = true;
 
-            processInfo.Arguments = "/c '" + Application.dataPath + "\\AppcoinsUnity\\Tools\\BashCommand.bat'";
-
-            // Replace string from bash fromat to cmd format
-            processInfo.Arguments = processInfo.Arguments.Replace("\"", "");
-            processInfo.Arguments = processInfo.Arguments.Replace("'", "\"");
+            processInfo.Arguments = "/c \"" + Application.dataPath + "\\AppcoinsUnity\\Tools\\BashCommand.bat\"";
 
             Process newProcess = Process.Start(processInfo);
 
