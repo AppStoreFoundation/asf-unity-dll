@@ -1,7 +1,5 @@
 using UnityEditor;
 
-using Aptoide.AppcoinsUnity;
-
 public class CustomBuildAdbProjectInstall : CustomBuildProjectInstall
 {
     private Terminal terminal;

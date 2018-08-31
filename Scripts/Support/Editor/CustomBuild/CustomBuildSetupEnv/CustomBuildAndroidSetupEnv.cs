@@ -1,17 +1,12 @@
 using UnityEditor;
 
-using Aptoide.AppcoinsUnity;
-
 public class CustomBuildAndroidSetupEnv : CustomBuildSetupEnv
 {
     private const string defaultUnityPackage = "com.Company.ProductName";
 
-    internal override void Setup()
+    internal override void Setup(AppcoinsGameObject a)
     {
-        AppcoinsUnity appcoinsObj = AppcoinsChecks.ValidatePrefabName();
-
-        AppcoinsChecks.CheckSKUs(appcoinsObj.products);
-        AppcoinsChecks.CheckForRepeatedSkuId(appcoinsObj.products);
+        base.Setup(a);
 
         // Check if the active platform is Android. If it isn't change it
         if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)

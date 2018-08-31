@@ -1,8 +1,6 @@
 using UnityEditor;
 using UnityEngine;
 
-using Aptoide.AppcoinsUnity;
-
 public class CustomBuildGradleProjectBuild : CustomBuildProjectBuild
 {
     private string gradleMem = "1536";

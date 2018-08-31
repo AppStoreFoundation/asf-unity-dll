@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using Aptoide.AppcoinsUnity;
-
 public class Tools
 {
     // Change a line in a file as much times as specified. 

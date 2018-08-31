@@ -140,7 +140,7 @@ public class CustomBuild
             return;
         }
 
-        EditorUtility.DisplayDialog("Custom Build", "Custom Build Completed" +
+        EditorUtility.DisplayDialog("Custom Build", "Custom Build Completed " +
                                     "whitout any errors", "OK");
     }
 

@@ -65,18 +65,6 @@ namespace Aptoide.AppcoinsUnity
         // before the build process
         public static AppcoinsUnity ValidatePrefabName()
         {
-            var foundObjects = Resources.FindObjectsOfTypeAll<AppcoinsUnity>();
-
-            if (foundObjects.Length == 0)
-            {
-                UnityEngine.Debug.LogError("Found no object with component " +
-                                           "AppcoinsUnity! Are you using the " +
-                                           "prefab?");
-                return null;
-            }
-
-            AppcoinsUnity appCoinsPrefabObject = foundObjects[0];
-
             string line;
             ArrayList fileLines = new ArrayList();
 

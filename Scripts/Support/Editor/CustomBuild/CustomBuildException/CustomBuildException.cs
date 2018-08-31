@@ -119,3 +119,29 @@ public class TerminalProcessFailedException : CustomBuildException
     {
     }
 }
+
+public class ASFAppcoinsGameObjectNotFound : CustomBuildException
+{
+    const string _message = "ASFAppcoinsGameObject prefab not found at any" +
+        "open scene. You can find the prefab at {$unity_proj_path}/Assets" +
+        "/AppcoinsUnity/Prefabs/AppcoinsPurchasing.prefab";
+
+    public ASFAppcoinsGameObjectNotFound() : base(_message)
+    {
+    }
+
+    public ASFAppcoinsGameObjectNotFound(string new_message)
+        : base(new_message)
+    {
+    }
+
+    public ASFAppcoinsGameObjectNotFound(Exception inner)
+        : base(_message, inner)
+    {
+    }
+
+    public ASFAppcoinsGameObjectNotFound(string new_message,
+        Exception inner) : base(new_message, inner)
+    {
+    }
+}
