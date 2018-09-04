@@ -10,6 +10,7 @@ public static class CustomBuildMenuItem
     {
         CustomBuildSetupEnv customBuildSetup = 
             new CustomBuildAndroidSetupEnv(new ASFAppcoinsGameObject());
+
         CustomBuildWindow customBuildWindow = 
             ScriptableObject.CreateInstance<AndroidCustomBuildWindow>();
 

@@ -6,11 +6,35 @@ namespace Aptoide.AppcoinsUnity
 {
     public static class AppcoinsChecks
     {
-        public static APPCOINS_ERROR CheckSKUs(AppcoinsSku[] products)
+        public static void DefaultFullCheck(AppcoinsSku[] products)
+        {
+            try
+            {
+                CheckSKUs(products);
+                CheckForRepeatedSkuId(products);
+            }
+            catch (NoProductsException e)
+            {
+                AppcoinsErrorHandler.HandleError(e);
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            catch (NullProductException e)
+            {
+                AppcoinsErrorHandler.HandleError(e);
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            catch (RepeatedProductException e)
+            {
+                AppcoinsErrorHandler.HandleError(e);
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+        }
+
+        public static void CheckSKUs(AppcoinsSku[] products)
         {
             if (products.Length == 0)
             {
-                return APPCOINS_ERROR.NO_PRODUCTS;
+                throw new NoProductsException();
             }
 
             else
@@ -19,15 +43,13 @@ namespace Aptoide.AppcoinsUnity
                 {
                     if (products[i] == null)
                     {
-                        return APPCOINS_ERROR.PRODUCT_NULL;
+                        throw new NullProductException();
                     }
                 }
             }
-
-            return APPCOINS_ERROR.NONE;
         }
 
-        public static APPCOINS_ERROR CheckForRepeatedSkuId(
+        public static void CheckForRepeatedSkuId(
             AppcoinsSku[] products)
         {
             for (int i = 0; i < products.Length - 1; i++)
@@ -44,21 +66,19 @@ namespace Aptoide.AppcoinsUnity
                     {
                         if (currentProduct.SKUID.Equals(compareProduct.SKUID))
                         {
-                            return APPCOINS_ERROR.PRODUCT_REPEATED;
+                            throw new RepeatedProductException();
                         }
                     }
                 }
             }
-
-            return APPCOINS_ERROR.NONE;
         }
 
-        public static APPCOINS_ERROR CheckPoAActive(bool enablePOA)
+        public static bool CheckPoAActive(bool enablePOA)
         {
             if (enablePOA)
-                return APPCOINS_ERROR.POA_ENABLED;
+                return true;
 
-            return APPCOINS_ERROR.NONE;
+            return false;
         }
     }
 }
