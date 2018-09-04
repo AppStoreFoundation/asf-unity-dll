@@ -14,10 +14,18 @@ public class Startup
 
     static Startup()
     {
+        CheckMinSdkVersion();
         CheckMainTemplateGradle();
         Debug.Log("Successfully integrated Appcoins Unity plugin!");
     }
-    
+
+    private static void CheckMinSdkVersion()
+    {
+        //Check if min sdk version is lower than 21. If it is, set it to 21
+        if (PlayerSettings.Android.minSdkVersion < AndroidSdkVersions.AndroidApiLevel21)
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel21;
+    }
+
     private static void CheckMainTemplateGradle()
     {
         if(File.Exists(currentMainTemplate))
