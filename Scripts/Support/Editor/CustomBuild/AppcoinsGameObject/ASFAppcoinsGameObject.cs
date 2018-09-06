@@ -17,11 +17,6 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
     private const string appcoinsNameNewLine = "resValue \"string\", " +
         "\"APPCOINS_PREFAB\", \"{0}\"";
 
-    public ASFAppcoinsGameObject()
-    {
-        FindAppcoinsGameObject();
-    }
-
     private void FindAppcoinsGameObject()
     {
         AppcoinsUnity[] foundObjects = (AppcoinsUnity[])
@@ -29,7 +24,7 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
 
         if (foundObjects.Length == 0)
         {
-            throw new ASFAppcoinsGameObjectNotFound();
+            throw new Exception(new ASFAppcoinsGameObjectNotFound().message);
         }
 
         asfGameObject = foundObjects[0];
@@ -37,6 +32,8 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
 
     public override void CheckAppcoinsGameobject()
     {
+        FindAppcoinsGameObject();
+
         //  Change Appcoins prefab name in mainTempla.gradle
         string newNameLine = 
             appcoinsNameNewLine.Replace(toReplace, 
@@ -66,12 +63,10 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
         }
         catch (NoProductsException e)
         {
-            Debug.Log(e.message);
             throw new Exception(e.message);
         }
         catch (NullProductException e)
         {
-            Debug.Log(e.message);
             throw new Exception(e.message);
         }
         catch (RepeatedProductException e)

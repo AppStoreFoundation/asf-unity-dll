@@ -8,6 +8,10 @@ namespace Aptoide.AppcoinsUnity
     {
         public static void DefaultFullCheck(AppcoinsSku[] products)
         {
+            MessageHandler messageHandler = new DisplayDialogMessageHandler();
+            string ok = "ok";
+            string title = "AppCoins Checker";
+
             try
             {
                 CheckSKUs(products);
@@ -15,17 +19,17 @@ namespace Aptoide.AppcoinsUnity
             }
             catch (NoProductsException e)
             {
-                AppcoinsErrorHandler.HandleError(e);
+                messageHandler.HandleMessage(title, e.message, ok);
                 UnityEditor.EditorApplication.isPlaying = false;
             }
             catch (NullProductException e)
             {
-                AppcoinsErrorHandler.HandleError(e);
+                messageHandler.HandleMessage(title, e.message, ok);
                 UnityEditor.EditorApplication.isPlaying = false;
             }
             catch (RepeatedProductException e)
             {
-                AppcoinsErrorHandler.HandleError(e);
+                messageHandler.HandleMessage(title, e.message, ok);
                 UnityEditor.EditorApplication.isPlaying = false;
             }
         }

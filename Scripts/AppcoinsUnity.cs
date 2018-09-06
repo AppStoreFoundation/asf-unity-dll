@@ -10,16 +10,10 @@ using UnityEngine.Events;
 
 namespace Aptoide.AppcoinsUnity
 {
-
-    public class StartPurchaseEvent : UnityEvent<string>
-    {
-
-    }
+    public class StartPurchaseEvent : UnityEvent<string> {}
 
     public class AppcoinsUnity : MonoBehaviour
     {
-        public StartPurchaseEvent onStartPurchase;
-
         public static string POA = "POA";
         public static string DEBUG = "DEBUG";
         public static string APPCOINS_PREFAB = "APPCOINS_PREFAB";
@@ -38,14 +32,20 @@ namespace Aptoide.AppcoinsUnity
         public AppcoinsPurchaser purchaserObject;
 
         AndroidJavaClass _class;
-        AndroidJavaObject instance { get { return _class.GetStatic<AndroidJavaObject>("instance"); } }
+        AndroidJavaObject instance { get { 
+                return _class.GetStatic<AndroidJavaObject>("instance"); 
+            } }
+
+        public StartPurchaseEvent purchaseEvent;
 
         private void Awake()
         {
             purchaserObject.Init(this);
-            onStartPurchase = new StartPurchaseEvent();
 
             DontDestroyOnLoad(this.gameObject);
+
+            // Run AppcoinsChecks in Editor Mode
+            purchaseEvent = new StartPurchaseEvent();
         }
 
         // Use this for initialization
@@ -54,7 +54,8 @@ namespace Aptoide.AppcoinsUnity
             if (!Application.isEditor)
             {
                 //get refference to java class
-                _class = new AndroidJavaClass("com.aptoide.appcoinsunity.UnityAppcoins");
+                _class = new AndroidJavaClass("com.aptoide.appcoinsunity." +
+                                              "UnityAppcoins");
 
                 //setup wallet address
                 _class.CallStatic("setAddress", receivingAddress);
@@ -79,7 +80,8 @@ namespace Aptoide.AppcoinsUnity
                 {
                     AppcoinsSku product = products[i];
                     if (product != null)
-                        _class.CallStatic("addNewSku", product.Name, product.SKUID, product.Price);
+                        _class.CallStatic("addNewSku", product.Name, 
+                                          product.SKUID, product.Price);
                 }
             }
         }
@@ -90,14 +92,18 @@ namespace Aptoide.AppcoinsUnity
         {
             if (!enableIAB)
             {
-                Debug.LogWarning("Tried to make a purchase but enableIAB is false! Please set it to true on AppcoinsUnity object before using this functionality");
+                Debug.LogWarning("Tried to make a purchase but enableIAB is " +
+                                 "false! Please set it to true on " +
+                                 "AppcoinsUnity object before using this " +
+                                 "functionality");
                 return;
             }
 
             if (Application.isEditor)
             {
-                onStartPurchase.Invoke(skuid);
+                purchaseEvent.Invoke(skuid);
             }
+
             else
             {
                 _class.CallStatic("makePurchase", skuid);
@@ -109,7 +115,9 @@ namespace Aptoide.AppcoinsUnity
         {
             if (purchaserObject != null)
             {
-                Debug.Log("Going to call purchaseSuccess on purchaserObject skuid " + skuid);
+                Debug.Log("Going to call purchaseSuccess on purchaserObject " +
+                          "skuid " + skuid);
+
                 purchaserObject.purchaseSuccess(skuid);
             }
             else
@@ -123,7 +131,9 @@ namespace Aptoide.AppcoinsUnity
         {
             if (purchaserObject != null)
             {
-                Debug.Log("Going to call purchaseFailure on purchaserObject skuid " + skuid);
+                Debug.Log("Going to call purchaseFailure on purchaserObject " +
+                          "skuid " + skuid);
+
                 purchaserObject.purchaseFailure(skuid);
             }
             else

@@ -52,11 +52,11 @@
     <Reference Include="AppCoinsUnityPlugin2018">
       <HintPath>..\AppCoinsUnityPlugin2018\bin\Debug\AppCoinsUnityPlugin2018.dll</HintPath>
     </Reference>
-    <Reference Include="AppcoinsUnitySupport2018">
-      <HintPath>..\dependencies\2018\AppcoinsUnitySupport2018.dll</HintPath>
+    <Reference Include="AppCoinsUnitySupport2018">
+      <HintPath>..\dependencies\2018\AppCoinsUnitySupport2018.dll</HintPath>
     </Reference>
-    <Reference Include="AppCoinsUnityPluginTests2018">
-      <HintPath>..\AppCoinsUnityPluginTests2018\bin\Debug\AppCoinsUnityPluginTests2018.dll</HintPath>
+    <Reference Include="AppCoinsUnityPluginEditorMode2018">
+      <HintPath>..\AppCoinsUnityPluginTests2018\bin\Debug\AppCoinsUnityPluginEditorMode2018.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

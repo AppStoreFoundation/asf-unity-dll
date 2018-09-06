@@ -6,7 +6,7 @@
     <ProjectGuid>{D875E7E9-6906-4C17-9DD4-C4810A76A051}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>AppCoinsUnityPluginTests2018</RootNamespace>
-    <AssemblyName>AppCoinsUnityPluginTests2018</AssemblyName>
+    <AssemblyName>AppCoinsUnityPluginEditorMode2018</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,17 +37,17 @@
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\2018\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="AppcoinsUnitySupport2018">
+      <HintPath>..\dependencies\2018\AppcoinsUnitySupport2018.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Scripts\AppcoinsUnityTests.cs">
-      <Link>AppcoinsUnityTests.cs</Link>
+    <Compile Include="..\Scripts\AppcoinsUnityEditorMode.cs">
+      <Link>AppcoinsUnityEditorMode.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\AppcoinsChecks.cs">
       <Link>AppcoinsChecks.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsErrorHandler.cs">
-      <Link>AppcoinsErrorHandler.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

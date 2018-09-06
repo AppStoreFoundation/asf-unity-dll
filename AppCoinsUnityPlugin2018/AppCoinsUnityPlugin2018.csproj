@@ -34,6 +34,9 @@
     <Reference Include="UnityEditor">
       <HintPath>..\dependencies\2018\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="AppcoinsUnitySupport2018">
+      <HintPath>..\dependencies\2018\AppcoinsUnitySupport2018.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

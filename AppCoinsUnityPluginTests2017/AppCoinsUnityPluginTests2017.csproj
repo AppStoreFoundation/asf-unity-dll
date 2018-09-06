@@ -6,7 +6,7 @@
     <ProjectGuid>{FDDA0FC7-7FF2-4C40-B907-A89B8E2A981B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>AppCoinsUnityPluginTests2017</RootNamespace>
-    <AssemblyName>AppCoinsUnityPluginTests2017</AssemblyName>
+    <AssemblyName>AppCoinsUnityPluginEditorMode2017</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,17 +37,17 @@
     <Reference Include="AppCoinsUnityPlugin2017">
       <HintPath>..\AppCoinsUnityPlugin2017\bin\Debug\AppCoinsUnityPlugin2017.dll</HintPath>
     </Reference>
+    <Reference Include="AppcoinsUnitySupport2017">
+      <HintPath>..\dependencies\2017\AppcoinsUnitySupport2017.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Scripts\AppcoinsUnityTests.cs">
-      <Link>AppcoinsUnityTests.cs</Link>
+    <Compile Include="..\Scripts\AppcoinsUnityEditorMode.cs">
+      <Link>AppcoinsUnityEditorMode.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\AppcoinsChecks.cs">
       <Link>AppcoinsChecks.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsErrorHandler.cs">
-      <Link>AppcoinsErrorHandler.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

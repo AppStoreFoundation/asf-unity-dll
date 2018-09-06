@@ -53,11 +53,11 @@
     <Reference Include="AppCoinsUnityPlugin2017">
       <HintPath>..\AppCoinsUnityPlugin2017\bin\Debug\AppCoinsUnityPlugin2017.dll</HintPath>
     </Reference>
-    <Reference Include="AppcoinsUnitySupport2017">
-      <HintPath>..\dependencies\2017\AppcoinsUnitySupport2017.dll</HintPath>
+    <Reference Include="AppCoinsUnitySupport2017">
+      <HintPath>..\dependencies\2017\AppCoinsUnitySupport2017.dll</HintPath>
     </Reference>
-    <Reference Include="AppCoinsUnityPluginTests2017">
-      <HintPath>..\AppCoinsUnityPluginTests2017\bin\Debug\AppCoinsUnityPluginTests2017.dll</HintPath>
+    <Reference Include="AppCoinsUnityPluginEditorMode2017">
+      <HintPath>..\AppCoinsUnityPluginTests2017\bin\Debug\AppCoinsUnityPluginEditorMode2017.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
