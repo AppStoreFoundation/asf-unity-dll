@@ -2,16 +2,11 @@
 // Modified by Aptoide
 // Note: do not change anything here as it may break the workings of the plugin 
 // else you're very sure of what you're doing.
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Aptoide.AppcoinsUnity
 {
-    public class StartPurchaseEvent : UnityEvent<string> {}
-
     public class AppcoinsUnity : MonoBehaviour
     {
         public static string POA = "POA";
@@ -36,16 +31,12 @@ namespace Aptoide.AppcoinsUnity
                 return _class.GetStatic<AndroidJavaObject>("instance"); 
             } }
 
-        public StartPurchaseEvent purchaseEvent;
+        private AppcoinsUnityEditorMode appcoinsEditorMode;
 
         private void Awake()
         {
             purchaserObject.Init(this);
-
             DontDestroyOnLoad(this.gameObject);
-
-            // Run AppcoinsChecks in Editor Mode
-            purchaseEvent = new StartPurchaseEvent();
         }
 
         // Use this for initialization
@@ -68,6 +59,19 @@ namespace Aptoide.AppcoinsUnity
 
                 //start sdk
                 _class.CallStatic("start");
+
+                // MessageHandlerGUI is meant to just run in editor mode 
+                Destroy(GetComponent<MessageHandlerGUI>());
+            }
+
+            else
+            {
+                appcoinsEditorMode =
+                    new AppcoinsUnityEditorMode(
+                        this,
+                        GetComponent<MessageHandlerGUI>()
+                    );
+                appcoinsEditorMode.Start();
             }
         }
 
@@ -101,7 +105,7 @@ namespace Aptoide.AppcoinsUnity
 
             if (Application.isEditor)
             {
-                purchaseEvent.Invoke(skuid);
+                appcoinsEditorMode.MakePurchase(skuid);
             }
 
             else

@@ -13,12 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPlugin2017", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginEditor2017", "AppCoinsUnityPluginEditor2017\AppCoinsUnityPluginEditor2017.csproj", "{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginTests2017", "AppCoinsUnityPluginTests2017\AppCoinsUnityPluginTests2017.csproj", "{FDDA0FC7-7FF2-4C40-B907-A89B8E2A981B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginTests2018", "AppCoinsUnityPluginTests2018\AppCoinsUnityPluginTests2018.csproj", "{D875E7E9-6906-4C17-9DD4-C4810A76A051}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoinsUnityPluginTests5_6", "AppCoinsUnityPluginTests5_6\AppCoinsUnityPluginTests5_6.csproj", "{F8D2BBEB-3D70-4A95-A498-5C9B115DDB09}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,18 +43,6 @@ Global
 		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55211CDF-39D3-490E-BC3C-CA2F20DBE61B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDDA0FC7-7FF2-4C40-B907-A89B8E2A981B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDDA0FC7-7FF2-4C40-B907-A89B8E2A981B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDDA0FC7-7FF2-4C40-B907-A89B8E2A981B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDDA0FC7-7FF2-4C40-B907-A89B8E2A981B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D875E7E9-6906-4C17-9DD4-C4810A76A051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D875E7E9-6906-4C17-9DD4-C4810A76A051}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D875E7E9-6906-4C17-9DD4-C4810A76A051}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D875E7E9-6906-4C17-9DD4-C4810A76A051}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8D2BBEB-3D70-4A95-A498-5C9B115DDB09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8D2BBEB-3D70-4A95-A498-5C9B115DDB09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8D2BBEB-3D70-4A95-A498-5C9B115DDB09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8D2BBEB-3D70-4A95-A498-5C9B115DDB09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		outputpath = ../../AppcoinsUnityPlugin/Appcoins Unity/Assets/AppcoinsUnity/Scripts

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 namespace Aptoide.AppcoinsUnity
 {
@@ -8,10 +6,6 @@ namespace Aptoide.AppcoinsUnity
     {
         public static void DefaultFullCheck(AppcoinsSku[] products)
         {
-            MessageHandler messageHandler = new DisplayDialogMessageHandler();
-            string ok = "ok";
-            string title = "AppCoins Checker";
-
             try
             {
                 CheckSKUs(products);
@@ -19,18 +13,15 @@ namespace Aptoide.AppcoinsUnity
             }
             catch (NoProductsException e)
             {
-                messageHandler.HandleMessage(title, e.message, ok);
-                UnityEditor.EditorApplication.isPlaying = false;
+                throw new Exception(e.message);
             }
             catch (NullProductException e)
             {
-                messageHandler.HandleMessage(title, e.message, ok);
-                UnityEditor.EditorApplication.isPlaying = false;
+                throw new Exception(e.message);
             }
             catch (RepeatedProductException e)
             {
-                messageHandler.HandleMessage(title, e.message, ok);
-                UnityEditor.EditorApplication.isPlaying = false;
+                throw new Exception(e.message);
             }
         }
 

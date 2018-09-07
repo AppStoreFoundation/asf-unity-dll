@@ -2,15 +2,19 @@
 //Modified by Aptoide
 //Note: do not change anything here as it may break the workings of the plugin else you're very sure of what you're doing.
 
-using UnityEngine;
+using UnityEngine.Events;
+
+using System;
 
 namespace Aptoide.AppcoinsUnity
 {
 
-    public class AppcoinsUnityEditorMode : MonoBehaviour
+    public class AppcoinsUnityEditorMode
     {
         AppcoinsUnity appcoinsUnity;
-        MessageHandler messHandler;
+        MessageHandlerGUI messHandler;
+
+        string skuID;
 
         private const string title = "AppCoins Unity Integration";
         private const string ok = "Got it";
@@ -18,37 +22,67 @@ namespace Aptoide.AppcoinsUnity
         private const string testFail = "Test Failure";
 
         // Use this for initialization
-        private void Start()
+        internal AppcoinsUnityEditorMode(AppcoinsUnity a, MessageHandlerGUI mH)
         {
-            appcoinsUnity = GetComponent<AppcoinsUnity>();
-            messHandler = new DisplayDialogMessageHandler();
-            
-            appcoinsUnity.purchaseEvent.AddListener(MakePurchase);
+            appcoinsUnity = a;
+            messHandler = mH;
+            messHandler.ChangeTitle(title);
+        }
 
+        internal void Start()
+        {
             if (AppcoinsChecks.CheckPoAActive(appcoinsUnity.enablePOA))
             {
                 string mess = "PoA is enabled and should have started now";
-                messHandler.HandleMessage(title, mess, ok);
+                messHandler.ChangeContent(mess, ok, null);
+                messHandler.Enable();
             }
                 
-            AppcoinsChecks.DefaultFullCheck(appcoinsUnity.products);
+            try
+            {
+                AppcoinsChecks.DefaultFullCheck(appcoinsUnity.products);
+            }
+            catch (Exception e)
+            {
+                SetupMessHandler(e.Message, ok, null, StopEditor);
+            }
         }   
+
+        private void SetupMessHandler(string mess, string succ, string fail, 
+                                      UnityAction<bool> func)
+        {
+            messHandler.ChangeContent(mess, succ, fail);
+
+            if (func != null)
+            {
+                messHandler.prop.AddListener(func);
+            }
+
+            messHandler.Enable();
+        }
 
         //method used in making purchase
         internal void MakePurchase(string skuid)
         {
-            string mess = "AppCoins IAB Successfully integrated";
+            skuID = skuid;
 
-            if (messHandler.DualOptionWithMessage(title, mess, testFail, 
-                                                  testSuc)
-               )
+            string mess ="AppCoins IAB Successfully integrated";
+            SetupMessHandler(mess, testSuc, testFail, BeginPurchase);
+        }
+
+        internal void BeginPurchase(bool test)
+        {
+            if (test)
             {
-                purchaseSuccess(skuid);
+                purchaseSuccess(skuID);
             }
+
             else
             {
-                purchaseFailure(skuid);
+                purchaseFailure(skuID);
             }
+
+            messHandler.prop.RemoveListener(BeginPurchase);
         }
 
         //callback on successful purchases
@@ -57,7 +91,7 @@ namespace Aptoide.AppcoinsUnity
             string mess = "Purchase Success!";
 
             appcoinsUnity.purchaseSuccess(skuid);
-            messHandler.HandleMessage(title, mess, ok);
+            SetupMessHandler(mess, ok, null, null);
         }
 
         //callback on failed purchases
@@ -66,8 +100,13 @@ namespace Aptoide.AppcoinsUnity
             string mess = "Purchase Failed!";
 
             appcoinsUnity.purchaseFailure(skuid);
-            messHandler.HandleMessage(title, mess, ok);
+            SetupMessHandler(mess, ok, null, null);
         }
 
+        private void StopEditor(bool a)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+            messHandler.prop.RemoveListener(StopEditor);
+        }
     }
 } //namespace Aptoide.AppcoinsUnity

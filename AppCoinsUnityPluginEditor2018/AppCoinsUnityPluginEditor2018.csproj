@@ -55,9 +55,6 @@
     <Reference Include="AppCoinsUnitySupport2018">
       <HintPath>..\dependencies\2018\AppCoinsUnitySupport2018.dll</HintPath>
     </Reference>
-    <Reference Include="AppCoinsUnityPluginEditorMode2018">
-      <HintPath>..\AppCoinsUnityPluginTests2018\bin\Debug\AppCoinsUnityPluginEditorMode2018.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
