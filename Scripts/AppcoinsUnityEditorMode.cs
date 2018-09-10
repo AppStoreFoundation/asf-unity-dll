@@ -29,15 +29,45 @@ namespace Aptoide.AppcoinsUnity
             messHandler.ChangeTitle(title);
         }
 
-        internal void Start()
+        internal void Start(bool a)
         {
-            if (AppcoinsChecks.CheckPoAActive(appcoinsUnity.enablePOA))
+            CheckPurchaserObject();
+        }
+
+        private void CheckPurchaserObject()
+        {
+            if (appcoinsUnity.purchaserObject == null)
+            {
+                string mess = "ASFAppcoinsUnity purchaserObject is set to null";
+                SetupMessHandler(mess, ok, null, CheckPOA);
+            }
+
+            else
+            {
+                CheckPOA(false);
+            }
+        }
+
+        internal void CheckPOA(bool a)
+        {
+            messHandler.prop.RemoveAllListeners();
+
+            if (AppcoinsChecks.CheckPoAActive(appcoinsUnity))
             {
                 string mess = "PoA is enabled and should have started now";
-                messHandler.ChangeContent(mess, ok, null);
-                messHandler.Enable();
+                SetupMessHandler(mess, ok, null, CheckProducts);
             }
-                
+
+            else
+            {
+                CheckProducts(false);
+            }
+        }
+
+        internal void CheckProducts(bool a)
+        {
+            messHandler.prop.RemoveAllListeners();
+
             try
             {
                 AppcoinsChecks.DefaultFullCheck(appcoinsUnity.products);
@@ -105,7 +135,7 @@ namespace Aptoide.AppcoinsUnity
 
         private void StopEditor(bool a)
         {
-            messHandler.prop.RemoveListener(StopEditor);
+            messHandler.prop.RemoveAllListeners();
         }
     }
 } //namespace Aptoide.AppcoinsUnity

@@ -35,7 +35,11 @@ namespace Aptoide.AppcoinsUnity
 
         private void Awake()
         {
-            purchaserObject.Init(this);
+            if (purchaserObject != null)
+            {
+                purchaserObject.Init(this);
+            }
+
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -71,7 +75,8 @@ namespace Aptoide.AppcoinsUnity
                         this,
                         GetComponent<MessageHandlerGUI>()
                     );
-                appcoinsEditorMode.Start();
+
+                appcoinsEditorMode.Start(false);
             }
         }
 

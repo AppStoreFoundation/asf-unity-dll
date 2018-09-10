@@ -68,10 +68,17 @@ namespace Aptoide.AppcoinsUnity
             }
         }
 
-        public static bool CheckPoAActive(bool enablePOA)
+        public static bool CheckPoAActive(AppcoinsUnity a)
         {
-            if (enablePOA)
+            return a.enablePOA == true ? true : false;
+        }
+
+        public static bool CheckPurchaserObject(AppcoinsUnity a)
+        {
+            if (a.purchaserObject == null)
+            {
                 return true;
+            }
 
             return false;
         }
