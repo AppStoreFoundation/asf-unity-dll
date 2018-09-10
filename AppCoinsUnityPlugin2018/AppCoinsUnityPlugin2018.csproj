@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AppCoinsUnityPlugin</RootNamespace>
     <AssemblyName>AppCoinsUnityPlugin2018</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,15 +27,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\2018\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="UnityEditor">
-      <HintPath>..\dependencies\2018\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="AppcoinsUnitySupport2018">
-      <HintPath>..\dependencies\2018\AppcoinsUnitySupport2018.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

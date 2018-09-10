@@ -105,7 +105,6 @@ namespace Aptoide.AppcoinsUnity
 
         private void StopEditor(bool a)
         {
-            UnityEditor.EditorApplication.isPlaying = false;
             messHandler.prop.RemoveListener(StopEditor);
         }
     }

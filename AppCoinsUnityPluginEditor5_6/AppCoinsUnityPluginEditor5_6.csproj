@@ -50,8 +50,8 @@
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\5.6\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="AppCoinsUnitySupport5_6">
-      <HintPath>..\dependencies\5.6\AppCoinsUnitySupport5_6.dll</HintPath>
+    <Reference Include="AppCoinsUnitySupport">
+      <HintPath>..\dependencies\5.6\AppCoinsUnitySupport.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -68,12 +68,18 @@
     <Compile Include="..\Scripts\Support\Editor\CustomBuild\CustomBuildMenuItem\CustomBuildMenuItem5_6.cs">
       <Link>Support\Editor\CustomBuild\CustomBuildMenuItem\CustomBuildMenuItem5_6.cs</Link>
     </Compile>
+    <Compile Include="..\Scripts\Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport_2017_OR_LOWER.cs">
+      <Link>Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport_2017_OR_LOWER.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppCoinsUnityPlugin5_6\AppCoinsUnityPlugin5_6.csproj">
       <Project>{D0DFA7B5-B9C4-4416-AEA3-2122A51AF1BA}</Project>
       <Name>AppCoinsUnityPlugin5_6</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Support\Editor\CustomBuildUnityExport\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
