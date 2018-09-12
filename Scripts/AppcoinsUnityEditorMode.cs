@@ -70,7 +70,7 @@ namespace Aptoide.AppcoinsUnity
 
             try
             {
-                AppcoinsChecks.DefaultFullCheck(appcoinsUnity.products);
+                AppcoinsChecks.DefaultFullCheck(appcoinsUnity.GetProductList());
             }
             catch (Exception e)
             {
@@ -120,7 +120,7 @@ namespace Aptoide.AppcoinsUnity
         {
             string mess = "Purchase Success!";
 
-            appcoinsUnity.purchaseSuccess(skuid);
+            appcoinsUnity.PurchaseSuccess(skuid);
             SetupMessHandler(mess, ok, null, null);
         }
 
@@ -129,7 +129,7 @@ namespace Aptoide.AppcoinsUnity
         {
             string mess = "Purchase Failed!";
 
-            appcoinsUnity.purchaseFailure(skuid);
+            appcoinsUnity.PurchaseFailure(skuid);
             SetupMessHandler(mess, ok, null, null);
         }
 

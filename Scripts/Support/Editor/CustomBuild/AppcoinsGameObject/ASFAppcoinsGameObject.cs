@@ -35,16 +35,16 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
         FindAppcoinsGameObject();
 
         //  Change Appcoins prefab name in mainTempla.gradle
-        string newNameLine = 
-            appcoinsNameNewLine.Replace(toReplace, 
+        string newNameLine =
+            appcoinsNameNewLine.Replace(toReplace,
                                         asfGameObject.gameObject.name);
-        string newPOALine = 
-            appcoinsPOANewLine.Replace(toReplace, 
+        string newPOALine =
+            appcoinsPOANewLine.Replace(toReplace,
                                        asfGameObject.enablePOA.ToString()
                                       );
 
-        string newDebugLine = 
-            appcoinsDebugNewLine.Replace(toReplace, 
+        string newDebugLine =
+            appcoinsDebugNewLine.Replace(toReplace,
                                          asfGameObject.enableDebug.ToString()
                                         );
 
@@ -56,22 +56,22 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
                                mainTemplateContainers, newDebugLine, numTimes);
 
         // Check Appcoins prefab's products
-        try
-        {
-            AppcoinsChecks.CheckForRepeatedSkuId(asfGameObject.products);
-            AppcoinsChecks.CheckSKUs(asfGameObject.products);
-        }
-        catch (NoProductsException e)
-        {
-            throw new Exception(e.message);
-        }
-        catch (NullProductException e)
-        {
-            throw new Exception(e.message);
-        }
-        catch (RepeatedProductException e)
-        {
-            throw new Exception(e.message);
-        }
+        //try
+        //{
+        //    AppcoinsChecks.CheckForRepeatedSkuId(asfGameObject.GetProductList());
+        //    AppcoinsChecks.CheckSKUs(asfGameObject.GetProductList());
+        //}
+        //catch (NoSKUProductsException e)
+        //{
+        //    throw new Exception(e.message);
+        //}
+        //catch (NullSKUProductException e)
+        //{
+        //    throw new Exception(e.message);
+        //}
+        //catch (RepeatedSKUProductException e)
+        //{
+        //    throw new Exception(e.message);
+        //}
     }
 }

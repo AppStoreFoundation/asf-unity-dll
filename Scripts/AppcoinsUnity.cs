@@ -3,7 +3,8 @@
 // Note: do not change anything here as it may break the workings of the plugin 
 // else you're very sure of what you're doing.
 using UnityEngine;
-using UnityEngine.Events;
+
+using System.Collections.Generic;
 
 namespace Aptoide.AppcoinsUnity
 {
@@ -22,7 +23,7 @@ namespace Aptoide.AppcoinsUnity
         [Header("Enable debug to use testnets e.g Ropsten")]
         public bool enableDebug = true;
         [Header("Add all your products here")]
-        public AppcoinsSku[] products;
+        private List<AppcoinsSKU> products;
         [Header("Add your purchaser object here")]
         public AppcoinsPurchaser purchaserObject;
 
@@ -35,6 +36,8 @@ namespace Aptoide.AppcoinsUnity
 
         private void Awake()
         {
+            products = new List<AppcoinsSKU>();
+
             if (purchaserObject != null)
             {
                 purchaserObject.Init(this);
@@ -58,17 +61,13 @@ namespace Aptoide.AppcoinsUnity
                 //Enable or disable In App Billing
                 _class.CallStatic("enableIAB", enableIAB);
 
-                //add all your skus here
-                addAllSKUs();
-
-                //start sdk
-                _class.CallStatic("start");
-
                 // MessageHandlerGUI is meant to just run in editor mode 
                 Destroy(GetComponent<MessageHandlerGUI>());
             }
 
-            else
+            SetupIAB();
+
+            if (Application.isEditor)
             {
                 appcoinsEditorMode =
                     new AppcoinsUnityEditorMode(
@@ -78,26 +77,43 @@ namespace Aptoide.AppcoinsUnity
 
                 appcoinsEditorMode.Start(false);
             }
+
         }
 
-        //called to add all skus specified in the inpector window.
-        private void addAllSKUs()
+        internal void SetupIAB()
+        {
+            purchaserObject.RegisterSKUs();
+
+            if (!Application.isEditor)
+            {
+                //start sdk
+                _class.CallStatic("start");
+            }
+        }
+
+        public List<AppcoinsSKU> GetProductList()
+        {
+            return products;
+        }
+
+        internal void AddSKU(AppcoinsSKU newProduct)
+        {
+            products.Add(newProduct);
+            AddSKUToJava(newProduct);
+        }
+
+        private void AddSKUToJava(AppcoinsSKU newProduct)
         {
             if (!Application.isEditor)
             {
-                for (int i = 0; i < products.Length; i++)
-                {
-                    AppcoinsSku product = products[i];
-                    if (product != null)
-                        _class.CallStatic("addNewSku", product.Name, 
-                                          product.SKUID, product.Price);
-                }
+                _class.CallStatic("addNewSku", newProduct.Name,
+                                  newProduct.SKUID, newProduct.Price);
             }
         }
 
 
         //method used in making purchase
-        public void makePurchase(string skuid)
+        public void MakePurchase(string skuid)
         {
             if (!enableIAB)
             {
@@ -120,14 +136,14 @@ namespace Aptoide.AppcoinsUnity
         }
 
         //callback on successful purchases
-        public void purchaseSuccess(string skuid)
+        public void PurchaseSuccess(string skuid)
         {
             if (purchaserObject != null)
             {
                 Debug.Log("Going to call purchaseSuccess on purchaserObject " +
                           "skuid " + skuid);
 
-                purchaserObject.purchaseSuccess(skuid);
+                purchaserObject.PurchaseSuccess(skuid);
             }
             else
             {
@@ -136,19 +152,24 @@ namespace Aptoide.AppcoinsUnity
         }
 
         //callback on failed purchases
-        public void purchaseFailure(string skuid)
+        public void PurchaseFailure(string skuid)
         {
             if (purchaserObject != null)
             {
                 Debug.Log("Going to call purchaseFailure on purchaserObject " +
                           "skuid " + skuid);
 
-                purchaserObject.purchaseFailure(skuid);
+                purchaserObject.PurchaseFailure(skuid);
             }
             else
             {
                 Debug.Log("purchaserObject is null");
             }
+        }
+
+        private AppcoinsSKU FindSKUById(string skuid)
+        {
+            return products.Find(sku => sku.SKUID.Equals(skuid));
         }
     }
 } //namespace Aptoide.AppcoinsUnity

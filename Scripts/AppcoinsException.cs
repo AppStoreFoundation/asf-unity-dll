@@ -46,75 +46,100 @@ public class MoreThanOneAppcoinsPrefabException : AppcoinsException
     }
 }
 
-public class NoProductsException : AppcoinsException
+public class NoSKUProductsException : AppcoinsException
 {
     const string _message = "Appcoins Unity prefab has no products available.";
 
-    public NoProductsException() : base(_message)
+    public NoSKUProductsException() : base(_message)
     {
     }
 
-    public NoProductsException(string new_message)
+    public NoSKUProductsException(string new_message)
         : base(new_message)
     {
     }
 
-    public NoProductsException(Exception inner)
+    public NoSKUProductsException(Exception inner)
         : base(_message, inner)
     {
     }
 
-    public NoProductsException(string new_message,
+    public NoSKUProductsException(string new_message,
         Exception inner) : base(new_message, inner)
     {
     }
 }
 
-public class NullProductException : AppcoinsException
+public class NullSKUProductException : AppcoinsException
 {
     private const string _message = "AppcoinsUnity prefab has one or more " +
         "null products.";
 
-    public NullProductException() : base(_message)
+    public NullSKUProductException() : base(_message)
     {
     }
 
-    public NullProductException(string new_message)
+    public NullSKUProductException(string new_message)
         : base(new_message)
     {
     }
 
-    public NullProductException(Exception inner)
+    public NullSKUProductException(Exception inner)
         : base(_message, inner)
     {
     }
 
-    public NullProductException(string new_message,
+    public NullSKUProductException(string new_message,
         Exception inner) : base(new_message, inner)
     {
     }
 }
 
-public class RepeatedProductException : AppcoinsException
+public class RepeatedSKUProductException : AppcoinsException
 {
     const string _message = "AppcoinsUnity prefab has two or more products " +
-        "with the same SKU id";
+        "with the same SKU Id";
 
-    public RepeatedProductException() : base(_message)
+    public RepeatedSKUProductException() : base(_message)
     {
     }
 
-    public RepeatedProductException(string new_message)
+    public RepeatedSKUProductException(string new_message)
         : base(new_message)
     {
     }
 
-    public RepeatedProductException(Exception inner) 
+    public RepeatedSKUProductException(Exception inner) 
         : base(_message, inner)
     {
     }
 
-    public RepeatedProductException(string new_message,
+    public RepeatedSKUProductException(string new_message,
+        Exception inner) : base(new_message, inner)
+    {
+    }
+}
+
+public class InvalidSKUIdException : AppcoinsException
+{
+    const string _message = "AppcoinsUnity prefab has one or more products " +
+        "with an invalid SKU Id";
+
+    public InvalidSKUIdException() : base(_message)
+    {
+    }
+
+    public InvalidSKUIdException(string new_message)
+        : base(new_message)
+    {
+    }
+
+    public InvalidSKUIdException(Exception inner)
+        : base(_message, inner)
+    {
+    }
+
+    public InvalidSKUIdException(string new_message,
         Exception inner) : base(new_message, inner)
     {
     }

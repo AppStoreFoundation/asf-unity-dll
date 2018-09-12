@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 
 using Aptoide.AppcoinsUnity;
@@ -24,49 +24,43 @@ public class AppCoinsProductEditor : Editor
         GUILayout.Label("Should the product be added to the product list?");
         shouldAddToProductList = EditorGUILayout.Toggle("Add to list?", shouldAddToProductList);
 
-        if (GUILayout.Button("Apply")) {
-             //Rename the asset to have the same name as the product name
+        //if (GUILayout.Button("Apply")) {
+         //    //Rename the asset to have the same name as the product name
 
-            //Get the path to the selected Scriptable object
-            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string newName = product.Name;
+         //   //Get the path to the selected Scriptable object
+         //   string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+         //   string newName = product.Name;
 
-            AssetDatabase.RenameAsset(path, newName);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+         //   AssetDatabase.RenameAsset(path, newName);
+         //   AssetDatabase.SaveAssets();
+         //   AssetDatabase.Refresh();
 
-            if (shouldAddToProductList) {
-                AddProductToList(product);
-            }
-         }
+         //   if (shouldAddToProductList) {
+         //       AddProductToList(product);
+         //   }
+         //}
     }
 
-    void AddProductToList(AppcoinsSku product) {
-        //Get the AppcoinsUnity script component
-        AppcoinsUnity[] objs = FindObjectsOfType<AppcoinsUnity>();
-        AppcoinsUnity appcoins = objs[0];
+    //void AddProductToList(AppcoinsSku product) {
+    //    //Get the AppcoinsUnity script component
+    //    AppcoinsUnity[] objs = FindObjectsOfType<AppcoinsUnity>();
+    //    AppcoinsUnity appcoins = objs[0];
 
-        //Check if product is in the list, if it isn't add it!
-        bool found = false;
-        foreach(AppcoinsSku existingProduct in appcoins.products) {
-            if (existingProduct == product) {
-                found = true;
-                break;
-            }
-        }
+    //    //Check if product is in the list, if it isn't add it!
+    //    bool found = false;
+    //    foreach(AppcoinsSku existingProduct in appcoins.products) {
+    //        if (existingProduct == product) {
+    //            found = true;
+    //            break;
+    //        }
+    //    }
 
-        if (!found) {
-            int length = appcoins.products.Length;
+    //    if (!found) {
+    //        int length = appcoins.products.Capacity;
 
-            AppcoinsSku[] newProducts = new AppcoinsSku[length + 1];
-            int i = 0;
-            foreach (AppcoinsSku existingProduct in appcoins.products)
-            {
-                newProducts[i++] = existingProduct;
-            }
-            newProducts[i] = product;
-            appcoins.products = newProducts;    
-        }
-
-    }
+    //        List<AppcoinsSku> newProducts = new List<AppcoinsSku>(appcoins.products);
+    //        newProducts.Add(product);
+    //        appcoins.products = newProducts;    
+    //    }
+    //}
 }

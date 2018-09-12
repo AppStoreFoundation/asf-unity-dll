@@ -1,59 +1,60 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 namespace Aptoide.AppcoinsUnity
 {
     public static class AppcoinsChecks
     {
-        public static void DefaultFullCheck(AppcoinsSku[] products)
+        public static void DefaultFullCheck(List<AppcoinsSKU> products)
         {
             try
             {
                 CheckSKUs(products);
                 CheckForRepeatedSkuId(products);
             }
-            catch (NoProductsException e)
+            catch (NoSKUProductsException e)
             {
                 throw new Exception(e.message);
             }
-            catch (NullProductException e)
+            catch (NullSKUProductException e)
             {
                 throw new Exception(e.message);
             }
-            catch (RepeatedProductException e)
+            catch (RepeatedSKUProductException e)
             {
                 throw new Exception(e.message);
             }
         }
 
-        public static void CheckSKUs(AppcoinsSku[] products)
+        public static void CheckSKUs(List<AppcoinsSKU> products)
         {
-            if (products.Length == 0)
+            if (products.Count == 0)
             {
-                throw new NoProductsException();
+                throw new NoSKUProductsException();
             }
 
             else
             {
-                for (int i = 0; i < products.Length; i++)
+                foreach (AppcoinsSKU product in products)
                 {
-                    if (products[i] == null)
+                    if (product == null)
                     {
-                        throw new NullProductException();
+                        throw new NullSKUProductException();
                     }
                 }
             }
         }
 
-        public static void CheckForRepeatedSkuId(
-            AppcoinsSku[] products)
+        public static void CheckForRepeatedSkuId(List<AppcoinsSKU> products)
         {
-            for (int i = 0; i < products.Length - 1; i++)
+            for (int i = 0; i < products.Capacity - 1; i++)
             {
-                AppcoinsSku currentProduct = products[i];
+                AppcoinsSKU currentProduct = products[i];
 
-                for (int j = i + 1; j < products.Length; j++)
+                for (int j = i + 1; j < products.Count; j++)
                 {
-                    AppcoinsSku compareProduct = products[j];
+                    AppcoinsSKU compareProduct = products[j];
 
                     if (currentProduct != null && currentProduct.SKUID.Length == 
                         compareProduct.SKUID.Length
@@ -61,7 +62,7 @@ namespace Aptoide.AppcoinsUnity
                     {
                         if (currentProduct.SKUID.Equals(compareProduct.SKUID))
                         {
-                            throw new RepeatedProductException();
+                            throw new RepeatedSKUProductException();
                         }
                     }
                 }
@@ -76,6 +77,24 @@ namespace Aptoide.AppcoinsUnity
         public static bool CheckPurchaserObject(AppcoinsUnity a)
         {
             if (a.purchaserObject == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool IgnoreSKU(List<AppcoinsSKU> products, 
+                                       AppcoinsSKU product) {
+            if (product == null || product.SKUID.Equals(""))
+            {
+                return true;
+            }
+
+            if (products.FindAll(
+                    sku => sku.SKUID.Equals(product.SKUID)
+                ).Count > 2
+               )
             {
                 return true;
             }

@@ -6,35 +6,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Aptoide.AppcoinsUnity{
+namespace Aptoide.AppcoinsUnity {
 
-	public class AppcoinsPurchaser : MonoBehaviour {
+	public abstract class AppcoinsPurchaser : MonoBehaviour 
+    {
 
 		AppcoinsUnity appcoinsUnity;
 
-        public void Init(AppcoinsUnity appcoinsUnityRef){
+        public void Init(AppcoinsUnity appcoinsUnityRef)
+        {
             //get refference to AppcoinsUnity class
             appcoinsUnity = appcoinsUnityRef;
 		}
 
-        public virtual void purchaseTest(string skuid)
+        public virtual void PurchaseTest(string sku)
         {
 
         }
 
-        public virtual void purchaseSuccess(string skuid)
-        {
-                
-        }
-
-        public virtual void purchaseFailure(string skuid)
+        public virtual void PurchaseSuccess(string sku)
         {
                 
         }
 
-		public void makePurchase(string skuid){
-			appcoinsUnity.makePurchase (skuid);
+        public virtual void PurchaseFailure(string sku)
+        {
+                
+        }
+
+		public void MakePurchase(string sku)
+        {
+			appcoinsUnity.MakePurchase (sku);
 		}  
 
+        public void AddSKU(AppcoinsSKU newProduct)
+        {
+            appcoinsUnity.AddSKU(newProduct);
+        }
+
+        public abstract void RegisterSKUs();
 	}
 } //namespace Aptoide.AppcoinsUnity

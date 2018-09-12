@@ -58,12 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Scripts\Support\Editor\ASFSkus\AppCoinsProductEditor.cs">
-      <Link>Support\Editor\ASFSkus\AppCoinsProductEditor.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\Support\Editor\ASFSkus\ProductMaker.cs">
-      <Link>Support\Editor\ASFSkus\ProductMaker.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\Support\Editor\CustomBuild\AppcoinsGameObject\ASFAppcoinsGameObject.cs">
       <Link>Support\Editor\CustomBuild\AppcoinsGameObject\ASFAppcoinsGameObject.cs</Link>
     </Compile>
@@ -73,6 +67,9 @@
     <Compile Include="..\Scripts\Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport2018.cs">
       <Link>Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport2018.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Support\Editor\ASFSkus\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
