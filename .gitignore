@@ -2,11 +2,13 @@
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.DS_Store
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -341,3 +343,4 @@ ASALocalRun/
 
 
 # End of https://www.gitignore.io/api/visualstudio,visualstudiocode
+/tools/.setup_env_vars.sh
