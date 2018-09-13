@@ -48,7 +48,7 @@ namespace Aptoide.AppcoinsUnity
 
         public static void CheckForRepeatedSkuId(List<AppcoinsSKU> products)
         {
-            for (int i = 0; i < products.Capacity - 1; i++)
+            for (int i = 0; i < products.Count - 1; i++)
             {
                 AppcoinsSKU currentProduct = products[i];
 
