@@ -55,7 +55,7 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
         Tools.ChangeLineInFile(mainTemplatePath, appcoinsDebug,
                                mainTemplateContainers, newDebugLine, numTimes);
 
-        // Check Appcoins prefab's products
+        //// Check Appcoins prefab's products
         //try
         //{
         //    AppcoinsChecks.CheckForRepeatedSkuId(asfGameObject.GetProductList());

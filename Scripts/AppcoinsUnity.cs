@@ -82,7 +82,10 @@ namespace Aptoide.AppcoinsUnity
 
         internal void SetupIAB()
         {
-            purchaserObject.RegisterSKUs();
+            if (purchaserObject != null)
+            {
+                purchaserObject.RegisterSKUs();
+            }
 
             if (!Application.isEditor)
             {
