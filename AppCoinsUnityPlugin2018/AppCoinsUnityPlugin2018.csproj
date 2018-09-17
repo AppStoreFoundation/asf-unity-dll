@@ -49,20 +49,26 @@
     <Compile Include="..\Scripts\AppcoinsChecks.cs">
       <Link>AppcoinsChecks.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AppcoinsUnityEditorMode.cs">
-      <Link>AppcoinsUnityEditorMode.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AndroidAppcoinsUnity.cs">
-      <Link>AndroidAppcoinsUnity.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsUnityDecorator.cs">
-      <Link>AppcoinsUnityDecorator.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\IAppcoinsUnity.cs">
-      <Link>IAppcoinsUnity.cs</Link>
+    <Compile Include="..\Scripts\AndroidAppcoinsUnityVisitor.cs">
+      <Link>AndroidAppcoinsUnityVisitor.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\AppcoinsUnity.cs">
       <Link>AppcoinsUnity.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\EditorAppcoinsUnity.cs">
+      <Link>EditorAppcoinsUnity.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\CreateAppcoinsGameObject.cs">
+      <Link>CreateAppcoinsGameObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\AppcoinsUnityEditorMode.cs">
+      <Link>AppcoinsUnityEditorMode.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\EditorAppcoinsUnityVisitor.cs">
+      <Link>EditorAppcoinsUnityVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\IAppcoinsUnityVisitor.cs">
+      <Link>IAppcoinsUnityVisitor.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -16,12 +16,12 @@ namespace Aptoide.AppcoinsUnity
         private float windowHeight;
         private float windowWidth;
 
-        private bool isEnabled = false;
+        public bool isEnabled = false;
         public PropagateSelection prop;
 
         Canvas canvas;
 
-        private void Awake()
+        internal void InitializeWindow()
         {
             prop = new PropagateSelection();
 
@@ -139,7 +139,15 @@ namespace Aptoide.AppcoinsUnity
             success = s;
             fail = f;
         }
-        
+
+        public void ChangeContent(string t, string m, string s, string f)
+        {
+            ChangeTitle(t);
+            message = m;
+            success = s;
+            fail = f;
+        }
+
         public void ChangeTitle(string t)
         {
             title = new GUIContent(t);

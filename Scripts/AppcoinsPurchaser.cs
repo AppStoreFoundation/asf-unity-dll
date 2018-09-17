@@ -19,29 +19,24 @@ namespace Aptoide.AppcoinsUnity {
             appcoinsUnity = appcoinsUnityRef;
 		}
 
-        public virtual void PurchaseTest(string sku)
-        {
-
-        }
-
-        public virtual void PurchaseSuccess(string sku)
+        public virtual void PurchaseSuccess(AppcoinsSKU sku)
         {
                 
         }
 
-        public virtual void PurchaseFailure(string sku)
+        public virtual void PurchaseFailure(AppcoinsSKU sku)
         {
                 
         }
 
-		public void MakePurchase(string sku)
+		public void MakePurchase(AppcoinsSKU sku)
         {
-			appcoinsUnity.MakePurchase (sku);
+			appcoinsUnity.MakePurchase(sku);
 		}  
 
-        public void AddSKU(AppcoinsSKU newProduct)
+        public void AddSKU(AppcoinsSKU newSku)
         {
-            appcoinsUnity.AddSKU(newProduct);
+            appcoinsUnity.AddSKU(newSku);
         }
 
         public abstract void RegisterSKUs();
