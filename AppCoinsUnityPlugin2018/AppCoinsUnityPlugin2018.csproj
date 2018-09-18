@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AppCoinsUnityPlugin</RootNamespace>
     <AssemblyName>AppCoinsUnityPlugin2018</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,17 +52,11 @@
     <Compile Include="..\Scripts\AndroidAppcoinsUnityVisitor.cs">
       <Link>AndroidAppcoinsUnityVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AppcoinsUnity.cs">
-      <Link>AppcoinsUnity.cs</Link>
+    <Compile Include="..\Scripts\ASFAppcoinsUnity.cs">
+      <Link>ASFAppcoinsUnity.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\EditorAppcoinsUnity.cs">
       <Link>EditorAppcoinsUnity.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\CreateAppcoinsGameObject.cs">
-      <Link>CreateAppcoinsGameObject.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsUnityEditorMode.cs">
-      <Link>AppcoinsUnityEditorMode.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\EditorAppcoinsUnityVisitor.cs">
       <Link>EditorAppcoinsUnityVisitor.cs</Link>

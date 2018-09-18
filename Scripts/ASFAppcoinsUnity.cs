@@ -11,8 +11,7 @@ namespace Aptoide.AppcoinsUnity
     /// <list type="bullet">
     /// <item>
     /// <term>Awake</term>
-    /// <description>
-    /// Unity's Awake Event.</description>
+    /// <description>Unity's Awake Event.</description>
     /// </item>
     /// <item>
     /// <term>SetupCommunication</term>
@@ -99,33 +98,38 @@ namespace Aptoide.AppcoinsUnity
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Aptoide.AppcoinsUnity.AppcoinsUnity has 'DontDestroyOnLoad' property, so
+    /// Aptoide.AppcoinsUnity.ASFAppcoinsUnity has 'DontDestroyOnLoad' property, so
     /// it can be used at any scene (just include it in the first scene).
     /// </para>
     /// <para>
     /// For now only the Android Platform and Unity Editor have a visitor 
     /// (IAppcoinsUnityVisitor) to communicate with 
-    /// Aptoide.AppcoinsUnity.AppcoinsUnity.
+    /// Aptoide.AppcoinsUnity.ASFAppcoinsUnity.
     /// </para>
     /// </remarks>
-    public abstract class AppcoinsUnity : MonoBehaviour
+    public class ASFAppcoinsUnity : MonoBehaviour
     {
         // Visitor to call depending on the platform where the game is running.
         private IAppcoinsUnityVisitor appcoinsVisitor;
 
         // Purchase Object defined by the user.
+        [Header("Add your purchaser object here")]
         public AppcoinsPurchaser purchaserObject;
 
         // Wallet address where the user want to receive appcoins.
+        [Header("Your wallet address for receiving Appcoins")]
         public string address;
 
         // Enable In-App Billing.
+        [Header("Uncheck to disable Appcoins IAB")]
         public bool enableIAB = true;
 
         // Enable POA.
+        [Header("Uncheck to disable Appcoins ADS(Proof of attention)")]
         public bool enablePOA = true;
 
         // Enable test transactions (Ropsten net).
+        [Header("Enable debug to use testnets e.g Ropsten")]
         public bool enableDebug = true;
 
         // List with all registerd skus.
@@ -134,36 +138,71 @@ namespace Aptoide.AppcoinsUnity
         // User can add SKUs until SetupIAB is called.
         private bool canAddSku = true;
 
-        internal void Start()
+        /// <summary>
+        /// Chose IAppcoinsUnityVisitor visitor in terms of which platform is 
+        /// being used to run the game. Initialize skus' list and 
+        /// purchaserObject.
+        /// </summary>
+        /// <exception cref="Aptoide.AppcoinsUnity.PlatformNotSupportedException">
+        /// Thrown when platform choosed to integrate AppcoinsUnity Plugin and 
+        /// run the game is not supported.
+        /// </exception>
+        /// <remarks>
+        /// <para>
+        /// Current Platform Supported: Andoroid, Unity Editor.
+        /// </para>
+        /// </remarks>
+        internal void Awake()
         {
             if (Application.isEditor)
             {
                 appcoinsVisitor = new EditorAppcoinsUnityVisitor();
             }
 
-            else if (Application.isMobilePlatform)
+            else if (Application.isMobilePlatform && 
+                     Application.platform == RuntimePlatform.Android)
             {
-                if (Application.platform == RuntimePlatform.Android)
-                {
-                    appcoinsVisitor = new AndroidAppcoinsUnityVisitor();
-                }
+                appcoinsVisitor = new AndroidAppcoinsUnityVisitor();
+            }
+
+            else
+            {
+                throw new PlatformNotSupportedException();
             }
 
             skus = new List<AppcoinsSKU>();
 
-            // Setup communication with Purchaser
+            // Set up communication with Purchaser
             CheckPurchaserObject();
             purchaserObject.Init(this);
 
-            // Have access to ASFAppcoinsUnity at all Scenes
+            // Give access to ASFAppcoinsUnity prefab at all Scenes
             DontDestroyOnLoad(this.gameObject);
         }
 
+        /// <summary>
+        /// Unity Start Event. Setup communication with the receiver.
+        /// </summary>
+        internal void Start()
+        {
+            SetupCommunication();
+        }
+
+        /// <summary>
+        /// Setup all communication with the Platform's side object (receiver) 
+        /// that will communicate with the game. (This includes setting up 
+        /// receiver, give wallet address and all SKUs in skus list (if IAB is 
+        /// enabled) to receiver.
+        /// </summary>
         protected void SetupCommunication()
         {
             SetupReceiver();
             SetupWalletAddress();
-            SetupIAB();
+
+            if (enableIAB)
+            {
+                SetupIAB();
+            }
 
             // Awake Reveiver only when all Setup's have been done
             AwakeReceiver();
@@ -177,11 +216,6 @@ namespace Aptoide.AppcoinsUnity
         {
             appcoinsVisitor.SetupReceiver(this);
         }
-
-        //private void SendExceptionToReceiver(Exception e)
-        //{
-        //    appcoinsVisitor.SendExceptionToReceiver(e);
-        //}
 
         /// <summary>
         /// Get wallet address.
@@ -232,11 +266,11 @@ namespace Aptoide.AppcoinsUnity
         /// </remarks>
         private void SetupIAB()
         {
-            // Register all SKU's in products list before setting up IAB
-            purchaserObject.RegisterSKUs();
-
             // Setup IAB in the platform being used
             appcoinsVisitor.SetupIAB(this);
+
+            // Register all SKU's in products list before setting up IAB
+            purchaserObject.RegisterSKUs();
 
             // No more SKU's can be registered.
             canAddSku = false;
@@ -374,7 +408,7 @@ namespace Aptoide.AppcoinsUnity
         /// </returns>
         public List<AppcoinsSKU> GetSKUList()
         {
-            return skus;
+            return new List<AppcoinsSKU>(skus);
         }
 
         /// <summary>

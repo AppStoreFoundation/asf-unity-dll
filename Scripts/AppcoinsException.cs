@@ -267,4 +267,29 @@ namespace Aptoide.AppcoinsUnity
         {
         }
     }
+
+    public class PlatformNotSupportedException : AppcoinsException
+    {
+        const string _message = "Platform choosed to integrate AppcoinsUnity " +
+            "Plugin is not supported.";
+
+        public PlatformNotSupportedException() : base(_message)
+        {
+        }
+
+        public PlatformNotSupportedException(string new_message)
+            : base(new_message)
+        {
+        }
+
+        public PlatformNotSupportedException(Exception inner)
+            : base(_message, inner)
+        {
+        }
+
+        public PlatformNotSupportedException(string new_message,
+                                         Exception inner) : base(new_message, inner)
+        {
+        }
+    }
 }

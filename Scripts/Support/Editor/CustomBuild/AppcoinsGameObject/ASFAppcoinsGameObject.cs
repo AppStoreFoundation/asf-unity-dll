@@ -6,7 +6,7 @@ using Aptoide.AppcoinsUnity;
 
 public class ASFAppcoinsGameObject : AppcoinsGameObject
 {
-    private AppcoinsUnity asfGameObject;
+    private ASFAppcoinsUnity asfGameObject;
     private const string appcoinsPOA = "APPCOINS_ENABLE_POA";
     private const string appcoinsDebug = "APPCOINS_ENABLE_DEBUG";
 
@@ -19,8 +19,8 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
 
     private void FindAppcoinsGameObject()
     {
-        AppcoinsUnity[] foundObjects = (AppcoinsUnity[])
-            UnityEngine.Object.FindObjectsOfType(typeof(AppcoinsUnity));
+        ASFAppcoinsUnity[] foundObjects = (ASFAppcoinsUnity[])
+            UnityEngine.Object.FindObjectsOfType(typeof(ASFAppcoinsUnity));
 
         if (foundObjects.Length == 0)
         {

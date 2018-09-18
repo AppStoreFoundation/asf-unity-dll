@@ -56,11 +56,13 @@ namespace Aptoide.AppcoinsUnity
                 {
                     AppcoinsSKU compareProduct = products[j];
 
-                    if (currentProduct != null && currentProduct.SKUID.Length == 
-                        compareProduct.SKUID.Length
+                    if (currentProduct != null && 
+                        currentProduct.GetSKUId().Length == 
+                        compareProduct.GetSKUId().Length
                        )
                     {
-                        if (currentProduct.SKUID.Equals(compareProduct.SKUID))
+                        if (currentProduct.GetSKUId().
+                            Equals(compareProduct.GetSKUId()))
                         {
                             throw new RepeatedSKUProductException();
                         }
@@ -69,12 +71,12 @@ namespace Aptoide.AppcoinsUnity
             }
         }
 
-        public static bool CheckPoAActive(AppcoinsUnity a)
+        public static bool CheckPoAActive(ASFAppcoinsUnity a)
         {
             return a.enablePOA == true ? true : false;
         }
 
-        public static bool CheckPurchaserObject(AppcoinsUnity a)
+        public static bool CheckPurchaserObject(ASFAppcoinsUnity a)
         {
             if (a.purchaserObject == null)
             {
@@ -86,13 +88,13 @@ namespace Aptoide.AppcoinsUnity
 
         internal static bool IgnoreSKU(List<AppcoinsSKU> products, 
                                        AppcoinsSKU product) {
-            if (product == null || product.SKUID.Equals(""))
+            if (product == null || product.GetSKUId().Equals(""))
             {
                 return true;
             }
 
             if (products.FindAll(
-                    sku => sku.SKUID.Equals(product.SKUID)
+                sku => sku.GetSKUId().Equals(product.GetSKUId())
                 ).Count > 2
                )
             {

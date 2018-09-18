@@ -26,8 +26,11 @@ namespace Aptoide.AppcoinsUnity {
             // Setup editor window
             messageHandler.InitializeWindow();
             
-            // Setup listener to propagate purchase result
-            messageHandler.prop.AddListener(ProcessPurchase);
+            // Show POA Information
+            if (gameObject.GetComponent<ASFAppcoinsUnity>().enablePOA)
+            {
+                SetupMessage(title, "POA should have started now.", ok, null);
+            }
         }
 
         private IEnumerator WaitUntilButtonClicked()
@@ -35,10 +38,11 @@ namespace Aptoide.AppcoinsUnity {
             yield return new WaitUntil(() => messageHandler.isEnabled == false);
         }
 
-        internal void SetupMessage(Exception e)
+        internal void SetupMessage(string t, string content, string suc, 
+                                   string fail)
         {
-            string t = "Error";
-            messageHandler.ChangeContent(t, e.Message, ok, null);
+            messageHandler.ChangeContent(t, content, suc, fail);
+            messageHandler.Enable();
 
             // Wait until 'ok' button is clicked
             StartCoroutine(WaitUntilButtonClicked());
@@ -50,12 +54,11 @@ namespace Aptoide.AppcoinsUnity {
             currentSku = sku;
 
             string content = "Appcoins Unity: Simulate Purchase of " +
-                sku.GetName() + "(" + sku.GetSKUId() + ").";
-            
-            // Create window to simulate purchase
-            messageHandler.ChangeContent(title, content, testSuc, testFail);
+                sku.GetName() + " (" + sku.GetSKUId() + ").";
 
-            StartCoroutine(WaitUntilButtonClicked());
+            messageHandler.prop.AddListener(ProcessPurchase);
+            // Create window to simulate purchase
+            SetupMessage(title, content, testSuc, testFail);
         }
 
         private void ProcessPurchase(bool purchaseResult)
@@ -64,15 +67,24 @@ namespace Aptoide.AppcoinsUnity {
 
             if (purchaseResult)
             {
-                gameObject.SendMessage("PurchaseSuccess", currentSku.GetSKUId()); 
+                string content = "Purchase of " + currentSku.GetName() + " (" + 
+                                  currentSku.GetSKUId() + ") finished " +
+                                  "successfully.";
+                SetupMessage(title, content, ok, null);
+
+                gameObject.SendMessage("PurchaseSuccess", 
+                                       currentSku.GetSKUId()
+                                      );
             }
 
             else
             {
+                string content = "Purchase of " + currentSku.GetName() + " (" +
+                                  currentSku.GetSKUId() + ") failed.";
+                SetupMessage(title, content, ok, null);
+
                 gameObject.SendMessage("PurchaseFailure", currentSku.GetSKUId());
             }
-
-            messageHandler.prop.AddListener(ProcessPurchase);
         }
     }
 } //namespace Aptoide.AppcoinsUnity
