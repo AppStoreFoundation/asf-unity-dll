@@ -115,22 +115,27 @@ namespace Aptoide.AppcoinsUnity
         // Purchase Object defined by the user.
         [Header("Add your purchaser object here")]
         public AppcoinsPurchaser purchaserObject;
+        private AppcoinsPurchaser purchaserObjChoosed;
 
         // Wallet address where the user want to receive appcoins.
         [Header("Your wallet address for receiving Appcoins")]
         public string address;
+        private string addressChoosed;
 
         // Enable In-App Billing.
         [Header("Uncheck to disable Appcoins IAB")]
         public bool enableIAB = true;
+        private bool IABChoosed;
 
         // Enable POA.
         [Header("Uncheck to disable Appcoins ADS(Proof of attention)")]
         public bool enablePOA = true;
+        private bool POAChoosed;
 
         // Enable test transactions (Ropsten net).
         [Header("Enable debug to use testnets e.g Ropsten")]
         public bool enableDebug = true;
+        private bool debugChoosed;
 
         // List with all registerd skus.
         private List<AppcoinsSKU> skus;
@@ -178,6 +183,15 @@ namespace Aptoide.AppcoinsUnity
 
             // Give access to ASFAppcoinsUnity prefab at all Scenes
             DontDestroyOnLoad(this.gameObject);
+
+            // Initialize private attributes (So even ig the user change the
+            // public attributes after Awake event, those changes don't
+            // propagate to the private values
+            purchaserObjChoosed = purchaserObject;
+            addressChoosed = address;
+            IABChoosed = enableIAB;
+            POAChoosed = enablePOA;
+            debugChoosed = enableDebug;
         }
 
         /// <summary>
@@ -199,7 +213,7 @@ namespace Aptoide.AppcoinsUnity
             SetupReceiver();
             SetupWalletAddress();
 
-            if (enableIAB)
+            if (IABChoosed)
             {
                 SetupIAB();
             }
@@ -246,11 +260,11 @@ namespace Aptoide.AppcoinsUnity
         /// Check if IAB is enabled.
         /// </summary>
         /// <returns>
-        /// true if IAB is enabled.
+        /// true if IAB is enabled; false otherwise.
         /// </returns>
         public bool GetIAB()
         {
-            return enableIAB;
+            return IABChoosed;
         }
 
         /// <summary>
@@ -274,6 +288,17 @@ namespace Aptoide.AppcoinsUnity
 
             // No more SKU's can be registered.
             canAddSku = false;
+        }
+
+        /// <summary>
+        /// Check if POA is enabled.
+        /// </summary>
+        /// <returns>
+        /// true if POA is enabled; false otherwise.
+        /// </returns>
+        public bool GetPOA()
+        {
+            return POAChoosed;
         }
 
         /// <summary>
@@ -345,7 +370,7 @@ namespace Aptoide.AppcoinsUnity
         /// </exception>
         internal void MakePurchase(AppcoinsSKU sku)
         {
-            if (enableIAB)
+            if (IABChoosed)
             {
                 if (skus.Contains(sku))
                 {

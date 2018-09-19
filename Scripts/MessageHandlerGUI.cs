@@ -16,7 +16,7 @@ namespace Aptoide.AppcoinsUnity
         private float windowHeight;
         private float windowWidth;
 
-        public bool isEnabled = false;
+        internal bool isEnabled = false;
         public PropagateSelection prop;
 
         Canvas canvas;

@@ -49,11 +49,11 @@
     <Compile Include="..\Scripts\AppcoinsChecks.cs">
       <Link>AppcoinsChecks.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AndroidAppcoinsUnityVisitor.cs">
-      <Link>AndroidAppcoinsUnityVisitor.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\ASFAppcoinsUnity.cs">
       <Link>ASFAppcoinsUnity.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\AndroidAppcoinsUnityVisitor.cs">
+      <Link>AndroidAppcoinsUnityVisitor.cs</Link>
     </Compile>
     <Compile Include="..\Scripts\EditorAppcoinsUnity.cs">
       <Link>EditorAppcoinsUnity.cs</Link>

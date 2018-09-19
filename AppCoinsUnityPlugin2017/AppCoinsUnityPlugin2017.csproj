@@ -49,11 +49,20 @@
     <Compile Include="..\Scripts\AppcoinsChecks.cs">
       <Link>AppcoinsChecks.cs</Link>
     </Compile>
-    <Compile Include="..\Scripts\AppcoinsUnityEditorMode.cs">
-      <Link>AppcoinsUnityEditorMode.cs</Link>
-    </Compile>
     <Compile Include="..\Scripts\MessageHandlerGUI.cs">
       <Link>MessageHandlerGUI.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\AndroidAppcoinsUnityVisitor.cs">
+      <Link>AndroidAppcoinsUnityVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\EditorAppcoinsUnity.cs">
+      <Link>EditorAppcoinsUnity.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\EditorAppcoinsUnityVisitor.cs">
+      <Link>EditorAppcoinsUnityVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\IAppcoinsUnityVisitor.cs">
+      <Link>IAppcoinsUnityVisitor.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -27,15 +27,20 @@ namespace Aptoide.AppcoinsUnity {
             messageHandler.InitializeWindow();
             
             // Show POA Information
-            if (gameObject.GetComponent<ASFAppcoinsUnity>().enablePOA)
+            if (gameObject.GetComponent<ASFAppcoinsUnity>().GetPOA())
             {
                 SetupMessage(title, "POA should have started now.", ok, null);
             }
         }
 
-        private IEnumerator WaitUntilButtonClicked()
+        private IEnumerator WaitFor(bool var, bool res)
         {
-            yield return new WaitUntil(() => messageHandler.isEnabled == false);
+            while (!(var == res))
+            {
+                yield return null;
+            }
+
+            yield break;
         }
 
         internal void SetupMessage(string t, string content, string suc, 
@@ -45,7 +50,7 @@ namespace Aptoide.AppcoinsUnity {
             messageHandler.Enable();
 
             // Wait until 'ok' button is clicked
-            StartCoroutine(WaitUntilButtonClicked());
+            StartCoroutine(WaitFor(messageHandler.enabled, true));
         }
 
         //method used in making purchase

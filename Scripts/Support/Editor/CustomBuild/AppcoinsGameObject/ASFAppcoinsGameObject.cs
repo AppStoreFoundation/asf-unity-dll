@@ -41,11 +41,13 @@ public class ASFAppcoinsGameObject : AppcoinsGameObject
         string newPOALine =
             appcoinsPOANewLine.Replace(toReplace,
                                        asfGameObject.enablePOA.ToString()
+                                            .ToLower()
                                       );
 
         string newDebugLine =
             appcoinsDebugNewLine.Replace(toReplace,
                                          asfGameObject.enableDebug.ToString()
+                                            .ToLower()
                                         );
 
         Tools.ChangeLineInFile(mainTemplatePath, mainTemplateVarName,
