@@ -489,6 +489,22 @@ namespace Aptoide.AppcoinsUnity
         }
 
         /// <summary>
+        /// Check if <param name="address"></param> (Wallet address) is valid.
+        /// If not throw 
+        /// <exception cref="Aptoide.AppcoinsUnity.WalletAddressIsInvalidException"/>.
+        /// </summary>
+        /// <exception cref="Aptoide.AppcoinsUnity.RepeatedSKUProductException">
+        /// Thrown when <paramref name="address"/> is not valid.
+        /// </exception>
+        public void CheckWalletAddress()
+        {
+            if (address == null || address.Equals(""))
+            {
+                throw new WalletAddressIsInvalidException();
+            }
+        }
+
+        /// <summary>
         /// Get Aptoide.AppcoinsUnity.AppcoinsUnity game object.
         /// </summary>
         /// <returns>

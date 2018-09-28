@@ -5,14 +5,18 @@ using System;
 using System.IO;
 
 [InitializeOnLoad]
-public class MigrationHelpere {
+public class MigrationHelper
+{
 
-    static MigrationHelpere()
+    static MigrationHelper()
     {
         Debug.Log("MigrationHelper is running");
 
         string scriptsPath = Application.dataPath + "/AppcoinsUnity/Scripts";
         string editorScriptsPath = scriptsPath + "/Editor";
+
+        Debug.Log(scriptsPath);
+        Debug.Log(editorScriptsPath);
 
         string[] olderScriptFiles = { "AppcoinsPurchaser", "AppcoinsSku",
             "AppcoinsUnity", "BashUtils",
@@ -34,8 +38,9 @@ public class MigrationHelpere {
         DeleteFiles(editorScriptsPath, olderEditorScriptFiles);
     }
 
-    private static void DeleteFiles(string dirPath, string[] filesToDelete) {
-        foreach(string filePath in Directory.GetFiles(dirPath))
+    private static void DeleteFiles(string dirPath, string[] filesToDelete)
+    {
+        foreach (string filePath in Directory.GetFiles(dirPath))
         {
             string fName = Path.GetFileName(filePath);
             Debug.Log(fName);

@@ -47,14 +47,14 @@
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\2017\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\dependencies\2017\UnityEditor.dll</HintPath>
-    </Reference>
     <Reference Include="AppCoinsUnityPlugin2017">
       <HintPath>..\AppCoinsUnityPlugin2017\bin\Debug\AppCoinsUnityPlugin2017.dll</HintPath>
     </Reference>
     <Reference Include="AppCoinsUnitySupport">
       <HintPath>..\dependencies\2017\AppCoinsUnitySupport.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>..\dependencies\2017\UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

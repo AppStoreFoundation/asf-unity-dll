@@ -292,4 +292,29 @@ namespace Aptoide.AppcoinsUnity
         {
         }
     }
+
+    public class WalletAddressIsInvalidException : AppcoinsException
+    {
+        const string _message = "Wallet address at ASFAppcoinsUnity game " +
+            "object is not valid.";
+
+        public WalletAddressIsInvalidException() : base(_message)
+        {
+        }
+
+        public WalletAddressIsInvalidException(string new_message)
+            : base(new_message)
+        {
+        }
+
+        public WalletAddressIsInvalidException(Exception inner)
+            : base(_message, inner)
+        {
+        }
+
+        public WalletAddressIsInvalidException(string new_message,
+                                         Exception inner) : base(new_message, inner)
+        {
+        }
+    }
 }
