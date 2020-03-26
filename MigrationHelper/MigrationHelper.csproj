@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7654CBA9-614B-4143-BD04-79928CC9AE23}</ProjectGuid>
+    <ProjectGuid>{96FC5FBE-6CDB-4624-98D7-009A15D024FE}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AppCoinsUnityPlugin2017</RootNamespace>
-    <AssemblyName>AppCoinsUnityPlugin2017</AssemblyName>
+    <RootNamespace>MigrationHelper</RootNamespace>
+    <AssemblyName>MigrationHelper</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,41 +28,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\dependencies\2018\UnityEditor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\dependencies\2017\UnityEngine.dll</HintPath>
+      <HintPath>..\dependencies\2018\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Scripts\ASFAppcoinsUnity.cs">
-      <Link>ASFAppcoinsUnity.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsSku.cs">
-      <Link>AppcoinsSku.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsPurchaser.cs">
-      <Link>AppcoinsPurchaser.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsException.cs">
-      <Link>AppcoinsException.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AppcoinsChecks.cs">
-      <Link>AppcoinsChecks.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\MessageHandlerGUI.cs">
-      <Link>MessageHandlerGUI.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\AndroidAppcoinsUnityVisitor.cs">
-      <Link>AndroidAppcoinsUnityVisitor.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\EditorAppcoinsUnity.cs">
-      <Link>EditorAppcoinsUnity.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\EditorAppcoinsUnityVisitor.cs">
-      <Link>EditorAppcoinsUnityVisitor.cs</Link>
-    </Compile>
-    <Compile Include="..\Scripts\IAppcoinsUnityVisitor.cs">
-      <Link>IAppcoinsUnityVisitor.cs</Link>
+    <Compile Include="..\Scripts\Support\Editor\Migration\MigrationHelper.cs">
+      <Link>Migration\MigrationHelper.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

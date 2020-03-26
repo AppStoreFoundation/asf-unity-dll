@@ -11,7 +11,7 @@ namespace Aptoide.AppcoinsUnity
 
     public class AppcoinsUnityEditorMode
     {
-        AppcoinsUnity appcoinsUnity;
+        ASFAppcoinsUnity appcoinsUnity;
         MessageHandlerGUI messHandler;
 
         string skuID;
@@ -22,7 +22,7 @@ namespace Aptoide.AppcoinsUnity
         private const string testFail = "Test Failure";
 
         // Use this for initialization
-        internal AppcoinsUnityEditorMode(AppcoinsUnity a, MessageHandlerGUI mH)
+        internal AppcoinsUnityEditorMode(ASFAppcoinsUnity a, MessageHandlerGUI mH)
         {
             appcoinsUnity = a;
             messHandler = mH;
@@ -70,7 +70,7 @@ namespace Aptoide.AppcoinsUnity
 
             try
             {
-                AppcoinsChecks.DefaultFullCheck(appcoinsUnity.GetProductList());
+                AppcoinsChecks.DefaultFullCheck(appcoinsUnity.GetSKUList());
             }
             catch (Exception e)
             {

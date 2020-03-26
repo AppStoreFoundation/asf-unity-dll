@@ -47,14 +47,14 @@
     <Reference Include="UnityEngine">
       <HintPath>..\dependencies\2017\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\dependencies\2017\UnityEditor.dll</HintPath>
-    </Reference>
     <Reference Include="AppCoinsUnityPlugin2017">
       <HintPath>..\AppCoinsUnityPlugin2017\bin\Debug\AppCoinsUnityPlugin2017.dll</HintPath>
     </Reference>
     <Reference Include="AppCoinsUnitySupport">
       <HintPath>..\dependencies\2017\AppCoinsUnitySupport.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>..\dependencies\2017\UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +67,9 @@
     </Compile>
     <Compile Include="..\Scripts\Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport_2017_OR_LOWER.cs">
       <Link>Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport_2017_OR_LOWER.cs</Link>
+    </Compile>
+    <Compile Include="..\Scripts\Support\Editor\Migration\MigrationHelper.cs">
+      <Link>Support\Editor\Migration\MigrationHelper.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

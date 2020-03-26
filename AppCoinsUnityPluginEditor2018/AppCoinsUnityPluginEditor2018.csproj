@@ -68,8 +68,5 @@
       <Link>Support\Editor\CustomBuild\CustomBuildUnityExport\CustomBuildUnityExport2018.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Support\Editor\ASFSkus\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
